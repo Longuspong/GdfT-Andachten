@@ -1,0 +1,16 @@
+{
+  "name": "gdft-andachten",
+  "version": "0.1.0",
+  "description": "Website mit täglichen Andachten (GdfT)",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "eleventy --serve",
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "clean": "rm -rf _site"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

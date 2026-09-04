@@ -1,0 +1,5 @@
+{
+  "layout": "andacht.njk",
+  "tags": "andachten",
+  "permalink": "/andachten/{{ page.date | datumISO }}/{{ page.fileSlug }}/index.html"
+}

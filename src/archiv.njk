@@ -1,0 +1,30 @@
+---
+layout: base.njk
+titel: Archiv
+beschreibung: Alle bisher erschienenen Andachten im Überblick.
+permalink: /archiv/index.html
+---
+<section class="seite-kopf">
+  <h1 class="seite-kopf__titel">Archiv</h1>
+  <p class="seite-kopf__text">Alle bisher erschienenen Andachten.</p>
+</section>
+
+{% if collections.andachten.length %}
+  <ul class="andacht-liste andacht-liste--voll">
+    {% for andacht in collections.andachten %}
+      <li class="andacht-liste__eintrag">
+        <a class="andacht-liste__link" href="{{ andacht.url }}">
+          <span class="andacht-liste__datum">
+            <time datetime="{{ andacht.date | datumISO }}">{{ andacht.date | datumLang }}</time>
+          </span>
+          <span class="andacht-liste__titel">{{ andacht.data.titel }}</span>
+          {% if andacht.data.stelle %}
+            <span class="andacht-liste__stelle">{{ andacht.data.stelle }}</span>
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Es sind noch keine Andachten vorhanden.</p>
+{% endif %}

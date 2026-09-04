@@ -1,0 +1,29 @@
+---
+layout: base.njk
+titel: Über
+beschreibung: Über „Gerüstet für den Tag“ – tägliche Andachten auf der Grundlage der Bibel.
+permalink: /ueber/index.html
+---
+<section class="seite-kopf">
+  <h1 class="seite-kopf__titel">Über „Gerüstet für den Tag“</h1>
+</section>
+
+<div class="fliesstext">
+  <p>
+    Wie der Name sagt: <strong>tägliche Andachten</strong>. Unsere Grundlage ist
+    allein die Bibel. Unser Motto sind die vier „Sola“ der Reformatoren –
+    <em>sola scriptura</em>, <em>sola gratia</em>, <em>sola fide</em>,
+    <em>solus Christus</em> – vor allem aber <em>soli Deo gloria</em>.
+  </p>
+  <p>
+    <em>Hinweis: Diesen Text bitte prüfen und ergänzen – das Motto war im Screenshot
+    abgeschnitten. So kann die Beschreibung genau in deinen Worten stehen.</em>
+  </p>
+
+  {% if site.telegram %}
+    <p>
+      Diese Andachten erscheinen auch auf Telegram:
+      <a href="{{ site.telegram }}" rel="noopener">{{ site.telegram | replace("https://", "") }}</a>
+    </p>
+  {% endif %}
+</div>

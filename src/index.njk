@@ -1,0 +1,51 @@
+---
+layout: base.njk
+titel: Heute
+---
+{% set neueste = collections.andachten[0] %}
+
+<section class="hero">
+  <p class="hero__gruss">Andacht des Tages</p>
+  {% if neueste %}
+    <p class="hero__datum">
+      <time datetime="{{ neueste.date | datumISO }}">{{ neueste.date | datumVoll }}</time>
+    </p>
+    <h1 class="hero__titel">
+      <a href="{{ neueste.url }}">{{ neueste.data.titel }}</a>
+    </h1>
+    {% if neueste.data.losung %}
+      <p class="hero__losung">
+        {{ neueste.data.losung }}
+        {% if neueste.data.stelle %}<span class="hero__stelle">({{ neueste.data.stelle }})</span>{% endif %}
+      </p>
+    {% endif %}
+    <p class="hero__aktion">
+      <a class="knopf" href="{{ neueste.url }}">Andacht lesen →</a>
+    </p>
+  {% else %}
+    <h1 class="hero__titel">Willkommen</h1>
+    <p class="hero__losung">Hier erscheint bald die erste Andacht.</p>
+  {% endif %}
+</section>
+
+{% if collections.andachten.length > 1 %}
+  <section class="liste-block">
+    <h2 class="liste-block__titel">Zuletzt erschienen</h2>
+    <ul class="andacht-liste">
+      {% for andacht in collections.andachten.slice(1, 7) %}
+        <li class="andacht-liste__eintrag">
+          <a class="andacht-liste__link" href="{{ andacht.url }}">
+            <span class="andacht-liste__datum">
+              <time datetime="{{ andacht.date | datumISO }}">{{ andacht.date | datumLang }}</time>
+            </span>
+            <span class="andacht-liste__titel">{{ andacht.data.titel }}</span>
+            {% if andacht.data.stelle %}
+              <span class="andacht-liste__stelle">{{ andacht.data.stelle }}</span>
+            {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    <p class="liste-block__mehr"><a href="/archiv/">Alle Andachten im Archiv →</a></p>
+  </section>
+{% endif %}

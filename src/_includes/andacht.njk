@@ -1,0 +1,22 @@
+---
+layout: base.njk
+---
+<article class="andacht">
+  <header class="andacht__kopf">
+    <p class="andacht__datum">
+      <time datetime="{{ page.date | datumISO }}">{{ page.date | datumVoll }}</time>
+    </p>
+    <h1 class="andacht__titel">{{ titel }}</h1>
+    {% if losung %}
+      <p class="andacht__losung">{{ losung }}{% if stelle %} <span class="andacht__stelle">({{ stelle }})</span>{% endif %}</p>
+    {% endif %}
+  </header>
+
+  <div class="andacht__text">
+    {{ content | safe }}
+  </div>
+
+  <footer class="andacht__fuss">
+    <a class="zurueck" href="/archiv/">← Alle Andachten</a>
+  </footer>
+</article>
