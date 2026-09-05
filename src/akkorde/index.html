@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Akkord-Bibliothek · Gerüstet für den Tag</title>
+    <meta
+      name="description"
+      content="Gitarren-Akkorde zum Begleiten von Gemeinschaftsliedern – schnell nachschlagen, offline nutzbar."
+    />
+
+    <meta name="theme-color" content="#1f3550" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141a22" media="(prefers-color-scheme: dark)" />
+
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon-512.png" type="image/png" />
+    <link rel="apple-touch-icon" href="icons/icon-512.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Akkorde" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#liste">Zur Akkordliste springen</a>
+
+    <header class="kopf">
+      <div class="kopf__innen">
+        <a class="marke" href="../" aria-label="Zurück zu den Andachten">
+          <img class="marke__logo" src="icons/icon-512.png" width="40" height="40" alt="" />
+          <span class="marke__text">
+            <span class="marke__name">Akkord-Bibliothek</span>
+            <span class="marke__zusatz">Gerüstet für den Tag</span>
+          </span>
+        </a>
+        <div class="kopf__aktionen">
+          <button id="install" class="kopf__knopf" type="button" hidden>App installieren</button>
+          <a class="kopf__zurueck" href="../">← Andachten</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="inhalt">
+      <!-- Listenansicht -->
+      <section id="view-list" class="ansicht">
+        <div class="suche">
+          <label class="suche__label" for="suchfeld">Akkord suchen</label>
+          <div class="suche__feld">
+            <svg class="suche__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+              <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <input
+              id="suchfeld"
+              type="search"
+              inputmode="search"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="z. B. F#m/D, Asus4, D9 …"
+              aria-controls="liste"
+            />
+            <button id="zufall" class="suche__zufall" type="button" title="Zufälliger Akkord">
+              <span aria-hidden="true">🎲</span>
+              <span class="nur-vorlesen">Zufälliger Akkord</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="chips" class="chips" role="group" aria-label="Nach Akkordtyp filtern"></div>
+
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+
+        <ul id="liste" class="liste" aria-label="Akkorde"></ul>
+      </section>
+
+      <!-- Detailansicht -->
+      <section id="view-detail" class="ansicht" hidden>
+        <button id="zurueck" class="zurueck" type="button">← Zurück zur Liste</button>
+        <article class="detail">
+          <div class="detail__kopf">
+            <div>
+              <h1 id="detail-name" class="detail__name"></h1>
+              <p id="detail-typ" class="detail__typ"></p>
+            </div>
+            <button id="detail-stern" class="stern stern--gross" type="button" aria-pressed="false">
+              <span class="stern__icon" aria-hidden="true">☆</span>
+              <span class="stern__text">Favorit</span>
+            </button>
+          </div>
+
+          <div id="detail-griff" class="detail__griff"></div>
+
+          <dl class="detail__daten">
+            <div class="detail__zeile">
+              <dt>Klingende Töne</dt>
+              <dd id="detail-toene"></dd>
+            </div>
+            <div class="detail__zeile">
+              <dt>Kurzschreibweise</dt>
+              <dd id="detail-tab" class="detail__tab"></dd>
+            </div>
+          </dl>
+
+          <p class="legende">
+            Fingersatz: <b>1</b> Zeigefinger · <b>2</b> Mittelfinger · <b>3</b> Ringfinger ·
+            <b>4</b> kleiner Finger · <span aria-hidden="true">○</span> leere Saite ·
+            <span aria-hidden="true">✕</span> gedämpft
+          </p>
+
+          <button id="detail-zufall" class="knopf" type="button">🎲 Nächster Akkord</button>
+        </article>
+      </section>
+    </main>
+
+    <footer class="fuss">
+      <p>
+        Akkord-Bibliothek · Teil von <a href="../">Gerüstet für den Tag</a> ·
+        offline nutzbar
+      </p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

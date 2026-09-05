@@ -21,6 +21,7 @@
   /* --- Schriften --- */
   --schrift-titel: "Lora", Georgia, "Times New Roman", serif;
   --schrift-text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --schrift-zier: "Cormorant Garamond", "Lora", Georgia, serif; /* elegant, für die Soli */
 
   /* --- Maße --- */
   --breite-max: 44rem;             /* maximale Lesebreite */
@@ -271,6 +272,88 @@ img {
 .knopf:hover {
   background: var(--farbe-primaer-hell);
   color: #fff;
+}
+
+/* --- Die fünf „Soli“ (Leitspruch im Hero) --- */
+
+.solas {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--farbe-linie);
+  text-align: center;
+}
+
+.solas__haupt {
+  font-family: var(--schrift-zier);
+  font-weight: 600;
+  font-size: clamp(2rem, 6.5vw, 3rem);
+  line-height: 1.1;
+  color: var(--farbe-primaer);
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.solas__unter {
+  font-family: var(--schrift-zier);
+  font-style: italic;
+  font-size: clamp(1.05rem, 3vw, 1.3rem);
+  color: var(--farbe-akzent-dunkel);
+  margin: 0.35rem 0 0;
+}
+
+/* zarte goldene Trennlinie mit Raute */
+.solas__reihe {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 1.4rem 0 0;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.6rem;
+}
+
+.solas__reihe::before {
+  content: "✦";
+  position: absolute;
+  top: -0.05rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--farbe-akzent);
+  font-size: 0.85rem;
+  background: var(--farbe-grund);
+  padding: 0 0.6rem;
+}
+
+.solas__reihe::after {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: var(--farbe-linie);
+  z-index: -1;
+}
+
+.solas__reihe li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.solas__lat {
+  font-family: var(--schrift-zier);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--farbe-primaer);
+}
+
+.solas__de {
+  font-size: 0.72rem;
+  color: var(--farbe-text-leise);
+  letter-spacing: 0.02em;
 }
 
 /* --- Einzelne Andacht --- */

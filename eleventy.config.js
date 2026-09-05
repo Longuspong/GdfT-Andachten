@@ -3,8 +3,15 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/css": "css" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
-  // Bei Änderungen an CSS neu laden
+  // Akkord-Bibliothek (eigenständige PWA) unverändert nach /akkorde/ kopieren.
+  // Die Dateien dort sind fertiges HTML/CSS/JS und sollen NICHT von Eleventy
+  // als Vorlagen verarbeitet werden.
+  eleventyConfig.addPassthroughCopy({ "src/akkorde": "akkorde" });
+  eleventyConfig.ignores.add("src/akkorde/**");
+
+  // Bei Änderungen an CSS bzw. der Akkord-Bibliothek neu laden
   eleventyConfig.addWatchTarget("src/css");
+  eleventyConfig.addWatchTarget("src/akkorde");
 
   // --- Datums-Filter (deutsch) ---
 
