@@ -1,0 +1,11 @@
+<footer class="fuss">
+  <div class="fuss__innen">
+    <p class="fuss__zeile">© {% jahr %} {{ site.fusszeile }}</p>
+    <nav class="fuss__nav" aria-label="Fußnavigation">
+      <a href="/">Heute</a>
+      <a href="/archiv/">Archiv</a>
+      <a href="/ueber/">Über</a>
+      {% if site.telegram %}<a href="{{ site.telegram }}" rel="noopener">Telegram</a>{% endif %}
+    </nav>
+  </div>
+</footer>

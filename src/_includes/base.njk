@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="{{ site.sprache }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% if titel %}{{ titel }} · {{ site.name }}{% else %}{{ site.name }} · {{ site.kurzbeschreibung }}{% endif %}</title>
+    <meta name="description" content="{{ beschreibung or site.beschreibung }}" />
+
+    <!-- Vorschau für geteilte Links (Open Graph) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{{ site.name }}" />
+    <meta property="og:title" content="{% if titel %}{{ titel }}{% else %}{{ site.name }}{% endif %}" />
+    <meta property="og:description" content="{{ beschreibung or site.beschreibung }}" />
+
+    <link rel="icon" href="/assets/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+    {% include "partials/header.njk" %}
+
+    <main id="inhalt" class="inhalt">
+      {{ content | safe }}
+    </main>
+
+    {% include "partials/footer.njk" %}
+  </body>
+</html>

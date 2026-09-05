@@ -1,0 +1,447 @@
+/* =========================================================================
+   GdfT Andachten – Design
+   -------------------------------------------------------------------------
+   Alle Farben und Schriften sind hier oben als Variablen gebündelt.
+   Sobald das Logo vorliegt, müssen nur diese Werte angepasst werden,
+   um die ganze Seite umzufärben.
+   ========================================================================= */
+
+:root {
+  /* --- Farben (abgeleitet aus dem Logo: Navy · Stahlblau · Gold · Pergament) --- */
+  --farbe-grund: #f6f1e7;          /* Seitenhintergrund (warmes Pergament wie im Logo) */
+  --farbe-flaeche: #fffdf8;        /* Karten / abgesetzte Flächen */
+  --farbe-text: #29303a;           /* Fließtext */
+  --farbe-text-leise: #6a6f78;     /* Nebentext, Datumsangaben */
+  --farbe-primaer: #1f3550;        /* Hauptfarbe (tiefes Navy aus dem Logo-Ring) */
+  --farbe-primaer-hell: #3c5f80;   /* Stahlblau (Emblem-Hintergrund) */
+  --farbe-akzent: #c39a45;         /* Akzent (Gold von Kreuz und Ähren) */
+  --farbe-akzent-dunkel: #a67f34;  /* Gold für Hover */
+  --farbe-linie: #e6ddca;          /* feine Trennlinien */
+
+  /* --- Schriften --- */
+  --schrift-titel: "Lora", Georgia, "Times New Roman", serif;
+  --schrift-text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* --- Maße --- */
+  --breite-max: 44rem;             /* maximale Lesebreite */
+  --breite-max-weit: 60rem;        /* für breitere Bereiche (Kopf/Fuß) */
+  --radius: 12px;
+  --schatten: 0 1px 2px rgba(20, 20, 40, 0.04), 0 8px 24px rgba(20, 20, 40, 0.06);
+}
+
+/* Dezenter Dunkelmodus, wenn das Gerät ihn wünscht */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --farbe-grund: #141a22;
+    --farbe-flaeche: #1c2530;
+    --farbe-text: #e8e5dc;
+    --farbe-text-leise: #a3a9b3;
+    --farbe-primaer: #b7cae0;
+    --farbe-primaer-hell: #d3e0ee;
+    --farbe-akzent: #d8b264;
+    --farbe-akzent-dunkel: #e6c583;
+    --farbe-linie: #2c3644;
+    --schatten: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* --- Grundlagen --- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--farbe-grund);
+  color: var(--farbe-text);
+  font-family: var(--schrift-text);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--schrift-titel);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--farbe-primaer);
+}
+
+a {
+  color: var(--farbe-primaer);
+  text-decoration-color: var(--farbe-akzent);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--farbe-akzent-dunkel);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Sprunglink für Tastatur-/Screenreader-Nutzung */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--farbe-primaer);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 var(--radius) 0;
+  z-index: 10;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--farbe-akzent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --- Kopfbereich --- */
+
+.kopf {
+  border-bottom: 1px solid var(--farbe-linie);
+  background: var(--farbe-flaeche);
+}
+
+.kopf__innen {
+  max-width: var(--breite-max-weit);
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.marke {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--farbe-primaer);
+}
+
+.marke__logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.marke__zeichen {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--farbe-primaer);
+  color: var(--farbe-akzent);
+  font-size: 1.3rem;
+}
+
+.marke__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.marke__name {
+  font-family: var(--schrift-titel);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.marke__zusatz {
+  font-size: 0.8rem;
+  color: var(--farbe-text-leise);
+  letter-spacing: 0.02em;
+}
+
+.nav {
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.98rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--farbe-text);
+  padding: 0.2rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.nav a:hover {
+  color: var(--farbe-primaer);
+  border-bottom-color: var(--farbe-akzent);
+}
+
+/* --- Hauptinhalt --- */
+
+.inhalt {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: var(--breite-max);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3.5rem;
+}
+
+/* --- Startseite: Andacht des Tages --- */
+
+.hero {
+  text-align: center;
+  padding: 1rem 0 2.5rem;
+  border-bottom: 1px solid var(--farbe-linie);
+  margin-bottom: 2.5rem;
+}
+
+.hero__gruss {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  color: var(--farbe-akzent-dunkel);
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.hero__datum,
+.andacht__datum {
+  color: var(--farbe-text-leise);
+  font-size: 0.92rem;
+  margin: 0 0 0.5rem;
+}
+
+.hero__titel {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  margin: 0.25rem 0 1rem;
+}
+
+.hero__titel a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero__losung,
+.andacht__losung {
+  font-family: var(--schrift-titel);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--farbe-text);
+  max-width: 34rem;
+  margin: 0 auto 1.5rem;
+}
+
+.hero__stelle,
+.andacht__stelle {
+  font-style: normal;
+  color: var(--farbe-text-leise);
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.knopf {
+  display: inline-block;
+  background: var(--farbe-primaer);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.knopf:hover {
+  background: var(--farbe-primaer-hell);
+  color: #fff;
+}
+
+/* --- Einzelne Andacht --- */
+
+.andacht__kopf {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.andacht__titel {
+  font-size: clamp(1.7rem, 4.5vw, 2.3rem);
+  margin: 0.25rem 0 1rem;
+}
+
+.andacht__text {
+  font-size: 1.08rem;
+}
+
+.andacht__text p {
+  margin: 0 0 1.2rem;
+}
+
+.andacht__text strong {
+  color: var(--farbe-primaer);
+}
+
+.andacht__fuss {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--farbe-linie);
+}
+
+.zurueck {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* --- Listen von Andachten --- */
+
+.liste-block {
+  margin-top: 1rem;
+}
+
+.liste-block__titel,
+.seite-kopf__titel {
+  font-size: 1.4rem;
+  margin: 0 0 1.25rem;
+}
+
+.andacht-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.andacht-liste__link {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.15rem;
+  text-decoration: none;
+  color: inherit;
+  background: var(--farbe-flaeche);
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.andacht-liste__link:hover {
+  border-color: var(--farbe-akzent);
+  box-shadow: var(--schatten);
+}
+
+.andacht-liste__datum {
+  font-size: 0.82rem;
+  color: var(--farbe-text-leise);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.andacht-liste__titel {
+  font-family: var(--schrift-titel);
+  font-size: 1.2rem;
+  color: var(--farbe-primaer);
+}
+
+.andacht-liste__stelle {
+  font-size: 0.9rem;
+  color: var(--farbe-text-leise);
+  font-style: italic;
+}
+
+.liste-block__mehr {
+  margin-top: 1.5rem;
+}
+
+.liste-block__mehr a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* --- Einfache Seiten (Archiv, Über) --- */
+
+.seite-kopf {
+  margin-bottom: 2rem;
+}
+
+.seite-kopf__titel {
+  font-size: clamp(1.8rem, 4.5vw, 2.3rem);
+  margin: 0 0 0.5rem;
+}
+
+.seite-kopf__text {
+  color: var(--farbe-text-leise);
+  margin: 0;
+}
+
+.fliesstext p {
+  margin: 0 0 1.2rem;
+}
+
+/* --- Fußbereich --- */
+
+.fuss {
+  flex-shrink: 0;
+  border-top: 1px solid var(--farbe-linie);
+  background: var(--farbe-flaeche);
+  margin-top: auto;
+}
+
+.fuss__innen {
+  max-width: var(--breite-max-weit);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--farbe-text-leise);
+  font-size: 0.9rem;
+}
+
+.fuss__zeile {
+  margin: 0;
+}
+
+.fuss__nav {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.fuss__nav a {
+  color: var(--farbe-text-leise);
+  text-decoration: none;
+}
+
+.fuss__nav a:hover {
+  color: var(--farbe-primaer);
+}
+
+/* --- Kleine Bildschirme --- */
+
+@media (max-width: 34rem) {
+  .kopf__innen {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav {
+    gap: 1.1rem;
+  }
+}
