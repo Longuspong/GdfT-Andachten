@@ -92,6 +92,24 @@ neu und veröffentlicht sie. Zuständig dafür ist die Datei
 Danach erscheint die veröffentlichte Adresse dort und unter dem Menüpunkt
 **Actions** nach dem ersten erfolgreichen Durchlauf.
 
+### Alternative: Veröffentlichung über Vercel (optional)
+
+Die Seite lässt sich auch über [Vercel](https://vercel.com/) veröffentlichen –
+zusätzlich zu oder statt GitHub Pages. Die Datei
+[`vercel.json`](vercel.json) im Projekt sagt Vercel schon alles Nötige:
+Bau-Befehl (`npm run build`), Ausgabe-Ordner (`_site`) und dass Adressen mit
+Schrägstrich am Ende enden (passend zu den internen Links).
+
+**Einmalige Einrichtung:**
+
+1. Bei [vercel.com](https://vercel.com/) anmelden (ein GitHub-Login genügt).
+2. **Add New… → Project** wählen und dieses Repository verbinden.
+3. Ohne weitere Einstellungen auf **Deploy** klicken – Vercel erkennt Eleventy
+   automatisch und nutzt die Angaben aus `vercel.json`.
+
+Danach baut Vercel bei jedem Push neu und stellt eine Vorschau-Adresse für
+jeden Branch bereit; der `main`-Branch wird zur Hauptadresse.
+
 ---
 
 ## Akkord-Bibliothek (Nebenseite)
