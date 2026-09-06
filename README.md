@@ -102,51 +102,16 @@ mit Schrägstrich am Ende enden (passend zu den internen Links).
 
 ---
 
-## Akkord-Bibliothek (Nebenseite)
+## Andachten-Archiv (Rohmaterial)
 
-Unter [`/akkorde/`](src/akkorde/) liegt eine kleine, installierbare App zum
-Nachschlagen von **Gitarren-Akkorden** – gedacht zum Begleiten von
-Gemeinschaftsliedern. Sie ist von der Hauptnavigation aus erreichbar
-(„Akkorde“) und funktioniert **offline** (sie lässt sich auf dem Handy zum
-Startbildschirm hinzufügen).
+Im Ordner [`andachten-archiv/`](andachten-archiv/) wird das bereits vorhandene
+Archiv älterer Andachten als **Rohmaterial** gesammelt – als eine oder mehrere
+Textdateien. Dieser Ordner ist bewusst **kein** Teil der gebauten Website
+(er liegt außerhalb von `src/`); er dient nur als Sammelstelle, aus der einzelne
+Andachten nach und nach in [`src/andachten/`](src/andachten/) übernommen werden.
 
-Alle Akkorde stehen in einer einzigen Datei:
-[`src/akkorde/chords.json`](src/akkorde/chords.json). Die Griffbilder werden
-allein aus diesen Daten als SVG gezeichnet – es gibt keine fest hinterlegten
-Bilder. Einen neuen Akkord ergänzt man, indem man einen Eintrag nach diesem
-Muster anhängt:
-
-```json
-{
-  "name": "D9",
-  "type": "9",
-  "baseFret": 4,
-  "frets":   [-1, 5, 4, 5, 5, -1],
-  "fingers": [ 0, 2, 1, 3, 4,  0],
-  "notes": ["D", "F#", "C", "E"],
-  "barres": []
-}
-```
-
-Bedeutung der Felder:
-
-| Feld       | Bedeutung                                                                        |
-| ---------- | -------------------------------------------------------------------------------- |
-| `name`     | Angezeigter Akkordname (auch das Suchwort), z. B. `F#m/D`                         |
-| `type`     | Gruppe für die Filter-Chips: `Dur`, `Moll`, `sus`, `7`, `9` oder `Slash`         |
-| `baseFret` | Ab welchem Bund das Diagramm beginnt (`1` = Sattel; sonst erscheint „N fr“ links) |
-| `frets`    | Ein Wert **pro Saite in der Reihenfolge E A D G B e** · `-1` = gedämpft · `0` = leer |
-| `fingers`  | Fingernummer je Saite (`1` Zeige … `4` klein, `0` = kein Finger), gleiche Reihenfolge |
-| `notes`    | Die klingenden Töne (Anzeige unter dem Griffbild)                                 |
-| `barres`   | Barré-Balken: `[{ "fret": 2, "fromString": 4, "toString": 6 }]` (leer = keiner)   |
-
-> **Saiten-Reihenfolge:** In `frets`, `fingers` und den Barré-Angaben ist die
-> Saite `1` die tiefe E-Saite (links im Griffbild) und Saite `6` die hohe
-> e-Saite (rechts). Alle Arrays haben genau sechs Werte.
-
-Wenn App-Dateien geändert werden (nicht nur `chords.json`), in
-[`src/akkorde/sw.js`](src/akkorde/sw.js) die Versionsnummer (`VERSION`) erhöhen –
-dann laden installierte Geräte den neuen Stand automatisch nach.
+Wie daraus fertige, veröffentlichte Andachten werden, steht in
+[`andachten-archiv/README.md`](andachten-archiv/README.md).
 
 ---
 
@@ -172,11 +137,11 @@ src/
   _data/site.js            Grundeinstellungen (Name, Beschreibung, …)
   _includes/               Vorlagen (Layouts, Kopf, Fuß)
   andachten/               eine Markdown-Datei je Andacht  ← hier schreibst du
-  akkorde/                 Akkord-Bibliothek (PWA); chords.json ← Akkorde ergänzen
   assets/                  Bilder, Logo, Favicon
   css/style.css            Design (Farben & Schriften ganz oben)
   index.njk                Startseite: Andacht des Tages + die fünf „Soli“
   archiv.njk               Übersicht aller Andachten
   ueber.njk                Seite „Über“
+andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
 vercel.json                Einstellungen für die Veröffentlichung (Vercel)
 ```

@@ -457,6 +457,110 @@ img {
   font-weight: 500;
 }
 
+/* --- Seite „Nach Bibelstelle“ --- */
+
+.buch-index {
+  margin-bottom: 2.5rem;
+}
+
+.buch-gruppe {
+  margin-bottom: 1.75rem;
+}
+
+.buch-gruppe__titel {
+  font-size: 1.15rem;
+  margin: 0 0 0.85rem;
+}
+
+/* Kachelraster der Bücher – mobil zwei Spalten, ab Tablet mehr */
+.buch-raster {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+@media (min-width: 30rem) {
+  .buch-raster {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 48rem) {
+  .buch-raster {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.buch-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--farbe-linie);
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+/* Bücher mit Andachten: anklickbar, hervorgehoben */
+a.buch-chip--aktiv {
+  background: var(--farbe-flaeche);
+  color: var(--farbe-primaer);
+  text-decoration: none;
+  font-weight: 500;
+  border-color: var(--farbe-akzent);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+a.buch-chip--aktiv:hover {
+  box-shadow: var(--schatten);
+  transform: translateY(-1px);
+}
+
+/* Bücher ohne Andachten: dezent, nicht anklickbar */
+.buch-chip--leer {
+  color: var(--farbe-text-leise);
+  background: transparent;
+  opacity: 0.6;
+  justify-content: center;
+}
+
+.buch-chip__zahl {
+  flex-shrink: 0;
+  min-width: 1.5rem;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--farbe-primaer);
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+}
+
+/* Detail-Abschnitte je Buch */
+.buch-abschnitt {
+  margin-top: 2.5rem;
+  scroll-margin-top: 1rem;
+}
+
+.buch-abschnitt__titel {
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--farbe-linie);
+}
+
+.kapitel-block {
+  margin-bottom: 1.75rem;
+}
+
+.kapitel-block__titel {
+  font-size: 1.05rem;
+  color: var(--farbe-akzent-dunkel);
+  margin: 0 0 0.75rem;
+}
+
 /* --- Einfache Seiten (Archiv, Über) --- */
 
 .seite-kopf {
