@@ -5,7 +5,7 @@ Tag“, GdfT). Jede Andacht ist eine einfache Textdatei – Startseite, Archiv u
 einzelnen Andachtsseiten entstehen automatisch daraus.
 
 Die Seite wird mit [Eleventy](https://www.11ty.dev/) gebaut (ein schlanker
-Website-Generator) und über **GitHub Pages** veröffentlicht.
+Website-Generator) und über **Vercel** veröffentlicht.
 
 ---
 
@@ -78,37 +78,27 @@ npm run build    # Ergebnis landet im Ordner _site/
 
 ---
 
-## Veröffentlichung (GitHub Pages)
+## Veröffentlichung (Vercel)
 
-Bei jedem Hochladen (Push) auf den Branch `main` baut GitHub die Seite automatisch
-neu und veröffentlicht sie. Zuständig dafür ist die Datei
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+Die Seite wird über [Vercel](https://vercel.com/) veröffentlicht. Bei jedem
+Hochladen (Push) auf den Branch `main` baut Vercel die Seite automatisch neu und
+stellt sie online; für jeden anderen Branch gibt es zusätzlich eine
+Vorschau-Adresse. Die Datei [`vercel.json`](vercel.json) sagt Vercel schon alles
+Nötige: Bau-Befehl (`npm run build`), Ausgabe-Ordner (`_site`) und dass Adressen
+mit Schrägstrich am Ende enden (passend zu den internen Links).
 
-**Einmalige Einrichtung im Repository** (nur beim ersten Mal nötig):
-
-1. Auf GitHub in **Settings → Pages** gehen.
-2. Bei **Build and deployment → Source** die Option **GitHub Actions** auswählen.
-
-Danach erscheint die veröffentlichte Adresse dort und unter dem Menüpunkt
-**Actions** nach dem ersten erfolgreichen Durchlauf.
-
-### Alternative: Veröffentlichung über Vercel (optional)
-
-Die Seite lässt sich auch über [Vercel](https://vercel.com/) veröffentlichen –
-zusätzlich zu oder statt GitHub Pages. Die Datei
-[`vercel.json`](vercel.json) im Projekt sagt Vercel schon alles Nötige:
-Bau-Befehl (`npm run build`), Ausgabe-Ordner (`_site`) und dass Adressen mit
-Schrägstrich am Ende enden (passend zu den internen Links).
-
-**Einmalige Einrichtung:**
+**Einmalige Einrichtung** (nur beim ersten Mal nötig):
 
 1. Bei [vercel.com](https://vercel.com/) anmelden (ein GitHub-Login genügt).
 2. **Add New… → Project** wählen und dieses Repository verbinden.
 3. Ohne weitere Einstellungen auf **Deploy** klicken – Vercel erkennt Eleventy
    automatisch und nutzt die Angaben aus `vercel.json`.
 
-Danach baut Vercel bei jedem Push neu und stellt eine Vorschau-Adresse für
-jeden Branch bereit; der `main`-Branch wird zur Hauptadresse.
+> **Hinweis:** Die frühere Veröffentlichung über **GitHub Pages** wurde
+> abgeschaltet – der zugehörige Workflow (`.github/workflows/deploy.yml`) wurde
+> entfernt. Damit die alte Pages-Adresse endgültig offline geht, im Repository
+> unter **Settings → Pages** bei **Source** die Option **None** wählen. Wer Pages
+> später wieder nutzen möchte, richtet die Quelle dort erneut ein.
 
 ---
 
@@ -188,5 +178,5 @@ src/
   index.njk                Startseite: Andacht des Tages + die fünf „Soli“
   archiv.njk               Übersicht aller Andachten
   ueber.njk                Seite „Über“
-.github/workflows/         automatische Veröffentlichung
+vercel.json                Einstellungen für die Veröffentlichung (Vercel)
 ```
