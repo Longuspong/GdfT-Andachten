@@ -24,8 +24,16 @@ umgezogen ist.
    sauber formatierte Einzel-Andachten überführen (siehe unten). Das Rohmaterial
    bleibt als Sicherung erhalten, bis alles übertragen ist.
 
-Solange noch nichts eingefügt wurde, ist der Ordner absichtlich leer (bis auf
-diese Anleitung).
+---
+
+## Aktueller Inhalt
+
+Bereits eingefügt ist eine fortlaufende Andachtsreihe durch das
+**Johannes-Evangelium** (bisher Kapitel 1–4, Einträge von Januar bis August 2026).
+Das Rohmaterial liegt wortgetreu im Ordner [`johannes/`](johannes/), aufgeteilt
+nach Bibel-Kapiteln. Ein vollständiges Verzeichnis (Datum → Bibelstelle) sowie
+eine Liste offener Punkte (z. B. Datums-Tippfehler) steht in
+[`UEBERSICHT.md`](UEBERSICHT.md).
 
 ---
 
