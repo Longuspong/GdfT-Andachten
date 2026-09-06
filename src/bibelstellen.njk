@@ -1,0 +1,76 @@
+---
+layout: base.njk
+titel: Nach Bibelstelle
+beschreibung: Alle Andachten nach Bibelbuch und Kapitel durchblättern.
+permalink: /bibel/index.html
+---
+<section class="seite-kopf">
+  <h1 class="seite-kopf__titel">Nach Bibelstelle</h1>
+  <p class="seite-kopf__text">
+    Blättere durch die Andachten nach Bibelbuch und Kapitel.
+    Lieber der Reihe nach? <a href="/archiv/">Zum Archiv nach Datum →</a>
+  </p>
+</section>
+
+<nav class="buch-index" aria-label="Bibelbücher">
+  <section class="buch-gruppe">
+    <h2 class="buch-gruppe__titel">Altes Testament</h2>
+    <div class="buch-raster">
+      {% for buch in collections.bibel %}{% if buch.testament == "at" %}
+        {% if buch.anzahl %}
+          <a class="buch-chip buch-chip--aktiv" href="#buch-{{ buch.slug }}">
+            <span class="buch-chip__name">{{ buch.kurz }}</span>
+            <span class="buch-chip__zahl" aria-label="{{ buch.anzahl }} Andachten">{{ buch.anzahl }}</span>
+          </a>
+        {% else %}
+          <span class="buch-chip buch-chip--leer" aria-disabled="true">{{ buch.kurz }}</span>
+        {% endif %}
+      {% endif %}{% endfor %}
+    </div>
+  </section>
+
+  <section class="buch-gruppe">
+    <h2 class="buch-gruppe__titel">Neues Testament</h2>
+    <div class="buch-raster">
+      {% for buch in collections.bibel %}{% if buch.testament == "nt" %}
+        {% if buch.anzahl %}
+          <a class="buch-chip buch-chip--aktiv" href="#buch-{{ buch.slug }}">
+            <span class="buch-chip__name">{{ buch.kurz }}</span>
+            <span class="buch-chip__zahl" aria-label="{{ buch.anzahl }} Andachten">{{ buch.anzahl }}</span>
+          </a>
+        {% else %}
+          <span class="buch-chip buch-chip--leer" aria-disabled="true">{{ buch.kurz }}</span>
+        {% endif %}
+      {% endif %}{% endfor %}
+    </div>
+  </section>
+</nav>
+
+{% set hatEintraege = false %}
+{% for buch in collections.bibel %}{% if buch.anzahl %}{% set hatEintraege = true %}
+  <section class="buch-abschnitt" id="buch-{{ buch.slug }}">
+    <h2 class="buch-abschnitt__titel">{{ buch.name }}</h2>
+    {% for kap in buch.kapitel %}
+      <div class="kapitel-block">
+        <h3 class="kapitel-block__titel">Kapitel {{ kap.nummer }}</h3>
+        <ul class="andacht-liste">
+          {% for e in kap.eintraege %}
+            <li class="andacht-liste__eintrag">
+              <a class="andacht-liste__link" href="{{ e.andacht.url }}">
+                <span class="andacht-liste__datum">{{ e.andacht.data.stelle }}</span>
+                <span class="andacht-liste__titel">{{ e.andacht.data.titel }}</span>
+                <span class="andacht-liste__stelle">
+                  <time datetime="{{ e.andacht.date | datumISO }}">{{ e.andacht.date | datumLang }}</time>
+                </span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </section>
+{% endif %}{% endfor %}
+
+{% if not hatEintraege %}
+  <p>Es sind noch keine Andachten vorhanden.</p>
+{% endif %}
