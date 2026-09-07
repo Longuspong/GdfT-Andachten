@@ -12,9 +12,9 @@ module.exports = {
   sprache: "de",
   // Adresse der veröffentlichten Seite – OHNE Schrägstrich am Ende.
   // Wird für absolute Links gebraucht: Vorschaubild (og:image), sitemap.xml,
-  // canonical und den RSS-Feed. Sobald eine eigene Domain vorliegt, nur diesen
-  // einen Wert ändern (z. B. "https://geruestet-fuer-den-tag.de").
-  url: "https://gdft.vercel.app",
+  // canonical und den RSS-Feed. Bei einem Domainwechsel nur diesen einen Wert
+  // ändern – der Rest passt sich automatisch an.
+  url: "https://gdft-andachten.de",
   // Vorschaubild für geteilte Links (WhatsApp, Telegram, …), relativ zum Ordner
   // src/. Quadratisch, damit es überall gut aussieht.
   vorschaubild: "/assets/og-bild.jpg",
