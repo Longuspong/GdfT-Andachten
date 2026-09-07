@@ -4,6 +4,10 @@
    Alle Farben und Schriften sind hier oben als Variablen gebündelt.
    Sobald das Logo vorliegt, müssen nur diese Werte angepasst werden,
    um die ganze Seite umzufärben.
+
+   Aufbau „mobile first“: Die Grundregeln gelten für kleine Bildschirme
+   (Smartphone). Größere Bildschirme werden über `@media (min-width: …)`
+   schrittweise erweitert – nicht umgekehrt.
    ========================================================================= */
 
 :root {
@@ -122,15 +126,25 @@ img {
   background: var(--farbe-flaeche);
 }
 
+/* Mobile-first: Marke oben, Navigation darunter. Ab 40rem nebeneinander. */
 .kopf__innen {
   max-width: var(--breite-max-weit);
   margin: 0 auto;
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 1.15rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem 1rem;
+}
+
+@media (min-width: 40rem) {
+  .kopf__innen {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 1rem 1.25rem;
+  }
 }
 
 .marke {
@@ -177,22 +191,40 @@ img {
   letter-spacing: 0.02em;
 }
 
+/* Mobile-first: umbrechende Reihe mit großzügigen Tippflächen.
+   Der negative Rand richtet den ersten Link an der Marke aus. */
 .nav {
   display: flex;
-  gap: 1.4rem;
-  font-size: 0.98rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.1rem 0.5rem;
+  font-size: 1rem;
+  margin-left: -0.5rem;
 }
 
 .nav a {
   text-decoration: none;
   color: var(--farbe-text);
-  padding: 0.2rem 0;
+  padding: 0.5rem;
   border-bottom: 2px solid transparent;
+  border-radius: 6px;
 }
 
 .nav a:hover {
   color: var(--farbe-primaer);
   border-bottom-color: var(--farbe-akzent);
+}
+
+@media (min-width: 40rem) {
+  .nav {
+    gap: 1.4rem;
+    font-size: 0.98rem;
+    margin-left: 0;
+  }
+  .nav a {
+    padding: 0.2rem 0;
+    border-radius: 0;
+  }
 }
 
 /* --- Hauptinhalt --- */
@@ -202,7 +234,13 @@ img {
   width: 100%;
   max-width: var(--breite-max);
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 3.5rem;
+  padding: 2rem 1.15rem 3rem; /* mobil: etwas kompakter */
+}
+
+@media (min-width: 40rem) {
+  .inhalt {
+    padding: 2.5rem 1.25rem 3.5rem;
+  }
 }
 
 /* --- Startseite: Andacht des Tages --- */
@@ -593,14 +631,24 @@ a.buch-chip--aktiv:hover {
 .fuss__innen {
   max-width: var(--breite-max-weit);
   margin: 0 auto;
-  padding: 1.5rem 1.25rem;
+  padding: 1.5rem 1.15rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
   color: var(--farbe-text-leise);
   font-size: 0.9rem;
+}
+
+@media (min-width: 40rem) {
+  .fuss__innen {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.5rem 1.25rem;
+  }
 }
 
 .fuss__zeile {
@@ -609,26 +657,40 @@ a.buch-chip--aktiv:hover {
 
 .fuss__nav {
   display: flex;
-  gap: 1.2rem;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.1rem;
+  margin-left: -0.25rem;
 }
 
 .fuss__nav a {
   color: var(--farbe-text-leise);
   text-decoration: none;
+  padding: 0.35rem 0.25rem;
 }
 
 .fuss__nav a:hover {
   color: var(--farbe-primaer);
 }
 
-/* --- Kleine Bildschirme --- */
-
-@media (max-width: 34rem) {
-  .kopf__innen {
-    flex-direction: column;
-    align-items: flex-start;
+@media (min-width: 40rem) {
+  .fuss__nav {
+    gap: 1.2rem;
+    margin-left: 0;
   }
-  .nav {
-    gap: 1.1rem;
+  .fuss__nav a {
+    padding: 0;
+  }
+}
+
+/* --- Sichere Bereiche auf Geräten mit Aussparung (Notch) --- */
+/* Da der Viewport mit „viewport-fit=cover“ bis an die Kanten reicht, sorgen
+   diese Regeln dafür, dass Inhalte im Quer- wie Hochformat nicht unter der
+   Aussparung verschwinden. Der Design-Innenabstand bleibt Mindestmaß. */
+@supports (padding: max(0px)) {
+  .kopf__innen,
+  .fuss__innen,
+  .inhalt {
+    padding-left: max(1.15rem, env(safe-area-inset-left));
+    padding-right: max(1.15rem, env(safe-area-inset-right));
   }
 }

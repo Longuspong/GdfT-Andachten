@@ -2,15 +2,40 @@
 <html lang="{{ site.sprache }}">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1f3550" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141a22" media="(prefers-color-scheme: dark)" />
     <title>{% if titel %}{{ titel }} · {{ site.name }}{% else %}{{ site.name }} · {{ site.kurzbeschreibung }}{% endif %}</title>
     <meta name="description" content="{{ beschreibung or site.beschreibung }}" />
 
+    {# Immer auf die kanonische Adresse dieser Seite verweisen #}
+    <link rel="canonical" href="{{ page.url | absolut }}" />
+
     <!-- Vorschau für geteilte Links (Open Graph) -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="{{ ogTyp or 'website' }}" />
     <meta property="og:site_name" content="{{ site.name }}" />
+    <meta property="og:locale" content="{{ site.sprache }}_{{ site.sprache | upper }}" />
     <meta property="og:title" content="{% if titel %}{{ titel }}{% else %}{{ site.name }}{% endif %}" />
     <meta property="og:description" content="{{ beschreibung or site.beschreibung }}" />
+    <meta property="og:url" content="{{ page.url | absolut }}" />
+    <meta property="og:image" content="{{ (bild or site.vorschaubild) | absolut }}" />
+    <meta property="og:image:secure_url" content="{{ (bild or site.vorschaubild) | absolut }}" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta property="og:image:alt" content="Logo: {{ site.name }} – Bibel, Kreuz, Taube und Ähren" />
+    {% if ogTyp == "article" and page.date %}
+      <meta property="article:published_time" content="{{ page.date | datumRFC3339 }}" />
+    {% endif %}
+
+    <!-- Vorschau bei Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{% if titel %}{{ titel }}{% else %}{{ site.name }}{% endif %}" />
+    <meta name="twitter:description" content="{{ beschreibung or site.beschreibung }}" />
+    <meta name="twitter:image" content="{{ (bild or site.vorschaubild) | absolut }}" />
+
+    <!-- RSS-/Atom-Feed für Leser, die nicht täglich vorbeischauen -->
+    <link rel="alternate" type="application/atom+xml" title="{{ site.name }} – {{ site.kurzbeschreibung }}" href="/feed.xml" />
 
     <link rel="icon" href="/assets/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/assets/logo.png" />
