@@ -171,23 +171,20 @@ img {
   }
 }
 
-/* Logo: mobil groß und deutlich, ab 40rem etwas kleiner.
-   Der farbige Hintergrund + feiner Ring füllen die transparenten Ecken der
-   PNG-Datei, damit das Logo in jedem Kontext sauber rund erscheint. */
+/* Logo: rund freigestellt (eigener bläulicher Hintergrund), mit dezentem
+   Schatten als „Münz“-Effekt. Mobil etwas größer als am Desktop. */
 .marke__logo {
-  width: 76px;
-  height: 76px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: var(--farbe-flaeche);
-  box-shadow: 0 0 0 1px var(--farbe-linie), var(--schatten);
-  object-fit: cover;
+  box-shadow: var(--schatten);
 }
 
 @media (min-width: 40rem) {
   .marke__logo {
-    width: 58px;
-    height: 58px;
+    width: 52px;
+    height: 52px;
   }
 }
 
@@ -220,28 +217,29 @@ img {
   letter-spacing: 0.02em;
 }
 
-/* Mobile-first: zentrierter 2×2-Block aus gleich breiten „Chips“ (Pillen).
-   Jeder Link ist ein klar erkennbares, anklickbares Kästchen; die Spalten
-   teilen sich den Platz prozentual (1fr = 50 %). */
+/* Mobile-first: alle vier Links nebeneinander als gleich breite „Chips“
+   (Pillen). Die Spalten teilen sich den Platz prozentual (1fr = je 25 %),
+   der Block ist zentriert. Jeder Link ist ein klar erkennbares Kästchen. */
 .nav {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
   width: 100%;
-  max-width: 20rem;
+  max-width: 30rem;
   margin: 0 auto;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .nav a {
+  display: block;
   text-align: center;
   text-decoration: none;
   color: var(--farbe-primaer);
-  background: var(--farbe-grund);
-  border: 1px solid var(--farbe-linie);
+  background: var(--farbe-flaeche);
+  border: 1.5px solid var(--farbe-primaer-hell);
   border-radius: 999px;
-  padding: 0.6rem 1rem;
-  font-weight: 500;
+  padding: 0.55rem 0.35rem;
+  font-weight: 600;
   line-height: 1.2;
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
@@ -297,6 +295,57 @@ img {
   .inhalt {
     padding: 2.5rem 1.25rem 3.5rem;
   }
+}
+
+/* --- Startseite: Willkommens-Hero (Logo + Leitvers, „Sola Scriptura“) --- */
+
+.start-hero {
+  text-align: center;
+  padding: 1rem 0 2.25rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--farbe-linie);
+}
+
+.start-hero__logo {
+  display: block;
+  width: clamp(128px, 36vw, 172px);
+  height: auto;
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;
+  box-shadow: var(--schatten);
+}
+
+.start-hero__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--farbe-akzent-dunkel);
+  margin: 0 0 1rem;
+}
+
+.start-hero__vers {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+}
+
+.start-hero__vers p {
+  font-family: var(--schrift-zier);
+  font-style: italic;
+  font-size: clamp(1.4rem, 4.8vw, 2rem);
+  line-height: 1.35;
+  color: var(--farbe-primaer);
+  margin: 0 0 0.6rem;
+}
+
+.start-hero__stelle {
+  display: block;
+  font-style: normal;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  color: var(--farbe-text-leise);
 }
 
 /* --- Startseite: Andacht des Tages --- */

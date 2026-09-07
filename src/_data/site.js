@@ -10,6 +10,11 @@ module.exports = {
     "Tägliche Andachten auf der Grundlage der Bibel – ein kurzer geistlicher Impuls für jeden Tag.",
   // Sprache der Seite
   sprache: "de",
+  // Leitvers im Kopfbereich der Startseite (passend zu „Sola Scriptura“ –
+  // allein die Schrift). Vers und Bibelstelle lassen sich frei anpassen.
+  leitvers:
+    "Das Gras verdorrt, die Blume verwelkt, aber das Wort unseres Gottes bleibt in Ewigkeit.",
+  leitvers_stelle: "Jesaja 40,8",
   // Adresse der veröffentlichten Seite – OHNE Schrägstrich am Ende.
   // Wird für absolute Links gebraucht: Vorschaubild (og:image), sitemap.xml,
   // canonical und den RSS-Feed. Bei einem Domainwechsel nur diesen einen Wert
