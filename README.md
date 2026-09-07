@@ -102,6 +102,37 @@ mit Schrägstrich am Ende enden (passend zu den internen Links).
 
 ---
 
+## Adresse der Seite & geteilte Links (wichtig)
+
+Damit **Vorschaubilder bei WhatsApp/Telegram**, die **sitemap.xml** für
+Suchmaschinen, die **canonical**-Angabe und der **RSS-Feed** funktionieren,
+braucht die Seite ihre eigene, vollständige Adresse. Diese steht **an einer
+einzigen Stelle** in [`src/_data/site.js`](src/_data/site.js):
+
+```js
+url: "https://gdft-andachten.vercel.app",
+```
+
+- **Ohne** Schrägstrich am Ende eintragen.
+- Sobald eine **eigene Domain** eingerichtet ist, nur diesen einen Wert ändern
+  (z. B. `"https://geruestet-fuer-den-tag.de"`) – der Rest passt sich automatisch an.
+
+Daraus entstehen beim Bauen automatisch:
+
+| Datei / Merkmal            | Wozu                                                                 |
+| -------------------------- | -------------------------------------------------------------------- |
+| `sitemap.xml`              | Liste aller Seiten für Suchmaschinen                                 |
+| `robots.txt`               | erlaubt Suchmaschinen und verweist auf die Sitemap                   |
+| `feed.xml` (Atom/RSS)      | Abo-Feed – Leser bekommen neue Andachten, ohne täglich vorbeizuschauen |
+| Vorschaubild (`og:image`)  | Bild in der Linkvorschau (WhatsApp, Telegram, …) – siehe unten       |
+| `canonical`                | nennt jeder Seite ihre „offizielle“ Adresse (vermeidet Duplikate)    |
+
+**Vorschaubild:** Es wird [`src/assets/og-bild.jpg`](src/assets/) verwendet (das
+Logo, quadratisch). Ein anderes Bild? Einfach diese Datei ersetzen oder in
+`site.js` unter `vorschaubild` einen anderen Pfad eintragen.
+
+---
+
 ## Andachten-Archiv (Rohmaterial)
 
 Im Ordner [`andachten-archiv/`](andachten-archiv/) wird das bereits vorhandene
@@ -134,14 +165,18 @@ Wie daraus fertige, veröffentlichte Andachten werden, steht in
 
 ```
 src/
-  _data/site.js            Grundeinstellungen (Name, Beschreibung, …)
+  _data/site.js            Grundeinstellungen (Name, Beschreibung, Adresse …)
   _includes/               Vorlagen (Layouts, Kopf, Fuß)
   andachten/               eine Markdown-Datei je Andacht  ← hier schreibst du
-  assets/                  Bilder, Logo, Favicon
-  css/style.css            Design (Farben & Schriften ganz oben)
+  assets/                  Bilder, Logo, Favicon, Vorschaubild (og-bild.jpg)
+  css/style.css            Design (mobile first; Farben & Schriften ganz oben)
   index.njk                Startseite: Andacht des Tages + die fünf „Soli“
   archiv.njk               Übersicht aller Andachten
+  bibelstellen.njk         Andachten nach Bibelstelle
   ueber.njk                Seite „Über“
+  sitemap.njk              erzeugt sitemap.xml (für Suchmaschinen)
+  robots.njk               erzeugt robots.txt
+  feed.njk                 erzeugt feed.xml (RSS/Atom-Abo)
 andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
 vercel.json                Einstellungen für die Veröffentlichung (Vercel)
 ```

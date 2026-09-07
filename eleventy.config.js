@@ -1,4 +1,5 @@
 const BIBELBUECHER = require("./src/_data/bibelbuecher.js");
+const SITE = require("./src/_data/site.js");
 
 module.exports = function (eleventyConfig) {
   // Statische Dateien unverändert kopieren (CSS, Bilder, Schriften, ...)
@@ -38,6 +39,25 @@ module.exports = function (eleventyConfig) {
     const d = toDate(value);
     if (!d) return "";
     return d.toISOString().slice(0, 10);
+  });
+
+  // Vollständiger Zeitstempel für den RSS-/Atom-Feed (RFC 3339),
+  // z. B. "2026-09-04T00:00:00Z"
+  eleventyConfig.addFilter("datumRFC3339", (value) => {
+    const d = toDate(value);
+    if (!d) return "";
+    return d.toISOString();
+  });
+
+  // Relativen Pfad in eine absolute URL verwandeln (für og:image, sitemap.xml,
+  // canonical und den Feed). Grundlage ist site.url; fehlt sie, bleibt der Pfad
+  // unverändert. Bereits absolute Adressen (http/https) werden durchgereicht.
+  eleventyConfig.addFilter("absolut", (pfad) => {
+    const basis = String(SITE.url || "").replace(/\/+$/, "");
+    const rel = String(pfad == null ? "" : pfad);
+    if (/^https?:\/\//i.test(rel)) return rel;
+    if (!basis) return rel;
+    return basis + (rel.startsWith("/") ? rel : "/" + rel);
   });
 
   // Aktuelles Jahr für die Fußzeile

@@ -1,0 +1,31 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ site.sprache }}">
+  <title>{{ site.name }} – {{ site.kurzbeschreibung }}</title>
+  <subtitle>{{ site.beschreibung | e }}</subtitle>
+  <link href="{{ '/feed.xml' | absolut }}" rel="self" type="application/atom+xml" />
+  <link href="{{ '/' | absolut }}" rel="alternate" type="text/html" />
+  <id>{{ '/' | absolut }}</id>
+  {%- if collections.andachten.length %}
+  <updated>{{ collections.andachten[0].date | datumRFC3339 }}</updated>
+  {%- endif %}
+  <author>
+    <name>{{ site.name }}</name>
+  </author>
+  {%- for eintrag in collections.andachten.slice(0, 25) %}
+  <entry>
+    <title>{{ eintrag.data.titel | e }}</title>
+    <link href="{{ eintrag.url | absolut }}" rel="alternate" type="text/html" />
+    <id>{{ eintrag.url | absolut }}</id>
+    <published>{{ eintrag.date | datumRFC3339 }}</published>
+    <updated>{{ eintrag.date | datumRFC3339 }}</updated>
+    {%- if eintrag.data.beschreibung or eintrag.data.losung %}
+    <summary>{{ (eintrag.data.beschreibung or eintrag.data.losung) | e }}</summary>
+    {%- endif %}
+    <content type="html">{{ eintrag.templateContent | e }}</content>
+  </entry>
+  {%- endfor %}
+</feed>

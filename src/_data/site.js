@@ -10,8 +10,14 @@ module.exports = {
     "Tägliche Andachten auf der Grundlage der Bibel – ein kurzer geistlicher Impuls für jeden Tag.",
   // Sprache der Seite
   sprache: "de",
-  // Adresse der veröffentlichten Seite (später anpassen, z. B. eigene Domain)
-  url: "",
+  // Adresse der veröffentlichten Seite – OHNE Schrägstrich am Ende.
+  // Wird für absolute Links gebraucht: Vorschaubild (og:image), sitemap.xml,
+  // canonical und den RSS-Feed. Sobald eine eigene Domain vorliegt, nur diesen
+  // einen Wert ändern (z. B. "https://geruestet-fuer-den-tag.de").
+  url: "https://gdft-andachten.vercel.app",
+  // Vorschaubild für geteilte Links (WhatsApp, Telegram, …), relativ zum Ordner
+  // src/. Quadratisch, damit es überall gut aussieht.
+  vorschaubild: "/assets/og-bild.jpg",
   // Telegram-Kanal (leer lassen, wenn nicht gewünscht)
   telegram: "https://t.me/morgenandachten",
   // Text in der Fußzeile
