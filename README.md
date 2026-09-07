@@ -110,7 +110,7 @@ braucht die Seite ihre eigene, vollständige Adresse. Diese steht **an einer
 einzigen Stelle** in [`src/_data/site.js`](src/_data/site.js):
 
 ```js
-url: "https://gdft-andachten.vercel.app",
+url: "https://gdft.vercel.app",
 ```
 
 - **Ohne** Schrägstrich am Ende eintragen.
