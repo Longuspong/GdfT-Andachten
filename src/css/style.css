@@ -24,6 +24,13 @@
   --farbe-titel-kontur: #1c1305;   /* dunkle Kontur, damit das Gold gut lesbar bleibt */
   --farbe-linie: #e6ddca;          /* feine Trennlinien */
 
+  /* --- „Andacht des Tages“-Karte (hebt die heutige Andacht deutlich hervor) --- */
+  --hero-grund: linear-gradient(158deg, #24395a 0%, #1d3049 55%, #172740 100%);
+  --hero-text: #eef1ea;            /* heller Text auf dem dunklen Navy */
+  --hero-text-leise: #b6c3d6;      /* Datum / Bibelstelle, gedämpft aber lesbar */
+  --hero-rahmen: rgba(200, 154, 69, 0.55); /* zarter goldener Rahmen */
+  --hero-schatten: 0 14px 34px rgba(20, 30, 55, 0.24), 0 3px 8px rgba(20, 30, 55, 0.14);
+
   /* --- Schriften --- */
   --schrift-titel: "Lora", Georgia, "Times New Roman", serif;
   --schrift-text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -51,6 +58,14 @@
     --farbe-titel-kontur: #100b02;   /* dunkle Kontur, hält das Gold klar lesbar */
     --farbe-linie: #2c3644;
     --schatten: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+
+    /* Karte im Dunkelmodus etwas aufgehellt, damit sie sich vom fast schwarzen
+       Seitengrund als erhabene Fläche abhebt; Rahmen und Schatten kräftiger. */
+    --hero-grund: linear-gradient(158deg, #2b415f 0%, #243953 55%, #1e3049 100%);
+    --hero-text: #eef1ea;
+    --hero-text-leise: #bcc8d9;
+    --hero-rahmen: rgba(216, 178, 100, 0.6);
+    --hero-schatten: 0 16px 38px rgba(0, 0, 0, 0.5), 0 3px 10px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -369,25 +384,61 @@ img {
   color: var(--farbe-text-leise);
 }
 
-/* --- Startseite: Andacht des Tages --- */
+/* --- Startseite: Andacht des Tages -------------------------------------
+   Die heutige Andacht ist das Herzstück der Startseite und wird darum als
+   eigene, deutlich abgesetzte Karte auf dunklem Navy-Grund gezeigt. So hebt
+   sie sich klar vom hellen Pergament der übrigen Seite ab und der Blick
+   landet sofort auf ihr – statt im einheitlichen Farbbrei zu verschwimmen. */
 
 .hero {
+  position: relative;
+  overflow: hidden;
   text-align: center;
-  padding: 1rem 0 2.5rem;
-  border-bottom: 1px solid var(--farbe-linie);
-  margin-bottom: 2.5rem;
+  background: var(--hero-grund);
+  border: 1px solid var(--hero-rahmen);
+  border-radius: 20px;
+  box-shadow: var(--hero-schatten);
+  padding: 2.5rem 1.5rem 2.75rem;
+  margin-bottom: 2.75rem;
 }
 
+@media (min-width: 40rem) {
+  .hero {
+    padding: 3rem 2.5rem 3.25rem;
+  }
+}
+
+/* Feiner goldener Lichtstreifen am oberen Rand als Blickfang. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--farbe-akzent) 25%,
+    var(--farbe-akzent) 75%,
+    transparent
+  );
+}
+
+/* „Andacht des Tages“ als goldenes Etikett – klar als Label erkennbar. */
 .hero__gruss {
+  display: inline-block;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.78rem;
-  color: var(--farbe-titel-gold);
-  font-weight: 600;
-  margin: 0 0 0.75rem;
-  /* dünne Kontur: bei der kleinen Versalien-Schrift genügt ein feiner Rand */
-  -webkit-text-stroke: 0.4px var(--farbe-titel-kontur);
-  paint-order: stroke fill;
+  letter-spacing: 0.13em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #1c2a40;
+  background: linear-gradient(180deg, #e7c169, #c8981f);
+  padding: 0.35rem 0.95rem;
+  border-radius: 999px;
+  margin: 0 0 1.1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
+  -webkit-text-stroke: 0;
 }
 
 .hero__datum,
@@ -397,9 +448,19 @@ img {
   margin: 0 0 0.5rem;
 }
 
+/* Auf der dunklen Karte brauchen Datum und Bibelstelle einen helleren Ton. */
+.hero .hero__datum,
+.hero .hero__stelle {
+  color: var(--hero-text-leise);
+}
+
 .hero__titel {
-  font-size: clamp(1.9rem, 5vw, 2.6rem);
-  margin: 0.25rem 0 1rem;
+  font-size: clamp(2rem, 5.4vw, 2.9rem);
+  margin: 0.35rem 0 1.1rem;
+  /* Auf dunklem Grund ist das Gold von sich aus gut lesbar – die dunkle
+     Kontur entfällt, ein weicher Schatten gibt stattdessen Tiefe. */
+  -webkit-text-stroke: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .hero__titel a {
@@ -417,12 +478,20 @@ img {
   margin: 0 auto 1.5rem;
 }
 
+.hero .hero__losung {
+  color: var(--hero-text);
+}
+
 .hero__stelle,
 .andacht__stelle {
   font-style: normal;
   color: var(--farbe-text-leise);
   font-size: 0.9em;
   white-space: nowrap;
+}
+
+.hero__aktion {
+  margin: 0;
 }
 
 .knopf {
@@ -433,7 +502,7 @@ img {
   padding: 0.7rem 1.4rem;
   border-radius: 999px;
   font-weight: 500;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .knopf:hover {
@@ -441,19 +510,36 @@ img {
   color: #fff;
 }
 
+/* Auf der Navy-Karte wird der Knopf golden – damit er als klarer
+   Handlungsaufruf aus der Fläche heraussticht. */
+.hero .knopf {
+  background: linear-gradient(180deg, #e7c169, #c8981f);
+  color: #1c2a40;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+}
+
+.hero .knopf:hover {
+  background: linear-gradient(180deg, #f0d180, #d8a72e);
+  color: #14203a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.32);
+}
+
 /* --- Die fünf „Soli“ (Leitspruch im Hero) --- */
 
+/* Eigener, ruhiger Abschnitt unter der Andachts-Karte. Als dezente Grundlage
+   gedacht – darum bewusst zurückhaltender als die hervorgehobene Andacht. */
 .solas {
-  margin-top: 2.25rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--farbe-linie);
+  margin: 0 0 2.5rem;
+  padding-top: 0.5rem;
   text-align: center;
 }
 
 .solas__haupt {
   font-family: var(--schrift-zier);
   font-weight: 600;
-  font-size: clamp(2rem, 6.5vw, 3rem);
+  font-size: clamp(1.7rem, 5.5vw, 2.4rem);
   line-height: 1.1;
   color: var(--farbe-primaer);
   letter-spacing: 0.01em;
