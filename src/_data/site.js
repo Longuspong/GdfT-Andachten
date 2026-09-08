@@ -19,7 +19,7 @@ module.exports = {
   // Wird für absolute Links gebraucht: Vorschaubild (og:image), sitemap.xml,
   // canonical und den RSS-Feed. Bei einem Domainwechsel nur diesen einen Wert
   // ändern – der Rest passt sich automatisch an.
-  url: "https://gdft-andachten.de",
+  url: "https://gfdt-andachten.de",
   // Vorschaubild für geteilte Links (WhatsApp, Telegram, …), relativ zum Ordner
   // src/. Quadratisch, damit es überall gut aussieht.
   vorschaubild: "/assets/og-bild.jpg",
