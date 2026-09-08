@@ -4,6 +4,20 @@ titel: Heute
 ---
 {% set neueste = collections.andachten[0] %}
 
+<section class="start-hero">
+  <img class="start-hero__logo" src="/assets/logo-rund.png" width="160" height="160"
+       alt="Logo: Gerüstet für den Tag – Bibel, Kreuz, Taube und Ähren" />
+  <p class="start-hero__kicker">Sola Scriptura · Allein die Schrift</p>
+  {% if site.leitvers %}
+    <blockquote class="start-hero__vers">
+      <p>„{{ site.leitvers }}“</p>
+      {% if site.leitvers_stelle %}
+        <cite class="start-hero__stelle">{{ site.leitvers_stelle }}</cite>
+      {% endif %}
+    </blockquote>
+  {% endif %}
+</section>
+
 <section class="hero">
   <p class="hero__gruss">Andacht des Tages</p>
   {% if neueste %}

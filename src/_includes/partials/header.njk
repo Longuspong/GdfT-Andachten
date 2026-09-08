@@ -1,7 +1,7 @@
 <header class="kopf">
   <div class="kopf__innen">
     <a class="marke" href="/">
-      <img class="marke__logo" src="/assets/logo.png" width="52" height="52"
+      <img class="marke__logo" src="/assets/logo-rund.png" width="64" height="64"
            alt="Logo: Gerüstet für den Tag" />
       <span class="marke__text">
         <span class="marke__name">{{ site.name }}</span>
@@ -10,10 +10,10 @@
     </a>
 
     <nav class="nav" aria-label="Hauptnavigation">
-      <a href="/">Heute</a>
-      <a href="/archiv/">Archiv</a>
-      <a href="/bibel/">Bibel</a>
-      <a href="/ueber/">Über</a>
+      <a href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>Heute</a>
+      <a href="/archiv/"{% if page.url.startsWith("/archiv") %} aria-current="page"{% endif %}>Archiv</a>
+      <a href="/bibel/"{% if page.url.startsWith("/bibel") %} aria-current="page"{% endif %}>Bibel</a>
+      <a href="/ueber/"{% if page.url.startsWith("/ueber") %} aria-current="page"{% endif %}>Über</a>
     </nav>
   </div>
 </header>

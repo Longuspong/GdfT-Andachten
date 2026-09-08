@@ -126,15 +126,17 @@ img {
   background: var(--farbe-flaeche);
 }
 
-/* Mobile-first: Marke oben, Navigation darunter. Ab 40rem nebeneinander. */
+/* Mobile-first: Marke oben, Navigation darunter – beides zentriert.
+   Ab 40rem nebeneinander (Marke links, Navigation rechts). */
 .kopf__innen {
   max-width: var(--breite-max-weit);
   margin: 0 auto;
-  padding: 0.85rem 1.15rem;
+  padding: 1rem 1.15rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.6rem 1rem;
+  align-items: center;
+  text-align: center;
+  gap: 0.9rem;
 }
 
 @media (min-width: 40rem) {
@@ -142,24 +144,48 @@ img {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    text-align: left;
     flex-wrap: wrap;
+    gap: 1rem;
     padding: 1rem 1.25rem;
   }
 }
 
+/* Mobile-first: Logo über dem Namen, zentriert (kein Überlauf bei langem
+   Namen). Ab 40rem Logo links neben dem Namen. */
 .marke {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
+  max-width: 100%;
   text-decoration: none;
   color: var(--farbe-primaer);
 }
 
+@media (min-width: 40rem) {
+  .marke {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.85rem;
+  }
+}
+
+/* Logo: rund freigestellt (eigener bläulicher Hintergrund), mit dezentem
+   Schatten als „Münz“-Effekt. Mobil etwas größer als am Desktop. */
 .marke__logo {
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   flex-shrink: 0;
+  box-shadow: var(--schatten);
+}
+
+@media (min-width: 40rem) {
+  .marke__logo {
+    width: 52px;
+    height: 52px;
+  }
 }
 
 .marke__zeichen {
@@ -191,39 +217,67 @@ img {
   letter-spacing: 0.02em;
 }
 
-/* Mobile-first: umbrechende Reihe mit großzügigen Tippflächen.
-   Der negative Rand richtet den ersten Link an der Marke aus. */
+/* Mobile-first: alle vier Links nebeneinander als gleich breite „Chips“
+   (Pillen). Die Spalten teilen sich den Platz prozentual (1fr = je 25 %),
+   der Block ist zentriert. Jeder Link ist ein klar erkennbares Kästchen. */
 .nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.1rem 0.5rem;
-  font-size: 1rem;
-  margin-left: -0.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto;
+  font-size: 0.95rem;
 }
 
 .nav a {
+  display: block;
+  text-align: center;
   text-decoration: none;
-  color: var(--farbe-text);
-  padding: 0.5rem;
-  border-bottom: 2px solid transparent;
-  border-radius: 6px;
+  color: var(--farbe-primaer);
+  background: var(--farbe-flaeche);
+  border: 1.5px solid var(--farbe-primaer-hell);
+  border-radius: 999px;
+  padding: 0.55rem 0.35rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .nav a:hover {
+  border-color: var(--farbe-akzent);
+  background: var(--farbe-flaeche);
   color: var(--farbe-primaer);
-  border-bottom-color: var(--farbe-akzent);
 }
 
+/* Aktuelle Seite: gefüllte Pille – zeigt deutlich, wo man gerade ist.
+   Textfarbe = Seitengrund, damit der Kontrast in hell und dunkel stimmt. */
+.nav a[aria-current="page"] {
+  background: var(--farbe-primaer);
+  border-color: var(--farbe-primaer);
+  color: var(--farbe-grund);
+}
+
+.nav a[aria-current="page"]:hover {
+  background: var(--farbe-primaer);
+  border-color: var(--farbe-primaer);
+  color: var(--farbe-grund);
+}
+
+/* Ab Tablet: kompakte, inhaltsbreite Pillen rechts neben der Marke. */
 @media (min-width: 40rem) {
   .nav {
-    gap: 1.4rem;
-    font-size: 0.98rem;
-    margin-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    gap: 0.4rem;
+    font-size: 0.95rem;
   }
   .nav a {
-    padding: 0.2rem 0;
-    border-radius: 0;
+    padding: 0.4rem 0.85rem;
   }
 }
 
@@ -241,6 +295,57 @@ img {
   .inhalt {
     padding: 2.5rem 1.25rem 3.5rem;
   }
+}
+
+/* --- Startseite: Willkommens-Hero (Logo + Leitvers, „Sola Scriptura“) --- */
+
+.start-hero {
+  text-align: center;
+  padding: 1rem 0 2.25rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--farbe-linie);
+}
+
+.start-hero__logo {
+  display: block;
+  width: clamp(128px, 36vw, 172px);
+  height: auto;
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;
+  box-shadow: var(--schatten);
+}
+
+.start-hero__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--farbe-akzent-dunkel);
+  margin: 0 0 1rem;
+}
+
+.start-hero__vers {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+}
+
+.start-hero__vers p {
+  font-family: var(--schrift-zier);
+  font-style: italic;
+  font-size: clamp(1.4rem, 4.8vw, 2rem);
+  line-height: 1.35;
+  color: var(--farbe-primaer);
+  margin: 0 0 0.6rem;
+}
+
+.start-hero__stelle {
+  display: block;
+  font-style: normal;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  color: var(--farbe-text-leise);
 }
 
 /* --- Startseite: Andacht des Tages --- */
@@ -634,8 +739,9 @@ a.buch-chip--aktiv:hover {
   padding: 1.5rem 1.15rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.75rem;
+  align-items: center;
+  text-align: center;
+  gap: 0.85rem;
   color: var(--farbe-text-leise);
   font-size: 0.9rem;
 }
@@ -645,6 +751,7 @@ a.buch-chip--aktiv:hover {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    text-align: left;
     flex-wrap: wrap;
     gap: 1rem;
     padding: 1.5rem 1.25rem;
@@ -655,27 +762,31 @@ a.buch-chip--aktiv:hover {
   margin: 0;
 }
 
+/* Fuß-Navigation: mobil zentriert, Links deutlich unterstrichen (klar
+   als anklickbar erkennbar). */
 .fuss__nav {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.25rem 1.1rem;
-  margin-left: -0.25rem;
 }
 
 .fuss__nav a {
-  color: var(--farbe-text-leise);
-  text-decoration: none;
+  color: var(--farbe-primaer);
+  text-decoration: underline;
+  text-decoration-color: var(--farbe-akzent);
+  text-underline-offset: 3px;
   padding: 0.35rem 0.25rem;
 }
 
 .fuss__nav a:hover {
-  color: var(--farbe-primaer);
+  color: var(--farbe-akzent-dunkel);
 }
 
 @media (min-width: 40rem) {
   .fuss__nav {
+    justify-content: flex-end;
     gap: 1.2rem;
-    margin-left: 0;
   }
   .fuss__nav a {
     padding: 0;
