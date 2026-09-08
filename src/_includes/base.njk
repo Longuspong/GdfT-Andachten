@@ -3,6 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    {# Design (hell/dunkel) so früh wie möglich festlegen, damit die Seite nicht
+       kurz in der falschen Farbe aufblitzt. Nur wenn der Nutzer über den
+       Schalter ausdrücklich gewählt hat, wird ein Attribut gesetzt – sonst
+       greift automatisch die Systemeinstellung. Die Klasse „js“ blendet den
+       Schalter erst ein, wenn JavaScript verfügbar ist. #}
+    <script>
+      (function () {
+        try {
+          var wurzel = document.documentElement;
+          wurzel.classList.add("js");
+          var wahl = null;
+          try { wahl = localStorage.getItem("thema"); } catch (e) {}
+          if (wahl === "hell" || wahl === "dunkel") {
+            wurzel.setAttribute("data-theme", wahl === "dunkel" ? "dark" : "light");
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <meta name="theme-color" content="#1f3550" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#141a22" media="(prefers-color-scheme: dark)" />
     <title>{% if titel %}{{ titel }} · {{ site.name }}{% else %}{{ site.name }} · {{ site.kurzbeschreibung }}{% endif %}</title>
@@ -47,6 +67,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/thema.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
