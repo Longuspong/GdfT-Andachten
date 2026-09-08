@@ -20,6 +20,8 @@
   --farbe-primaer-hell: #3c5f80;   /* Stahlblau (Emblem-Hintergrund) */
   --farbe-akzent: #c39a45;         /* Akzent (Gold von Kreuz und Ähren) */
   --farbe-akzent-dunkel: #a67f34;  /* Gold für Hover */
+  --farbe-titel-gold: #c8981f;     /* kräftigeres Gold für die großen Überschriften */
+  --farbe-titel-kontur: #1c1305;   /* dunkle Kontur, damit das Gold gut lesbar bleibt */
   --farbe-linie: #e6ddca;          /* feine Trennlinien */
 
   /* --- Schriften --- */
@@ -45,6 +47,8 @@
     --farbe-primaer-hell: #d3e0ee;
     --farbe-akzent: #d8b264;
     --farbe-akzent-dunkel: #e6c583;
+    --farbe-titel-gold: #e6c164;     /* helleres Gold für dunklen Grund */
+    --farbe-titel-kontur: #100b02;   /* dunkle Kontur, hält das Gold klar lesbar */
     --farbe-linie: #2c3644;
     --schatten: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
   }
@@ -81,6 +85,23 @@ h3 {
   font-weight: 600;
   line-height: 1.25;
   color: var(--farbe-primaer);
+}
+
+/* --- Goldene Überschriften mit dunkler Kontur ---------------------------
+   Die großen Überschriften (Andacht-Titel und Seitentitel) werden golden
+   gesetzt. Damit das helle Gold auf dem hellen Pergament-Grund gut lesbar
+   bleibt, bekommt es eine dünne dunkle Kontur. `paint-order: stroke fill`
+   legt die Kontur HINTER die Füllung, sodass die Buchstaben nicht dünner
+   wirken. Der zarte Schatten gibt zusätzlich Halt (und dient älteren
+   Browsern ohne text-stroke als Rückfall). Der kleine Kicker
+   „Andacht des Tages“ ist bei seiner eigenen Regel (.hero__gruss) gestylt. */
+.hero__titel,
+.andacht__titel,
+.seite-kopf__titel {
+  color: var(--farbe-titel-gold);
+  -webkit-text-stroke: 1px var(--farbe-titel-kontur);
+  paint-order: stroke fill;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 a {
@@ -361,9 +382,12 @@ img {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 0.78rem;
-  color: var(--farbe-akzent-dunkel);
+  color: var(--farbe-titel-gold);
   font-weight: 600;
   margin: 0 0 0.75rem;
+  /* dünne Kontur: bei der kleinen Versalien-Schrift genügt ein feiner Rand */
+  -webkit-text-stroke: 0.4px var(--farbe-titel-kontur);
+  paint-order: stroke fill;
 }
 
 .hero__datum,
