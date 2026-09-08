@@ -18,13 +18,13 @@ titel: Heute
   {% endif %}
 </section>
 
-<section class="hero">
+<section class="hero" aria-labelledby="hero-titel">
   <p class="hero__gruss">Andacht des Tages</p>
   {% if neueste %}
     <p class="hero__datum">
       <time datetime="{{ neueste.date | datumISO }}">{{ neueste.date | datumVoll }}</time>
     </p>
-    <h1 class="hero__titel">
+    <h1 class="hero__titel" id="hero-titel">
       <a href="{{ neueste.url }}">{{ neueste.data.titel }}</a>
     </h1>
     {% if neueste.data.losung %}
@@ -37,21 +37,21 @@ titel: Heute
       <a class="knopf" href="{{ neueste.url }}">Andacht lesen →</a>
     </p>
   {% else %}
-    <h1 class="hero__titel">Willkommen</h1>
+    <h1 class="hero__titel" id="hero-titel">Willkommen</h1>
     <p class="hero__losung">Hier erscheint bald die erste Andacht.</p>
   {% endif %}
-
-  <aside class="solas" aria-label="Die fünf reformatorischen Grundsätze – die fünf „Soli“">
-    <p class="solas__haupt">Sola Scriptura</p>
-    <p class="solas__unter">Allein die Schrift – das Fundament jeder Andacht</p>
-    <ul class="solas__reihe">
-      <li><span class="solas__lat">Sola Gratia</span><span class="solas__de">allein die Gnade</span></li>
-      <li><span class="solas__lat">Sola Fide</span><span class="solas__de">allein der Glaube</span></li>
-      <li><span class="solas__lat">Solus Christus</span><span class="solas__de">allein Christus</span></li>
-      <li><span class="solas__lat">Soli Deo Gloria</span><span class="solas__de">allein Gott die Ehre</span></li>
-    </ul>
-  </aside>
 </section>
+
+<aside class="solas" aria-label="Die fünf reformatorischen Grundsätze – die fünf „Soli“">
+  <p class="solas__haupt">Sola Scriptura</p>
+  <p class="solas__unter">Allein die Schrift – das Fundament jeder Andacht</p>
+  <ul class="solas__reihe">
+    <li><span class="solas__lat">Sola Gratia</span><span class="solas__de">allein die Gnade</span></li>
+    <li><span class="solas__lat">Sola Fide</span><span class="solas__de">allein der Glaube</span></li>
+    <li><span class="solas__lat">Solus Christus</span><span class="solas__de">allein Christus</span></li>
+    <li><span class="solas__lat">Soli Deo Gloria</span><span class="solas__de">allein Gott die Ehre</span></li>
+  </ul>
+</aside>
 
 {% if collections.andachten.length > 1 %}
   <section class="liste-block">
