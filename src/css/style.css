@@ -43,9 +43,20 @@
   --schatten: 0 1px 2px rgba(20, 20, 40, 0.04), 0 8px 24px rgba(20, 20, 40, 0.06);
 }
 
-/* Dezenter Dunkelmodus, wenn das Gerät ihn wünscht */
+/* Dunkelmodus-Farben.
+   -------------------------------------------------------------------------
+   Damit der Schalter (oben rechts) und die automatische Systemerkennung
+   zusammenspielen, werden dieselben dunklen Werte an zwei Stellen angewandt:
+
+   1. Das Gerät wünscht den Dunkelmodus UND der Nutzer hat nicht ausdrücklich
+      „hell“ gewählt  ->  :root:not([data-theme="light"]) in der @media-Regel.
+   2. Der Nutzer hat über den Schalter ausdrücklich „dunkel“ gewählt
+      ->  :root[data-theme="dark"], unabhängig von der Systemeinstellung.
+
+   Die beiden Werteblöcke sind bewusst identisch – wird eine Farbe geändert,
+   muss sie an beiden Stellen angepasst werden. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --farbe-grund: #141a22;
     --farbe-flaeche: #1c2530;
     --farbe-text: #e8e5dc;
@@ -67,6 +78,27 @@
     --hero-rahmen: rgba(216, 178, 100, 0.6);
     --hero-schatten: 0 16px 38px rgba(0, 0, 0, 0.5), 0 3px 10px rgba(0, 0, 0, 0.4);
   }
+}
+
+:root[data-theme="dark"] {
+  --farbe-grund: #141a22;
+  --farbe-flaeche: #1c2530;
+  --farbe-text: #e8e5dc;
+  --farbe-text-leise: #a3a9b3;
+  --farbe-primaer: #b7cae0;
+  --farbe-primaer-hell: #d3e0ee;
+  --farbe-akzent: #d8b264;
+  --farbe-akzent-dunkel: #e6c583;
+  --farbe-titel-gold: #e6c164;
+  --farbe-titel-kontur: #100b02;
+  --farbe-linie: #2c3644;
+  --schatten: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+
+  --hero-grund: linear-gradient(158deg, #2b415f 0%, #243953 55%, #1e3049 100%);
+  --hero-text: #eef1ea;
+  --hero-text-leise: #bcc8d9;
+  --hero-rahmen: rgba(216, 178, 100, 0.6);
+  --hero-schatten: 0 16px 38px rgba(0, 0, 0, 0.5), 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* --- Grundlagen --- */
@@ -158,6 +190,7 @@ img {
 /* --- Kopfbereich --- */
 
 .kopf {
+  position: relative; /* Anker für den Design-Schalter (mobil oben rechts) */
   border-bottom: 1px solid var(--farbe-linie);
   background: var(--farbe-flaeche);
 }
@@ -179,7 +212,7 @@ img {
   .kopf__innen {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     text-align: left;
     flex-wrap: wrap;
     gap: 1rem;
@@ -204,6 +237,8 @@ img {
     flex-direction: row;
     align-items: center;
     gap: 0.85rem;
+    /* Schiebt Navigation und Design-Schalter gemeinsam an den rechten Rand. */
+    margin-right: auto;
   }
 }
 
@@ -314,6 +349,132 @@ img {
   }
   .nav a {
     padding: 0.4rem 0.85rem;
+  }
+}
+
+/* --- Design-Schalter (hell/dunkel) --------------------------------------
+   Ein Schieberegler mit Sonne (hell) und Mond (dunkel). Der runde Knopf
+   gleitet nach rechts und der Mond blendet ein, sobald das dunkle Design
+   aktiv ist. Ohne JavaScript bleibt der Schalter ausgeblendet (siehe .js). */
+
+.thema-schalter {
+  display: none; /* wird erst mit JavaScript sichtbar */
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+
+  /* Mobil: fest oben rechts in der Kopfecke. */
+  position: absolute;
+  top: 1rem;
+  right: max(1.15rem, env(safe-area-inset-right));
+  z-index: 5;
+}
+
+/* Erst einblenden, wenn JavaScript den Schalter auch bedienbar macht. */
+.js .thema-schalter {
+  display: inline-flex;
+  align-items: center;
+}
+
+.thema-schalter__spur {
+  position: relative;
+  display: inline-block;
+  width: 3.4rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  background: var(--farbe-grund);
+  border: 1.5px solid var(--farbe-primaer-hell);
+  box-shadow: inset 0 1px 3px rgba(20, 20, 40, 0.15);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.thema-schalter:hover .thema-schalter__spur {
+  border-color: var(--farbe-akzent);
+}
+
+.thema-schalter__knopf {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background: var(--farbe-primaer);
+  color: var(--farbe-akzent);
+  box-shadow: 0 1px 3px rgba(20, 20, 40, 0.35);
+  transition: left 0.24s ease, transform 0.24s ease,
+    background 0.2s ease, color 0.2s ease;
+}
+
+/* Sonne und Mond liegen übereinander; sichtbar ist immer nur eines. */
+.thema-schalter__icon {
+  grid-area: 1 / 1;
+  width: 0.95rem;
+  height: 0.95rem;
+  transition: opacity 0.2s ease, transform 0.24s ease;
+}
+
+/* Heller Standard: Sonne sichtbar, Mond ausgeblendet. */
+.thema-schalter__icon--sonne {
+  opacity: 1;
+  transform: none;
+}
+.thema-schalter__icon--mond {
+  opacity: 0;
+  transform: rotate(-60deg) scale(0.5);
+}
+
+/* Dunkler Zustand: Knopf gleitet nach rechts, der Mond erscheint.
+   Gleiche Regeln für Systemvorgabe (ohne ausdrückliche Hell-Wahl) und für die
+   ausdrückliche Dunkel-Wahl über den Schalter. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .thema-schalter__knopf {
+    left: calc(100% - 3px);
+    transform: translate(-100%, -50%);
+  }
+  :root:not([data-theme="light"]) .thema-schalter__icon--sonne {
+    opacity: 0;
+    transform: rotate(60deg) scale(0.5);
+  }
+  :root:not([data-theme="light"]) .thema-schalter__icon--mond {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+:root[data-theme="dark"] .thema-schalter__knopf {
+  left: calc(100% - 3px);
+  transform: translate(-100%, -50%);
+}
+:root[data-theme="dark"] .thema-schalter__icon--sonne {
+  opacity: 0;
+  transform: rotate(60deg) scale(0.5);
+}
+:root[data-theme="dark"] .thema-schalter__icon--mond {
+  opacity: 1;
+  transform: none;
+}
+
+/* Ab Tablet läuft der Schalter im normalen Fluss rechts neben der Navigation. */
+@media (min-width: 40rem) {
+  .thema-schalter {
+    position: static;
+  }
+}
+
+/* Wer weniger Bewegung wünscht, bekommt sofortige Umschaltung ohne Gleiten. */
+@media (prefers-reduced-motion: reduce) {
+  .thema-schalter__spur,
+  .thema-schalter__knopf,
+  .thema-schalter__icon {
+    transition: none;
   }
 }
 

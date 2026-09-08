@@ -2,12 +2,14 @@ const BIBELBUECHER = require("./src/_data/bibelbuecher.js");
 const SITE = require("./src/_data/site.js");
 
 module.exports = function (eleventyConfig) {
-  // Statische Dateien unverändert kopieren (CSS, Bilder, Schriften, ...)
+  // Statische Dateien unverändert kopieren (CSS, JavaScript, Bilder, Schriften, ...)
   eleventyConfig.addPassthroughCopy({ "src/css": "css" });
+  eleventyConfig.addPassthroughCopy({ "src/js": "js" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
-  // Bei Änderungen am CSS neu laden
+  // Bei Änderungen am CSS oder JavaScript neu laden
   eleventyConfig.addWatchTarget("src/css");
+  eleventyConfig.addWatchTarget("src/js");
 
   // --- Datums-Filter (deutsch) ---
 
