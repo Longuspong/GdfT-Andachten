@@ -7,6 +7,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/js": "js" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
+  // Admin-Oberfläche 1:1 kopieren (nicht über Nunjucks laufen lassen, damit
+  // geschweifte Klammern im eingebetteten JavaScript nicht als Templates
+  // interpretiert werden). Nicht öffentlich verlinkt, nur über /admin/ erreichbar.
+  eleventyConfig.addPassthroughCopy({ "src/admin-static": "admin" });
+
   // Bei Änderungen am CSS oder JavaScript neu laden
   eleventyConfig.addWatchTarget("src/css");
   eleventyConfig.addWatchTarget("src/js");

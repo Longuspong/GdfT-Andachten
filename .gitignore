@@ -4,6 +4,11 @@ _site/
 # Abhängigkeiten
 node_modules/
 
+# Umgebungsvariablen / Zugangsdaten (nur .env.example gehört ins Repo!)
+.env
+.env.local
+.env.*.local
+
 # Logs
 npm-debug.log*
 *.log

@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Admin · Gerüstet für den Tag</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css" />
+<style>
+  :root {
+    --blau: #1f3550;
+    --blau-hell: #2c4a6e;
+    --hintergrund: #f4f6f8;
+    --karte: #ffffff;
+    --rand: #dbe1e8;
+    --text: #1c2733;
+    --text-schwach: #5b6b7c;
+    --rot: #b3261e;
+    --gruen: #1e7d4b;
+    --gold: #9a7b2e;
+    --gold-bg: #fbf3dc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--hintergrund);
+    color: var(--text);
+  }
+  header.kopf {
+    background: var(--blau);
+    color: #fff;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header.kopf h1 { font-size: 1.05rem; margin: 0; font-weight: 600; }
+  header.kopf button {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  header.kopf button:hover { background: rgba(255,255,255,0.15); }
+
+  main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+
+  .karte {
+    background: var(--karte);
+    border: 1px solid var(--rand);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* --- Login --- */
+  #login-ansicht { max-width: 360px; margin: 3.5rem auto; }
+  #login-ansicht h2 { margin-top: 0; }
+  #login-ansicht input[type="password"] {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--rand);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin: 0.75rem 0;
+  }
+  #login-ansicht button {
+    width: 100%;
+    padding: 0.65rem;
+    background: var(--blau);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  #login-ansicht button:hover { background: var(--blau-hell); }
+
+  /* --- Liste --- */
+  .listen-kopf { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .listen-kopf h2 { margin: 0; font-size: 1.15rem; }
+  button.primaer {
+    background: var(--blau);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.55rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  button.primaer:hover { background: var(--blau-hell); }
+  button.sekundaer {
+    background: #fff;
+    color: var(--blau);
+    border: 1px solid var(--rand);
+    border-radius: 8px;
+    padding: 0.45rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  button.sekundaer:hover { background: #eef2f6; }
+  button.gefahr {
+    background: #fff;
+    color: var(--rot);
+    border: 1px solid #f0c9c6;
+    border-radius: 8px;
+    padding: 0.45rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  button.gefahr:hover { background: #fdf1f0; }
+
+  ul#liste { list-style: none; margin: 0; padding: 0; }
+  ul#liste li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rand);
+  }
+  ul#liste li:last-child { border-bottom: none; }
+  .eintrag-info { display: flex; flex-direction: column; min-width: 0; }
+  .eintrag-titel-zeile { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .eintrag-titel { font-weight: 600; }
+  .eintrag-datum { font-size: 0.8rem; color: var(--text-schwach); }
+  .eintrag-aktionen { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    background: var(--gold-bg);
+    color: var(--gold);
+    border: 1px solid #e7d6a5;
+    letter-spacing: 0.02em;
+  }
+
+  /* --- Editor --- */
+  .editor-kopf { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+  .editor-kopf h2 { margin: 0; font-size: 1.15rem; }
+  .umschalter { display: inline-flex; border: 1px solid var(--rand); border-radius: 8px; overflow: hidden; }
+  .umschalter button {
+    background: #fff;
+    color: var(--blau);
+    border: none;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  .umschalter button + button { border-left: 1px solid var(--rand); }
+  .umschalter button.aktiv { background: var(--blau); color: #fff; }
+
+  label { display: block; font-size: 0.85rem; font-weight: 600; margin: 0.9rem 0 0.3rem; }
+  label .hinweis { font-weight: 400; color: var(--text-schwach); }
+  input[type="text"], input[type="date"], textarea {
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid var(--rand);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .form-aktionen { display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .status { font-size: 0.85rem; margin-top: 0.6rem; min-height: 1.2em; }
+  .status.fehler { color: var(--rot); }
+  .status.erfolg { color: var(--gruen); }
+  .versteckt { display: none !important; }
+  .EasyMDEContainer { margin-top: 0.3rem; }
+
+  /* --- Wiederherstellen-Hinweis (Auto-Speichern) --- */
+  .wiederherstellen {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    background: var(--gold-bg);
+    border: 1px solid #e7d6a5;
+    color: #6b551f;
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    margin: 0.9rem 0 0.2rem;
+    font-size: 0.9rem;
+  }
+  .wiederherstellen .aktionen { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .autospeicher-status { font-size: 0.78rem; color: var(--text-schwach); margin-top: 0.4rem; min-height: 1em; }
+
+  /* --- Vorschau --- */
+  .vorschau-info { font-size: 0.82rem; color: var(--text-schwach); margin: 0 0 0.6rem; }
+  #vorschau-rahmen {
+    width: 100%;
+    height: 70vh;
+    min-height: 420px;
+    border: 1px solid var(--rand);
+    border-radius: 8px;
+    background: #fff;
+  }
+</style>
+</head>
+<body>
+
+<header class="kopf">
+  <h1>Gerüstet für den Tag — Verwaltung</h1>
+  <button id="abmelden-btn" class="versteckt" type="button">Abmelden</button>
+</header>
+
+<main>
+
+  <!-- LOGIN -->
+  <section id="login-ansicht" class="karte">
+    <h2>Anmelden</h2>
+    <p style="color:var(--text-schwach); font-size:0.9rem;">Bitte gib das Admin-Passwort ein.</p>
+    <form id="login-formular">
+      <input type="password" id="passwort-feld" placeholder="Passwort" autocomplete="current-password" required />
+      <button type="submit">Anmelden</button>
+    </form>
+    <p id="login-status" class="status fehler"></p>
+  </section>
+
+  <!-- LISTE -->
+  <section id="listen-ansicht" class="versteckt">
+    <div class="karte">
+      <div class="listen-kopf">
+        <h2>Andachten</h2>
+        <button class="primaer" id="neu-btn" type="button">+ Neue Andacht</button>
+      </div>
+      <p id="liste-status" class="status"></p>
+      <ul id="liste"></ul>
+    </div>
+  </section>
+
+  <!-- EDITOR -->
+  <section id="editor-ansicht" class="versteckt">
+    <div class="karte">
+      <div class="editor-kopf">
+        <h2 id="editor-titel">Neue Andacht</h2>
+        <div class="umschalter" role="tablist">
+          <button type="button" id="tab-bearbeiten" class="aktiv">Bearbeiten</button>
+          <button type="button" id="tab-vorschau">Vorschau</button>
+        </div>
+      </div>
+
+      <!-- Hinweis auf einen automatisch gesicherten (noch nicht gespeicherten) Stand -->
+      <div id="wiederherstellen-hinweis" class="wiederherstellen versteckt">
+        <span id="wiederherstellen-text">Es gibt einen automatisch gesicherten Stand.</span>
+        <div class="aktionen">
+          <button type="button" class="sekundaer" id="wiederherstellen-btn">Weiterschreiben</button>
+          <button type="button" class="gefahr" id="verwerfen-btn">Verwerfen</button>
+        </div>
+      </div>
+
+      <!-- Formular -->
+      <form id="editor-formular">
+        <label for="feld-datum">Datum</label>
+        <input type="date" id="feld-datum" required />
+
+        <label for="feld-titel">Titel</label>
+        <input type="text" id="feld-titel" required />
+
+        <label for="feld-losung">Losung / Bibelvers <span class="hinweis">(wörtliches Zitat)</span></label>
+        <input type="text" id="feld-losung" placeholder="„…“" />
+
+        <label for="feld-stelle">Bibelstelle</label>
+        <input type="text" id="feld-stelle" placeholder="z. B. Johannes 3,16" />
+
+        <label for="feld-beschreibung">Kurzbeschreibung <span class="hinweis">(für Google & geteilte Links)</span></label>
+        <textarea id="feld-beschreibung" rows="2"></textarea>
+
+        <label for="feld-schlagwoerter">Schlagwörter <span class="hinweis">(durch Komma getrennt, optional)</span></label>
+        <input type="text" id="feld-schlagwoerter" placeholder="z. B. Glaube, Vertrauen" />
+
+        <label for="feld-inhalt">Andachtstext</label>
+        <textarea id="feld-inhalt" rows="12"></textarea>
+
+        <div class="form-aktionen">
+          <button type="button" class="primaer" id="veroeffentlichen-btn">Veröffentlichen</button>
+          <button type="button" class="sekundaer" id="entwurf-btn">Als Entwurf speichern</button>
+          <button type="button" class="sekundaer" id="abbrechen-btn">Abbrechen</button>
+          <button type="button" class="gefahr versteckt" id="loeschen-btn">Löschen</button>
+        </div>
+        <p id="autospeicher-status" class="autospeicher-status"></p>
+        <p id="editor-status" class="status"></p>
+      </form>
+
+      <!-- Vorschau -->
+      <div id="vorschau-bereich" class="versteckt">
+        <p class="vorschau-info">So sieht die Andacht später auf der Seite aus (annähernd – der endgültige Zeilenumbruch kann minimal abweichen).</p>
+        <iframe id="vorschau-rahmen" title="Vorschau der Andacht"></iframe>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var loginAnsicht = document.getElementById("login-ansicht");
+  var listenAnsicht = document.getElementById("listen-ansicht");
+  var editorAnsicht = document.getElementById("editor-ansicht");
+  var abmeldenBtn = document.getElementById("abmelden-btn");
+
+  var formular = document.getElementById("editor-formular");
+  var vorschauBereich = document.getElementById("vorschau-bereich");
+  var tabBearbeiten = document.getElementById("tab-bearbeiten");
+  var tabVorschau = document.getElementById("tab-vorschau");
+  var autospeicherStatus = document.getElementById("autospeicher-status");
+  var wiederherstellenHinweis = document.getElementById("wiederherstellen-hinweis");
+
+  var feldDatum = document.getElementById("feld-datum");
+  var feldTitel = document.getElementById("feld-titel");
+  var feldLosung = document.getElementById("feld-losung");
+  var feldStelle = document.getElementById("feld-stelle");
+  var feldBeschreibung = document.getElementById("feld-beschreibung");
+  var feldSchlagwoerter = document.getElementById("feld-schlagwoerter");
+
+  var mde = null;
+  var aktuellerEintrag = null; // { datei, sha } beim Bearbeiten, sonst null
+  var fuelleGerade = false;    // unterdrückt Auto-Speichern beim programmatischen Befüllen
+  var serverZustand = null;    // Vergleichsstand der zuletzt geladenen Andacht
+  var speicherTimer = null;
+
+  function zeigeNur(el) {
+    [loginAnsicht, listenAnsicht, editorAnsicht].forEach(function (e) {
+      if (e === el) e.classList.remove("versteckt");
+      else e.classList.add("versteckt");
+    });
+  }
+
+  function heute() {
+    var d = new Date();
+    var m = String(d.getMonth() + 1).padStart(2, "0");
+    var t = String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + m + "-" + t;
+  }
+
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  async function api(pfad, optionen) {
+    var res = await fetch(pfad, Object.assign({ headers: { "Content-Type": "application/json" } }, optionen));
+    var daten = null;
+    try { daten = await res.json(); } catch (e) { /* leere Antwort */ }
+    if (!res.ok) {
+      var meldung = (daten && daten.error) || ("Fehler " + res.status);
+      throw new Error(meldung);
+    }
+    return daten;
+  }
+
+  // --- Login ---
+  document.getElementById("login-formular").addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    var status = document.getElementById("login-status");
+    status.textContent = "";
+    var passwort = document.getElementById("passwort-feld").value;
+    try {
+      await api("/api/login", { method: "POST", body: JSON.stringify({ passwort: passwort }) });
+      document.getElementById("passwort-feld").value = "";
+      abmeldenBtn.classList.remove("versteckt");
+      await ladeListe();
+    } catch (e) {
+      status.textContent = e.message;
+    }
+  });
+
+  abmeldenBtn.addEventListener("click", async function () {
+    try { await api("/api/logout", { method: "POST" }); } catch (e) {}
+    abmeldenBtn.classList.add("versteckt");
+    zeigeNur(loginAnsicht);
+  });
+
+  // --- Liste ---
+  async function ladeListe() {
+    var status = document.getElementById("liste-status");
+    var liste = document.getElementById("liste");
+    liste.innerHTML = "";
+    status.textContent = "Lade …";
+    try {
+      var daten = await api("/api/andachten");
+      status.textContent = daten.eintraege.length ? "" : "Noch keine Andachten vorhanden.";
+      daten.eintraege.forEach(function (e) {
+        var li = document.createElement("li");
+
+        var info = document.createElement("div");
+        info.className = "eintrag-info";
+
+        var titelZeile = document.createElement("div");
+        titelZeile.className = "eintrag-titel-zeile";
+        var titel = document.createElement("span");
+        titel.className = "eintrag-titel";
+        titel.textContent = e.titel;
+        titelZeile.appendChild(titel);
+        if (e.entwurf) {
+          var badge = document.createElement("span");
+          badge.className = "badge";
+          badge.textContent = "Entwurf";
+          titelZeile.appendChild(badge);
+        }
+
+        var datum = document.createElement("span");
+        datum.className = "eintrag-datum";
+        datum.textContent = e.datum;
+        info.appendChild(titelZeile);
+        info.appendChild(datum);
+
+        var aktionen = document.createElement("div");
+        aktionen.className = "eintrag-aktionen";
+        var bearbeiten = document.createElement("button");
+        bearbeiten.className = "sekundaer";
+        bearbeiten.type = "button";
+        bearbeiten.textContent = "Bearbeiten";
+        bearbeiten.addEventListener("click", function () { oeffneEditor(e.datei); });
+        aktionen.appendChild(bearbeiten);
+
+        li.appendChild(info);
+        li.appendChild(aktionen);
+        liste.appendChild(li);
+      });
+      zeigeNur(listenAnsicht);
+      abmeldenBtn.classList.remove("versteckt");
+    } catch (e) {
+      if (String(e.message).indexOf("angemeldet") !== -1) {
+        zeigeNur(loginAnsicht);
+      } else {
+        status.textContent = e.message;
+        zeigeNur(listenAnsicht);
+      }
+    }
+  }
+
+  document.getElementById("neu-btn").addEventListener("click", function () { oeffneEditor(null); });
+  document.getElementById("abbrechen-btn").addEventListener("click", function () { ladeListe(); });
+
+  // --- Auto-Speichern (im Browser) ---
+  function autospeicherSchluessel() {
+    return "gdft:auto:" + (aktuellerEintrag ? aktuellerEintrag.datei : "neu");
+  }
+
+  function sammleFormular() {
+    return {
+      datum: feldDatum.value,
+      titel: feldTitel.value,
+      losung: feldLosung.value,
+      stelle: feldStelle.value,
+      beschreibung: feldBeschreibung.value,
+      schlagwoerter: feldSchlagwoerter.value,
+      inhalt: mde ? mde.value() : "",
+    };
+  }
+
+  function hatInhalt(z) {
+    if (!z) return false;
+    return Boolean((z.titel && z.titel.trim()) || (z.inhalt && z.inhalt.trim()) ||
+      (z.losung && z.losung.trim()) || (z.stelle && z.stelle.trim()));
+  }
+
+  function ladeLokal(schluessel) {
+    try {
+      var roh = localStorage.getItem(schluessel);
+      return roh ? JSON.parse(roh) : null;
+    } catch (e) { return null; }
+  }
+
+  function loescheLokal(schluessel) {
+    try { localStorage.removeItem(schluessel); } catch (e) {}
+  }
+
+  function speichereLokalJetzt() {
+    if (fuelleGerade) return;
+    try {
+      localStorage.setItem(autospeicherSchluessel(), JSON.stringify({ stand: sammleFormular(), ts: Date.now() }));
+      var zeit = new Date();
+      autospeicherStatus.textContent = "Automatisch gesichert um " +
+        String(zeit.getHours()).padStart(2, "0") + ":" + String(zeit.getMinutes()).padStart(2, "0") + " Uhr.";
+    } catch (e) { /* localStorage evtl. nicht verfügbar */ }
+  }
+
+  function planeSpeichern() {
+    if (fuelleGerade) return;
+    clearTimeout(speicherTimer);
+    speicherTimer = setTimeout(speichereLokalJetzt, 800);
+  }
+
+  function fuelleFormular(z) {
+    fuelleGerade = true;
+    feldDatum.value = z.datum || heute();
+    feldTitel.value = z.titel || "";
+    feldLosung.value = z.losung || "";
+    feldStelle.value = z.stelle || "";
+    feldBeschreibung.value = z.beschreibung || "";
+    feldSchlagwoerter.value = z.schlagwoerter || "";
+    if (mde) mde.value(z.inhalt || "");
+    fuelleGerade = false;
+  }
+
+  // --- Editor ---
+  function stelleEditorSicher() {
+    if (mde) return mde;
+    mde = new EasyMDE({
+      element: document.getElementById("feld-inhalt"),
+      spellChecker: false,
+      status: false,
+      placeholder: "Text der Andacht … (Formatierung über die Symbolleiste)",
+      toolbar: [
+        "bold", "italic", "heading", "|",
+        "quote", "unordered-list", "ordered-list", "|",
+        "link", "|",
+        "guide"
+      ],
+    });
+    mde.codemirror.on("change", planeSpeichern);
+    return mde;
+  }
+
+  // Eingaben in den normalen Feldern ebenfalls automatisch sichern
+  [feldDatum, feldTitel, feldLosung, feldStelle, feldBeschreibung, feldSchlagwoerter].forEach(function (feld) {
+    feld.addEventListener("input", planeSpeichern);
+  });
+
+  // Vor dem Verlassen der Seite den aktuellen Stand sichern
+  window.addEventListener("beforeunload", function () {
+    if (!editorAnsicht.classList.contains("versteckt")) speichereLokalJetzt();
+  });
+
+  function zeigeWiederherstellen(text, stand) {
+    document.getElementById("wiederherstellen-text").textContent = text;
+    wiederherstellenHinweis.classList.remove("versteckt");
+    document.getElementById("wiederherstellen-btn").onclick = function () {
+      fuelleFormular(stand);
+      wiederherstellenHinweis.classList.add("versteckt");
+      speichereLokalJetzt();
+    };
+    document.getElementById("verwerfen-btn").onclick = function () {
+      loescheLokal(autospeicherSchluessel());
+      wiederherstellenHinweis.classList.add("versteckt");
+      autospeicherStatus.textContent = "";
+    };
+  }
+
+  async function oeffneEditor(datei) {
+    var status = document.getElementById("editor-status");
+    status.textContent = "";
+    status.className = "status";
+    autospeicherStatus.textContent = "";
+    wiederherstellenHinweis.classList.add("versteckt");
+    document.getElementById("loeschen-btn").classList.add("versteckt");
+    zeigeBearbeiten();
+
+    stelleEditorSicher();
+
+    if (!datei) {
+      // Neue Andacht
+      aktuellerEintrag = null;
+      document.getElementById("editor-titel").textContent = "Neue Andacht";
+      fuelleFormular({ datum: heute() });
+      serverZustand = null;
+      zeigeNur(editorAnsicht);
+
+      var gesichertNeu = ladeLokal(autospeicherSchluessel());
+      if (gesichertNeu && hatInhalt(gesichertNeu.stand)) {
+        zeigeWiederherstellen("Es gibt einen nicht gespeicherten Entwurf. Weiterschreiben?", gesichertNeu.stand);
+      }
+      return;
+    }
+
+    try {
+      var e = await api("/api/andachten?datei=" + encodeURIComponent(datei));
+      aktuellerEintrag = { datei: e.datei, sha: e.sha };
+      document.getElementById("editor-titel").textContent = e.entwurf ? "Entwurf bearbeiten" : "Andacht bearbeiten";
+      fuelleFormular({
+        datum: e.datum || heute(),
+        titel: e.titel || "",
+        losung: e.losung || "",
+        stelle: e.stelle || "",
+        beschreibung: e.beschreibung || "",
+        schlagwoerter: (e.schlagwoerter || []).join(", "),
+        inhalt: e.inhalt || "",
+      });
+      serverZustand = JSON.stringify(sammleFormular());
+      document.getElementById("loeschen-btn").classList.remove("versteckt");
+      zeigeNur(editorAnsicht);
+
+      // Lokal gesicherte, noch nicht gespeicherte Änderungen anbieten
+      var gesichert = ladeLokal(autospeicherSchluessel());
+      if (gesichert && JSON.stringify(gesichert.stand) !== serverZustand) {
+        zeigeWiederherstellen("Es gibt lokale, noch nicht gespeicherte Änderungen. Wiederherstellen?", gesichert.stand);
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  // --- Vorschau ---
+  function zeigeBearbeiten() {
+    tabBearbeiten.classList.add("aktiv");
+    tabVorschau.classList.remove("aktiv");
+    formular.classList.remove("versteckt");
+    vorschauBereich.classList.add("versteckt");
+  }
+
+  function formatiereDatum(iso) {
+    if (!iso) return "";
+    var d = new Date(iso + "T00:00:00");
+    if (isNaN(d.getTime())) return iso;
+    try {
+      return new Intl.DateTimeFormat("de-DE", {
+        weekday: "long", day: "numeric", month: "long", year: "numeric",
+      }).format(d);
+    } catch (e) { return iso; }
+  }
+
+  function baueVorschauHTML() {
+    var titel = feldTitel.value.trim() || "(ohne Titel)";
+    var losung = feldLosung.value.trim();
+    var stelle = feldStelle.value.trim();
+    var datumText = formatiereDatum(feldDatum.value);
+    var textHTML = "";
+    try { textHTML = marked.parse(mde ? mde.value() : ""); } catch (e) { textHTML = ""; }
+
+    var losungHTML = "";
+    if (losung) {
+      losungHTML = '<p class="andacht__losung">' + escapeHTML(losung) +
+        (stelle ? ' <span class="andacht__stelle">(' + escapeHTML(stelle) + ')</span>' : "") + "</p>";
+    }
+
+    return [
+      '<!doctype html><html lang="de"><head><meta charset="utf-8">',
+      '<meta name="viewport" content="width=device-width, initial-scale=1">',
+      '<link rel="preconnect" href="https://fonts.googleapis.com">',
+      '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
+      '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">',
+      '<link rel="stylesheet" href="/css/style.css">',
+      "<style>body{margin:0}</style>",
+      '</head><body><main class="inhalt">',
+      '<article class="andacht"><header class="andacht__kopf">',
+      '<p class="andacht__datum"><time>' + escapeHTML(datumText) + "</time></p>",
+      '<h1 class="andacht__titel">' + escapeHTML(titel) + "</h1>",
+      losungHTML,
+      '</header><div class="andacht__text">' + textHTML + "</div>",
+      "</article></main></body></html>",
+    ].join("");
+  }
+
+  function zeigeVorschau() {
+    tabVorschau.classList.add("aktiv");
+    tabBearbeiten.classList.remove("aktiv");
+    formular.classList.add("versteckt");
+    vorschauBereich.classList.remove("versteckt");
+    document.getElementById("vorschau-rahmen").srcdoc = baueVorschauHTML();
+  }
+
+  tabBearbeiten.addEventListener("click", zeigeBearbeiten);
+  tabVorschau.addEventListener("click", zeigeVorschau);
+
+  // --- Speichern (Entwurf oder Veröffentlichen) ---
+  async function speichern(alsEntwurf) {
+    var status = document.getElementById("editor-status");
+    var daten = {
+      datum: feldDatum.value,
+      titel: feldTitel.value.trim(),
+      losung: feldLosung.value.trim(),
+      stelle: feldStelle.value.trim(),
+      beschreibung: feldBeschreibung.value.trim(),
+      schlagwoerter: feldSchlagwoerter.value.split(",").map(function (s) { return s.trim(); }).filter(Boolean),
+      inhalt: mde ? mde.value() : "",
+      entwurf: alsEntwurf,
+    };
+
+    if (!daten.titel) {
+      status.textContent = "Bitte zuerst einen Titel eingeben.";
+      status.className = "status fehler";
+      return;
+    }
+    if (!alsEntwurf && !daten.inhalt.trim()) {
+      status.textContent = "Zum Veröffentlichen bitte einen Andachtstext schreiben (oder erst als Entwurf speichern).";
+      status.className = "status fehler";
+      return;
+    }
+
+    status.textContent = "Speichere …";
+    status.className = "status";
+
+    var alterSchluessel = autospeicherSchluessel();
+    try {
+      if (aktuellerEintrag) {
+        daten.datei = aktuellerEintrag.datei;
+        daten.sha = aktuellerEintrag.sha;
+        await api("/api/andachten", { method: "PUT", body: JSON.stringify(daten) });
+      } else {
+        await api("/api/andachten", { method: "POST", body: JSON.stringify(daten) });
+      }
+      // Auto-Speicher-Stände aufräumen
+      loescheLokal(alterSchluessel);
+      loescheLokal("gdft:auto:neu");
+
+      if (alsEntwurf) {
+        status.textContent = "Als Entwurf gespeichert (noch nicht öffentlich sichtbar).";
+      } else {
+        status.textContent = "Veröffentlicht. Die Seite baut jetzt neu (kann 1–2 Minuten dauern).";
+      }
+      status.className = "status erfolg";
+      setTimeout(ladeListe, 1200);
+    } catch (err) {
+      status.textContent = err.message;
+      status.className = "status fehler";
+    }
+  }
+
+  document.getElementById("veroeffentlichen-btn").addEventListener("click", function () { speichern(false); });
+  document.getElementById("entwurf-btn").addEventListener("click", function () { speichern(true); });
+
+  document.getElementById("loeschen-btn").addEventListener("click", async function () {
+    if (!aktuellerEintrag) return;
+    if (!confirm("Diese Andacht wirklich endgültig löschen?")) return;
+    var status = document.getElementById("editor-status");
+    try {
+      await api("/api/andachten", {
+        method: "DELETE",
+        body: JSON.stringify({ datei: aktuellerEintrag.datei, sha: aktuellerEintrag.sha }),
+      });
+      loescheLokal(autospeicherSchluessel());
+      ladeListe();
+    } catch (err) {
+      status.textContent = err.message;
+      status.className = "status fehler";
+    }
+  });
+
+  // Beim Laden direkt prüfen, ob bereits eine gültige Sitzung besteht.
+  ladeListe();
+})();
+</script>
+
+</body>
+</html>
