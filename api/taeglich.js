@@ -22,6 +22,11 @@ const STATUS_DATEI = "telegram-gesendet.json";
 // Fängt ausgefallene Cron-Läufe (z. B. Wochenende) ab, verhindert aber, dass
 // nachträglich eingepflegte alte Archiv-Andachten den Kanal fluten.
 const MELDE_FENSTER_TAGE = 3;
+// Vor dieser Uhrzeit (deutscher Zeit) wird nichts veröffentlicht/gemeldet.
+// Muss zur gleichen Konstante im Build-Filter passen
+// (src/andachten/andachten.11tydata.js), damit "sichtbar" und "gemeldet"
+// zum selben Zeitpunkt passieren. Siehe auch die zwei Cron-Zeiten in vercel.json.
+const VEROEFFENTLICHUNGS_STUNDE = 6;
 
 // Heutiges Datum als "JJJJ-MM-TT" in deutscher Zeit (Europe/Berlin) – gleiche
 // Logik wie im Build-Filter, damit "fällig" und "sichtbar" zusammenpassen.
@@ -32,6 +37,17 @@ function heuteBerlin() {
     month: "2-digit",
     day: "2-digit",
   }).format(new Date());
+}
+
+// Aktuelle Stunde (0–23) in deutscher Zeit (Europe/Berlin).
+function stundeBerlin() {
+  const teile = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Berlin",
+    hour: "numeric",
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  const stunde = teile.find((t) => t.type === "hour");
+  return stunde ? Number(stunde.value) : 0;
 }
 
 // Kalenderdatum ("JJJJ-MM-TT") um eine Anzahl Tage verschieben (reine Datumsmathematik).
@@ -76,17 +92,11 @@ function andachtUrl(datum, slug) {
   return `${basisUrl()}/andachten/${datum}/${slug}/`;
 }
 
-// Telegram-Nachricht für eine Andacht bauen.
+// Telegram-Nachricht für eine Andacht bauen: nur der Titel, darunter der Link
+// (Telegram zeigt darüber automatisch eine Vorschaukarte der Seite).
 function baueNachricht({ datum, slug, felder }) {
   const titel = felder.titel || slug;
-  const zeilen = [`🕊️ Neue Andacht: ${titel}`];
-  if (felder.losung) {
-    zeilen.push("");
-    zeilen.push(felder.stelle ? `${felder.losung} (${felder.stelle})` : String(felder.losung));
-  }
-  zeilen.push("");
-  zeilen.push(andachtUrl(datum, slug));
-  return zeilen.join("\n");
+  return `${titel}\n${andachtUrl(datum, slug)}`;
 }
 
 // Status (bereits gemeldete Dateinamen) laden.
@@ -202,6 +212,23 @@ function autorisiert(req) {
 module.exports = async (req, res) => {
   if (!autorisiert(req)) {
     res.status(401).json({ error: "Nicht autorisiert." });
+    return;
+  }
+
+  // Uhrzeit-Sperre: erst ab 6 Uhr deutscher Zeit veröffentlichen/melden. Die
+  // zwei Cron-Zeiten (04:00 & 05:00 UTC) sorgen dafür, dass ganzjährig – trotz
+  // Sommer-/Winterzeit – genau ein Lauf in die 6-Uhr-Stunde deutscher Zeit
+  // fällt; der jeweils andere Lauf wird hier abgewiesen. Mit ?force=1 (nur
+  // manuell, geschützt durch CRON_SECRET) lässt sich die Sperre zum Testen
+  // umgehen.
+  const erzwingen = req.query && (req.query.force === "1" || req.query.force === "true");
+  if (!erzwingen && stundeBerlin() < VEROEFFENTLICHUNGS_STUNDE) {
+    res.status(200).json({
+      ok: true,
+      uebersprungen: true,
+      grund: `Vor ${VEROEFFENTLICHUNGS_STUNDE} Uhr (deutscher Zeit) – nichts zu tun.`,
+      stundeBerlin: stundeBerlin(),
+    });
     return;
   }
 

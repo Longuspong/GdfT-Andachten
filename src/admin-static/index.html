@@ -200,6 +200,72 @@
     border-radius: 8px;
     background: #fff;
   }
+
+  /* --- Warnung: Datum schon belegt --- */
+  .datum-warnung {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    background: var(--gold-bg);
+    border: 1px solid #e7d6a5;
+    color: #6b551f;
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    margin: 0.5rem 0 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  /* --- Mini-Kalender in der Datumsauswahl --- */
+  .kalender {
+    margin-top: 0.6rem;
+    border: 1px solid var(--rand);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem;
+    background: #fbfcfd;
+  }
+  .kalender-kopf { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .kalender-kopf button {
+    background: #fff;
+    border: 1px solid var(--rand);
+    border-radius: 6px;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--blau);
+  }
+  .kalender-kopf button:hover { background: #eef2f6; }
+  .kalender-monat { font-weight: 600; font-size: 0.92rem; }
+  .kalender-gitter { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .kalender-wochentag { text-align: center; font-size: 0.68rem; color: var(--text-schwach); padding: 0.15rem 0; font-weight: 600; }
+  .kalender-tag { position: relative; }
+  .kalender-tag button {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .kalender-tag button:hover { background: #eef2f6; }
+  .kalender-tag.heute button { border-color: var(--blau); font-weight: 600; }
+  .kalender-tag.gewaehlt button { background: var(--blau); color: #fff; }
+  .kalender-punkte { position: absolute; bottom: 3px; left: 0; right: 0; display: flex; gap: 2px; justify-content: center; }
+  .kalender-punkt { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+  .kalender-punkt.veroeff { background: var(--gruen); }
+  .kalender-punkt.entwurf { background: var(--gold); }
+  .kalender-legende { display: flex; gap: 1rem; margin-top: 0.55rem; font-size: 0.72rem; color: var(--text-schwach); }
+  .kalender-legende span { display: inline-flex; align-items: center; gap: 0.35rem; }
 </style>
 </head>
 <body>
@@ -256,8 +322,28 @@
 
       <!-- Formular -->
       <form id="editor-formular">
-        <label for="feld-datum">Datum <span class="hinweis">(ein zukünftiges Datum = erscheint erst an diesem Tag)</span></label>
+        <label for="feld-datum">Datum <span class="hinweis">(ein zukünftiges Datum = erscheint erst an diesem Tag, morgens um 6 Uhr)</span></label>
         <input type="date" id="feld-datum" required />
+
+        <!-- Hinweis, wenn für den gewählten Tag schon eine Andacht/ein Entwurf existiert -->
+        <div id="datum-warnung" class="datum-warnung versteckt">
+          <span id="datum-warnung-text"></span>
+          <button type="button" class="sekundaer" id="datum-warnung-btn">Öffnen</button>
+        </div>
+
+        <!-- Mini-Kalender: belegte Tage sind markiert; ein Klick wählt den Tag -->
+        <div class="kalender" id="kalender">
+          <div class="kalender-kopf">
+            <button type="button" id="kal-zurueck" aria-label="Vorheriger Monat">‹</button>
+            <span class="kalender-monat" id="kal-monat"></span>
+            <button type="button" id="kal-vor" aria-label="Nächster Monat">›</button>
+          </div>
+          <div class="kalender-gitter" id="kal-gitter"></div>
+          <div class="kalender-legende">
+            <span><span class="kalender-punkt veroeff"></span> veröffentlicht</span>
+            <span><span class="kalender-punkt entwurf"></span> Entwurf</span>
+          </div>
+        </div>
 
         <label for="feld-titel">Titel</label>
         <input type="text" id="feld-titel" required />
@@ -322,11 +408,19 @@
   var feldBeschreibung = document.getElementById("feld-beschreibung");
   var feldSchlagwoerter = document.getElementById("feld-schlagwoerter");
 
+  var datumWarnung = document.getElementById("datum-warnung");
+  var datumWarnungText = document.getElementById("datum-warnung-text");
+  var datumWarnungBtn = document.getElementById("datum-warnung-btn");
+  var kalMonatLabel = document.getElementById("kal-monat");
+  var kalGitter = document.getElementById("kal-gitter");
+
   var mde = null;
   var aktuellerEintrag = null; // { datei, sha } beim Bearbeiten, sonst null
   var fuelleGerade = false;    // unterdrückt Auto-Speichern beim programmatischen Befüllen
   var serverZustand = null;    // Vergleichsstand der zuletzt geladenen Andacht
   var speicherTimer = null;
+  var alleAndachten = [];      // zuletzt geladene Liste (für Kalender & Doppel-Warnung)
+  var kalenderMonat = null;    // im Kalender angezeigter Monat (erster Tag, lokales Date)
 
   function zeigeNur(el) {
     [loginAnsicht, listenAnsicht, editorAnsicht].forEach(function (e) {
@@ -389,6 +483,7 @@
     status.textContent = "Lade …";
     try {
       var daten = await api("/api/andachten");
+      alleAndachten = daten.eintraege || [];
       status.textContent = daten.eintraege.length ? "" : "Noch keine Andachten vorhanden.";
       daten.eintraege.forEach(function (e) {
         var li = document.createElement("li");
@@ -505,6 +600,119 @@
     fuelleGerade = false;
   }
 
+  // --- Kalender & Doppel-Warnung ---
+
+  // Belegte Tage: Datum -> { veroeff, entwurf, eintraege:[{datei,titel,entwurf}] }
+  function belegtMap() {
+    var map = {};
+    alleAndachten.forEach(function (e) {
+      if (!e.datum) return;
+      if (!map[e.datum]) map[e.datum] = { veroeff: false, entwurf: false, eintraege: [] };
+      map[e.datum].eintraege.push({ datei: e.datei, titel: e.titel, entwurf: e.entwurf });
+      if (e.entwurf) map[e.datum].entwurf = true; else map[e.datum].veroeff = true;
+    });
+    return map;
+  }
+
+  // Erster Tag des Monats zu einem ISO-Datum (sonst aktueller Monat).
+  function monatAusDatum(iso) {
+    var basis = iso && /^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso : heute();
+    var t = basis.split("-");
+    return new Date(Number(t[0]), Number(t[1]) - 1, 1);
+  }
+
+  function isoAusTeilen(jahr, monat0, tag) {
+    return jahr + "-" + String(monat0 + 1).padStart(2, "0") + "-" + String(tag).padStart(2, "0");
+  }
+
+  function renderKalender() {
+    if (!kalenderMonat) kalenderMonat = monatAusDatum(feldDatum.value);
+    var jahr = kalenderMonat.getFullYear();
+    var monat = kalenderMonat.getMonth();
+    kalMonatLabel.textContent = new Intl.DateTimeFormat("de-DE", { month: "long", year: "numeric" }).format(kalenderMonat);
+
+    var belegt = belegtMap();
+    var heuteStr = heute();
+    var gewaehlt = feldDatum.value;
+    var wochentage = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+    var html = "";
+    wochentage.forEach(function (w) { html += '<div class="kalender-wochentag">' + w + "</div>"; });
+
+    // Wochenbeginn Montag: Sonntag(0) -> 6, Montag(1) -> 0 …
+    var start = (new Date(jahr, monat, 1).getDay() + 6) % 7;
+    for (var i = 0; i < start; i++) html += '<div class="kalender-tag leer"></div>';
+
+    var tageImMonat = new Date(jahr, monat + 1, 0).getDate();
+    for (var t = 1; t <= tageImMonat; t++) {
+      var iso = isoAusTeilen(jahr, monat, t);
+      var info = belegt[iso];
+      var klassen = ["kalender-tag"];
+      if (iso === heuteStr) klassen.push("heute");
+      if (iso === gewaehlt) klassen.push("gewaehlt");
+      var punkte = "";
+      var titelAttr = "";
+      if (info) {
+        if (info.veroeff) punkte += '<span class="kalender-punkt veroeff"></span>';
+        if (info.entwurf) punkte += '<span class="kalender-punkt entwurf"></span>';
+        titelAttr = ' title="' + escapeHTML(info.eintraege.map(function (e) {
+          return e.titel + (e.entwurf ? " (Entwurf)" : "");
+        }).join(", ")) + '"';
+      }
+      html += '<div class="' + klassen.join(" ") + '">' +
+        '<button type="button" data-datum="' + iso + '"' + titelAttr + ">" + t +
+        (punkte ? '<span class="kalender-punkte">' + punkte + "</span>" : "") +
+        "</button></div>";
+    }
+    kalGitter.innerHTML = html;
+  }
+
+  // Warnung anzeigen, wenn für das gewählte Datum schon (andere) Andachten existieren.
+  function pruefeDatumBelegt() {
+    var iso = feldDatum.value;
+    var info = belegtMap()[iso];
+    var andere = info ? info.eintraege.filter(function (e) {
+      return !(aktuellerEintrag && e.datei === aktuellerEintrag.datei);
+    }) : [];
+    if (!andere.length) { datumWarnung.classList.add("versteckt"); return; }
+    var erste = andere[0];
+    var art = erste.entwurf ? "einen Entwurf" : "eine veröffentlichte Andacht";
+    var mehr = andere.length > 1 ? " (und " + (andere.length - 1) + " weitere)" : "";
+    datumWarnungText.textContent = "Achtung: Für den " + formatiereDatum(iso) +
+      " gibt es bereits " + art + ": „" + erste.titel + "“" + mehr + ".";
+    datumWarnungBtn.textContent = erste.entwurf ? "Entwurf ansehen" : "Andacht ansehen";
+    datumWarnungBtn.onclick = function () { oeffneEditor(erste.datei); };
+    datumWarnung.classList.remove("versteckt");
+  }
+
+  // Kalender + Warnung an das aktuell gewählte Datum angleichen.
+  function aktualisiereDatumsansicht() {
+    kalenderMonat = monatAusDatum(feldDatum.value);
+    renderKalender();
+    pruefeDatumBelegt();
+  }
+
+  // Native Datumsauswahl -> Kalender/Warnung nachziehen.
+  feldDatum.addEventListener("change", aktualisiereDatumsansicht);
+
+  // Klick auf einen Tag im Kalender wählt das Datum.
+  kalGitter.addEventListener("click", function (ev) {
+    var knopf = ev.target.closest("button[data-datum]");
+    if (!knopf) return;
+    feldDatum.value = knopf.getAttribute("data-datum");
+    renderKalender();
+    pruefeDatumBelegt();
+    planeSpeichern();
+  });
+
+  document.getElementById("kal-zurueck").addEventListener("click", function () {
+    kalenderMonat = new Date(kalenderMonat.getFullYear(), kalenderMonat.getMonth() - 1, 1);
+    renderKalender();
+  });
+  document.getElementById("kal-vor").addEventListener("click", function () {
+    kalenderMonat = new Date(kalenderMonat.getFullYear(), kalenderMonat.getMonth() + 1, 1);
+    renderKalender();
+  });
+
   // --- Editor ---
   function stelleEditorSicher() {
     if (mde) return mde;
@@ -565,6 +773,7 @@
       aktuellerEintrag = null;
       document.getElementById("editor-titel").textContent = "Neue Andacht";
       fuelleFormular({ datum: heute() });
+      aktualisiereDatumsansicht();
       serverZustand = null;
       zeigeNur(editorAnsicht);
 
@@ -588,6 +797,7 @@
         schlagwoerter: (e.schlagwoerter || []).join(", "),
         inhalt: e.inhalt || "",
       });
+      aktualisiereDatumsansicht();
       serverZustand = JSON.stringify(sammleFormular());
       document.getElementById("loeschen-btn").classList.remove("versteckt");
       zeigeNur(editorAnsicht);

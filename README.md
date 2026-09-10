@@ -97,34 +97,48 @@ Nach dem Eintragen einmal neu deployen. Danach ist `/admin/` einsatzbereit.
 4. Speichern, ins Repository übernehmen (committen) und auf GitHub hochladen (pushen).
    Kurz darauf ist die neue Andacht online.
 
-> **Vorplanen:** Steht das Datum in der **Zukunft**, wird die Andacht bis zu diesem
-> Tag automatisch **versteckt** (keine Seite, nicht im Archiv, Feed oder auf der
-> Startseite) und erscheint dann von selbst an ihrem Datum. Du kannst sie also
-> heute schreiben und „veröffentlichen“, sichtbar wird sie erst am gewählten Tag.
-> Wie das technisch funktioniert (und was einmalig in Vercel einzurichten ist),
-> steht im Abschnitt [„Vorplanen & Benachrichtigung“](#vorplanen--benachrichtigung).
+> **Vorplanen:** Steht das Datum in der **Zukunft**, wird die Andacht bis dahin
+> automatisch **versteckt** (keine Seite, nicht im Archiv, Feed oder auf der
+> Startseite) und erscheint dann von selbst an ihrem Tag **morgens um 6 Uhr**
+> (deutscher Zeit). Du kannst sie also heute schreiben und „veröffentlichen“,
+> sichtbar wird sie erst am gewählten Tag um 6 Uhr. Wie das technisch funktioniert
+> (und was einmalig in Vercel einzurichten ist), steht im Abschnitt
+> [„Vorplanen & Benachrichtigung“](#vorplanen--benachrichtigung).
+>
+> Im Admin-Bereich zeigt ein **Mini-Kalender** unter dem Datumsfeld, an welchen
+> Tagen schon etwas hinterlegt ist (grün = veröffentlicht, gold = Entwurf); ein
+> Klick wählt den Tag. Ist der gewählte Tag bereits belegt, erscheint ein Hinweis
+> mit einem Knopf, um die vorhandene Andacht bzw. den Entwurf direkt zu öffnen.
 
 ---
 
 ## Vorplanen & Benachrichtigung
 
 Zwei zusammengehörige Funktionen: Andachten **im Voraus** schreiben und am
-richtigen Tag automatisch erscheinen lassen – und neue Andachten automatisch in
-einen **Telegram-Kanal** posten. Beides läuft über einen kleinen täglichen
-Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den ein **Vercel-Cron-Job**
-(eingetragen in [`vercel.json`](vercel.json)) einmal pro Nacht aufruft
-(standardmäßig 03:00 UTC, also 4–5 Uhr morgens deutscher Zeit).
+richtigen Tag **morgens um 6 Uhr** automatisch erscheinen lassen – und neue
+Andachten automatisch in einen **Telegram-Kanal** posten. Beides läuft über einen
+kleinen Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den zwei
+**Vercel-Cron-Jobs** (eingetragen in [`vercel.json`](vercel.json)) morgens aufrufen.
 
 ### So funktioniert das Vorplanen
 
 - Eine Andacht mit einem Datum **in der Zukunft** wird beim Seitenbau
-  automatisch ausgeblendet (geregelt in
+  automatisch ausgeblendet – und zwar bis zu ihrem Tag um 6 Uhr deutscher Zeit
+  (geregelt in
   [`src/andachten/andachten.11tydata.js`](src/andachten/andachten.11tydata.js)).
 - Weil eine fertig gebaute Seite sich nicht von selbst neu baut, stößt der
-  tägliche Lauf jede Nacht einen **neuen Seitenbau** an. Sobald der gewählte Tag
-  erreicht ist, ist die Andacht nicht mehr „Zukunft“ und erscheint automatisch.
-- Der Tag wird in **deutscher Zeit** (Europe/Berlin) bestimmt – unabhängig davon,
-  dass Vercel intern in UTC rechnet.
+  morgendliche Lauf einen **neuen Seitenbau** an. Ab 6 Uhr am gewählten Tag ist
+  die Andacht nicht mehr „Zukunft“ und erscheint automatisch.
+- Alle Zeiten werden in **deutscher Zeit** (Europe/Berlin) bestimmt – unabhängig
+  davon, dass Vercel intern in UTC rechnet.
+
+**Warum zwei Cron-Zeiten (04:00 und 05:00 UTC)?** Vercel-Cron kennt nur UTC. Wegen
+der Sommer-/Winterzeit entspricht 6 Uhr deutscher Zeit mal 04:00 UTC (Sommer),
+mal 05:00 UTC (Winter). Beide Läufe sind eingetragen; der Code lässt aber nur den
+Lauf durch, der tatsächlich in die 6-Uhr-Stunde deutscher Zeit fällt (der andere
+wird abgewiesen). So wird ganzjährig zuverlässig gegen 6 Uhr veröffentlicht.
+(Hinweis: Vercel löst Cron-Jobs irgendwann **innerhalb** der geplanten Stunde aus,
+die Veröffentlichung liegt also in der 6-Uhr-Stunde, nicht sekundengenau um 6:00.)
 
 **Einmalige Einrichtung in Vercel** (damit der nächtliche Neu-Bau klappt):
 
@@ -142,8 +156,10 @@ Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den ein **Vercel-Cron-Jo
 ### Benachrichtigung per Telegram
 
 Neue Andachten können automatisch in einen Telegram-Kanal gepostet werden –
-genau dann, wenn sie auch auf der Seite fällig werden (also z. B. am vorgeplanten
-Tag). Leser abonnieren einfach den Kanal.
+genau dann, wenn sie auch auf der Seite fällig werden (also am vorgeplanten Tag um
+6 Uhr). Leser abonnieren einfach den Kanal. Die Nachricht enthält bewusst nur den
+**Titel** und den **Link** zur Andacht (Telegram zeigt darüber automatisch eine
+Vorschaukarte).
 
 **Einrichtung:**
 
@@ -174,9 +190,10 @@ Wie es sich merkt, was schon gepostet wurde (ohne Datenbank):
 
 ### Hinweis zum Vercel-Tarif
 
-Geplante Cron-Jobs sind im **Hobby-Tarif** auf **einmal pro Tag** begrenzt – für
-eine tägliche Andacht genau passend. Wird später ein engeres Zeitfenster
-gewünscht, ist ein kostenpflichtiger Tarif nötig.
+Der **Hobby-Tarif** erlaubt **bis zu 2 Cron-Jobs**, jeweils **einmal pro Tag** –
+also genau die beiden hier genutzten Zeiten (04:00 und 05:00 UTC für 6 Uhr
+deutscher Zeit, ganzjährig). Häufigere Zeitpläne (z. B. stündlich) oder eine
+sekundengenaue Auslösung erfordern einen kostenpflichtigen Tarif.
 
 ---
 
