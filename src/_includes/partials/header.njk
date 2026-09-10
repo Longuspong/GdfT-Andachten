@@ -11,9 +11,9 @@
 
     <nav class="nav" aria-label="Hauptnavigation">
       <a href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>Heute</a>
-      <a href="/archiv/"{% if page.url.startsWith("/archiv") %} aria-current="page"{% endif %}>Archiv</a>
-      <a href="/bibel/"{% if page.url.startsWith("/bibel") %} aria-current="page"{% endif %}>Bibel</a>
-      <a href="/ueber/"{% if page.url.startsWith("/ueber") %} aria-current="page"{% endif %}>Über</a>
+      <a href="/archiv/"{% if (page.url or "").startsWith("/archiv") %} aria-current="page"{% endif %}>Archiv</a>
+      <a href="/bibel/"{% if (page.url or "").startsWith("/bibel") %} aria-current="page"{% endif %}>Bibel</a>
+      <a href="/ueber/"{% if (page.url or "").startsWith("/ueber") %} aria-current="page"{% endif %}>Über</a>
     </nav>
 
     {# Schieberegler für den Dunkelmodus (oben rechts). Er zeigt bei hellem

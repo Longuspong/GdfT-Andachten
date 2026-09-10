@@ -9,7 +9,53 @@ Website-Generator) und über **Vercel** veröffentlicht.
 
 ---
 
-## Eine neue Andacht anlegen
+## Andachten im Browser verwalten (Admin-Bereich)
+
+Der einfachste Weg – ganz ohne Dateien, GitHub oder Programme: die Verwaltung
+unter **`/admin/`** (also z. B. `https://gfdt-andachten.de/admin/`).
+
+Dort kannst du dich mit einem Passwort anmelden und Andachten **anlegen,
+bearbeiten und löschen**. Ein eingebauter Text-Editor bietet Knöpfe für
+Fettdruck, Überschriften, Zitate und Listen.
+
+Besonderheiten:
+
+- **Vorschau:** Über den Reiter *Vorschau* siehst du sofort, wie die Andacht
+  später auf der Seite aussieht – ohne sie zu veröffentlichen.
+- **Auto-Speichern:** Während des Schreibens wird dein Text laufend im Browser
+  gesichert. Wenn du unterbrichst oder den Tab schließt, kannst du beim nächsten
+  Öffnen weiterschreiben.
+- **Entwurf oder Veröffentlichen:** *Als Entwurf speichern* legt die Andacht ab,
+  ohne sie öffentlich zu zeigen (in der Liste als „Entwurf“ markiert). Du kannst
+  sie später – auch von einem anderen Gerät – weiterbearbeiten und dann per
+  *Veröffentlichen* live schalten.
+
+Gespeichert wird direkt ins GitHub-Repository; kurz darauf baut Vercel die Seite
+automatisch neu (dauert meist 1–2 Minuten). Es gibt keine zusätzliche Datenbank.
+
+### Einmalige Einrichtung (Zugangsdaten)
+
+Der Admin-Bereich braucht ein paar geheime Werte. Diese werden **nicht** im Code
+gespeichert, sondern in **Vercel → Project Settings → Environment Variables**
+(Vorlage siehe [`.env.example`](.env.example)):
+
+| Variable          | Bedeutung                                                                 |
+| ----------------- | ------------------------------------------------------------------------- |
+| `ADMIN_PASSWORD`  | Das Passwort für den Login unter `/admin/`                                |
+| `SESSION_SECRET`  | Langer Zufallstext zum Signieren der Anmeldung (z. B. `openssl rand -hex 32`) |
+| `GITHUB_TOKEN`    | GitHub-Token (fine-grained), nur dieses Repo, Recht „Contents: Read and write“ |
+| `GITHUB_OWNER`    | GitHub-Benutzer- oder Organisationsname                                    |
+| `GITHUB_REPO`     | Name des Repositories (z. B. `GdfT-Andachten`)                             |
+| `GITHUB_BRANCH`   | Ziel-Branch für Vercel (meist `main`)                                      |
+
+Nach dem Eintragen einmal neu deployen. Danach ist `/admin/` einsatzbereit.
+
+> Der Admin-Bereich ist bewusst für **eine Person mit einem Passwort** gedacht.
+> Er ist nicht öffentlich verlinkt und wird von Suchmaschinen ignoriert.
+
+---
+
+## Eine neue Andacht anlegen (alternativ: direkt als Datei)
 
 1. Gehe in den Ordner [`src/andachten/`](src/andachten/).
 2. Erstelle eine neue Datei nach diesem Namensmuster:
@@ -167,6 +213,7 @@ Wie daraus fertige, veröffentlichte Andachten werden, steht in
 src/
   _data/site.js            Grundeinstellungen (Name, Beschreibung, Adresse …)
   _includes/               Vorlagen (Layouts, Kopf, Fuß)
+  admin-static/index.html  Admin-Oberfläche (erreichbar unter /admin/)
   andachten/               eine Markdown-Datei je Andacht  ← hier schreibst du
   assets/                  Bilder, Logo, Favicon, Vorschaubild (og-bild.jpg)
   css/style.css            Design (mobile first; Farben & Schriften ganz oben)
@@ -177,6 +224,11 @@ src/
   sitemap.njk              erzeugt sitemap.xml (für Suchmaschinen)
   robots.njk               erzeugt robots.txt
   feed.njk                 erzeugt feed.xml (RSS/Atom-Abo)
+api/                       Server-Funktionen für den Admin-Bereich (Vercel)
+  login.js / logout.js     An- und Abmelden
+  andachten.js             Andachten lesen, anlegen, ändern, löschen
+  _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff)
 andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
+.env.example               Vorlage für die Zugangsdaten (in Vercel eintragen)
 vercel.json                Einstellungen für die Veröffentlichung (Vercel)
 ```
