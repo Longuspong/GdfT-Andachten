@@ -256,7 +256,7 @@
 
       <!-- Formular -->
       <form id="editor-formular">
-        <label for="feld-datum">Datum</label>
+        <label for="feld-datum">Datum <span class="hinweis">(ein zukünftiges Datum = erscheint erst an diesem Tag)</span></label>
         <input type="date" id="feld-datum" required />
 
         <label for="feld-titel">Titel</label>
@@ -707,6 +707,8 @@
 
       if (alsEntwurf) {
         status.textContent = "Als Entwurf gespeichert (noch nicht öffentlich sichtbar).";
+      } else if (daten.datum > heute()) {
+        status.textContent = "Gespeichert. Diese Andacht ist vorgeplant und erscheint automatisch am " + formatiereDatum(daten.datum) + ".";
       } else {
         status.textContent = "Veröffentlicht. Die Seite baut jetzt neu (kann 1–2 Minuten dauern).";
       }

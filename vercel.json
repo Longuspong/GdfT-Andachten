@@ -3,5 +3,11 @@
   "framework": "eleventy",
   "buildCommand": "npm run build",
   "outputDirectory": "_site",
-  "trailingSlash": true
+  "trailingSlash": true,
+  "crons": [
+    {
+      "path": "/api/taeglich",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }

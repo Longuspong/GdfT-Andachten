@@ -97,9 +97,86 @@ Nach dem Eintragen einmal neu deployen. Danach ist `/admin/` einsatzbereit.
 4. Speichern, ins Repository übernehmen (committen) und auf GitHub hochladen (pushen).
    Kurz darauf ist die neue Andacht online.
 
-> Tipp: Steht das Datum in der Zukunft, erscheint die Andacht trotzdem sofort, sobald
-> sie hochgeladen ist. Ein „Vorplanen“ auf ein zukünftiges Datum wird derzeit nicht
-> automatisch versteckt – bei Bedarf bauen wir das später ein.
+> **Vorplanen:** Steht das Datum in der **Zukunft**, wird die Andacht bis zu diesem
+> Tag automatisch **versteckt** (keine Seite, nicht im Archiv, Feed oder auf der
+> Startseite) und erscheint dann von selbst an ihrem Datum. Du kannst sie also
+> heute schreiben und „veröffentlichen“, sichtbar wird sie erst am gewählten Tag.
+> Wie das technisch funktioniert (und was einmalig in Vercel einzurichten ist),
+> steht im Abschnitt [„Vorplanen & Benachrichtigung“](#vorplanen--benachrichtigung).
+
+---
+
+## Vorplanen & Benachrichtigung
+
+Zwei zusammengehörige Funktionen: Andachten **im Voraus** schreiben und am
+richtigen Tag automatisch erscheinen lassen – und neue Andachten automatisch in
+einen **Telegram-Kanal** posten. Beides läuft über einen kleinen täglichen
+Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den ein **Vercel-Cron-Job**
+(eingetragen in [`vercel.json`](vercel.json)) einmal pro Nacht aufruft
+(standardmäßig 03:00 UTC, also 4–5 Uhr morgens deutscher Zeit).
+
+### So funktioniert das Vorplanen
+
+- Eine Andacht mit einem Datum **in der Zukunft** wird beim Seitenbau
+  automatisch ausgeblendet (geregelt in
+  [`src/andachten/andachten.11tydata.js`](src/andachten/andachten.11tydata.js)).
+- Weil eine fertig gebaute Seite sich nicht von selbst neu baut, stößt der
+  tägliche Lauf jede Nacht einen **neuen Seitenbau** an. Sobald der gewählte Tag
+  erreicht ist, ist die Andacht nicht mehr „Zukunft“ und erscheint automatisch.
+- Der Tag wird in **deutscher Zeit** (Europe/Berlin) bestimmt – unabhängig davon,
+  dass Vercel intern in UTC rechnet.
+
+**Einmalige Einrichtung in Vercel** (damit der nächtliche Neu-Bau klappt):
+
+1. **Deploy Hook anlegen:** Project Settings → Git → **Deploy Hooks**, Branch
+   `main` wählen, Namen vergeben (z. B. `taeglich`), URL kopieren.
+2. Diese URL als Environment Variable **`DEPLOY_HOOK_URL`** eintragen.
+3. Empfohlen: **`CRON_SECRET`** setzen (z. B. `openssl rand -hex 32`). Vercel
+   schickt diesen Wert beim Cron-Aufruf automatisch mit; nur damit ist der
+   Endpunkt `/api/taeglich` vor fremden Aufrufen geschützt.
+
+> Ohne `DEPLOY_HOOK_URL` bleibt das Vorplanen grundsätzlich erhalten (die Andacht
+> ist weiterhin versteckt), sie erscheint dann aber erst, wenn die Seite aus einem
+> anderen Grund neu gebaut wird (z. B. beim nächsten Speichern im Admin-Bereich).
+
+### Benachrichtigung per Telegram
+
+Neue Andachten können automatisch in einen Telegram-Kanal gepostet werden –
+genau dann, wenn sie auch auf der Seite fällig werden (also z. B. am vorgeplanten
+Tag). Leser abonnieren einfach den Kanal.
+
+**Einrichtung:**
+
+1. In Telegram **@BotFather** öffnen, `/newbot` ausführen, Namen vergeben und das
+   **Bot-Token** kopieren → als Variable **`TELEGRAM_BOT_TOKEN`** eintragen.
+2. Einen **Kanal** anlegen (oder vorhandenen nutzen) und den Bot dort als
+   **Administrator** hinzufügen (mit dem Recht, Nachrichten zu posten).
+3. Das **Ziel** als Variable **`TELEGRAM_CHAT_ID`** eintragen – entweder der
+   öffentliche Kanalname (z. B. `@morgenandachten`) oder die numerische Chat-ID.
+4. Im Footer/auf der „Über“-Seite ist der Kanal bereits verlinkt
+   ([`src/_data/site.js`](src/_data/site.js), Feld `telegram`) – dort ggf. den
+   richtigen Kanal eintragen, damit Besucher ihn finden.
+
+Wie es sich merkt, was schon gepostet wurde (ohne Datenbank):
+
+- Eine kleine Datei **`telegram-gesendet.json`** im Repo (außerhalb von `src/`,
+  also nicht Teil der Website) führt Buch über bereits gemeldete Andachten.
+- Beim **allerersten Lauf** wird der gesamte vorhandene Bestand als „schon
+  bekannt“ verbucht, **ohne** ihn nachträglich zu posten (sonst würde das Archiv
+  den Kanal fluten). Erst danach neu fällige Andachten werden gemeldet.
+- Entwürfe werden nicht gemeldet. Ein ausgefallener Lauf wird bis zu drei Tage
+  später nachgeholt.
+
+> WhatsApp wurde bewusst **nicht** eingebaut: Automatisches Posten ginge dort nur
+> über die kostenpflichtige WhatsApp-Business-API (mit Freigabeprozess);
+> WhatsApp-Kanäle lassen sich nicht automatisiert bespielen. Wer auch WhatsApp
+> möchte, kann die neue Andacht weiterhin von Hand dort teilen.
+
+### Hinweis zum Vercel-Tarif
+
+Geplante Cron-Jobs sind im **Hobby-Tarif** auf **einmal pro Tag** begrenzt – für
+eine tägliche Andacht genau passend. Wird später ein engeres Zeitfenster
+gewünscht, ist ein kostenpflichtiger Tarif nötig.
 
 ---
 
@@ -215,6 +292,7 @@ src/
   _includes/               Vorlagen (Layouts, Kopf, Fuß)
   admin-static/index.html  Admin-Oberfläche (erreichbar unter /admin/)
   andachten/               eine Markdown-Datei je Andacht  ← hier schreibst du
+  andachten/andachten.11tydata.js  blendet Entwürfe & vordatierte Andachten aus
   assets/                  Bilder, Logo, Favicon, Vorschaubild (og-bild.jpg)
   css/style.css            Design (mobile first; Farben & Schriften ganz oben)
   index.njk                Startseite: Andacht des Tages + die fünf „Soli“
@@ -224,11 +302,13 @@ src/
   sitemap.njk              erzeugt sitemap.xml (für Suchmaschinen)
   robots.njk               erzeugt robots.txt
   feed.njk                 erzeugt feed.xml (RSS/Atom-Abo)
-api/                       Server-Funktionen für den Admin-Bereich (Vercel)
+api/                       Server-Funktionen (Vercel)
   login.js / logout.js     An- und Abmelden
   andachten.js             Andachten lesen, anlegen, ändern, löschen
-  _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff)
+  taeglich.js              täglicher Lauf: Neu-Bau anstoßen + Telegram-Meldung
+  _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff, Telegram)
 andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
+telegram-gesendet.json     Merkliste bereits gemeldeter Andachten (automatisch)
 .env.example               Vorlage für die Zugangsdaten (in Vercel eintragen)
 vercel.json                Einstellungen für die Veröffentlichung (Vercel)
 ```
