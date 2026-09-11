@@ -694,6 +694,7 @@
 
   abmeldenBtn.addEventListener("click", async function () {
     try { await api("/api/logout", { method: "POST" }); } catch (e) {}
+    vergissSitzung();
     abmeldenBtn.classList.add("versteckt");
     zeigeNur(loginAnsicht);
   });
@@ -746,8 +747,11 @@
         li.appendChild(aktionen);
         liste.appendChild(li);
       });
-      zeigeNur(listenAnsicht);
       abmeldenBtn.classList.remove("versteckt");
+      // Falls der Editor beim letzten Mal offen war (z. B. mobiler Tab-Reload),
+      // ihn samt gewähltem Datum und Text wiederherstellen statt zur Liste.
+      if (await versucheSitzungWiederherzustellen()) return;
+      zeigeNur(listenAnsicht);
     } catch (e) {
       if (String(e.message).indexOf("angemeldet") !== -1) {
         zeigeNur(loginAnsicht);
@@ -761,6 +765,7 @@
   document.getElementById("neu-btn").addEventListener("click", function () { oeffneEditor(null); });
   document.getElementById("abbrechen-btn").addEventListener("click", function () {
     if (!darfVerlassen()) return;
+    vergissSitzung();
     ladeListe();
   });
 
@@ -787,6 +792,14 @@
       (z.losung && z.losung.trim()) || (z.stelle && z.stelle.trim()));
   }
 
+  // Lohnt es, den Stand nach einem Tab-Reload wiederherzustellen? Ja, sobald es
+  // Inhalt gibt – oder auch nur ein bewusst gewähltes (nicht-heutiges) Datum,
+  // damit ein frisch gewählter Tag nicht auf heute zurückspringt.
+  function lohntWiederherstellung(z) {
+    if (!z) return false;
+    return hatInhalt(z) || Boolean(z.datum && z.datum !== heute());
+  }
+
   // Gibt es ungespeicherte Änderungen gegenüber dem zuletzt geladenen Stand?
   function gibtUngespeicherteAenderungen() {
     var jetzt = JSON.stringify(sammleFormular());
@@ -811,14 +824,49 @@
     try { localStorage.removeItem(schluessel); } catch (e) {}
   }
 
+  // --- Editor-Sitzung merken (überlebt einen mobilen Tab-Reload) ---
+  // Damit nach dem Neuladen der Editor mit demselben Datum und Text wieder
+  // erscheint, statt zur Liste zurückzuspringen und das Datum auf heute zu setzen.
+  var SITZUNG_KEY = "gdft:sitzung";
+
+  function merkeSitzung() {
+    try {
+      localStorage.setItem(SITZUNG_KEY, JSON.stringify({
+        offen: true,
+        datei: aktuellerEintrag ? aktuellerEintrag.datei : null,
+        ts: Date.now(),
+      }));
+    } catch (e) { /* localStorage evtl. nicht verfügbar */ }
+  }
+
+  function vergissSitzung() { loescheLokal(SITZUNG_KEY); }
+
   function speichereLokalJetzt() {
     if (fuelleGerade) return;
     try {
       localStorage.setItem(autospeicherSchluessel(), JSON.stringify({ stand: sammleFormular(), ts: Date.now() }));
+      merkeSitzung();
       var zeit = new Date();
       autospeicherStatus.textContent = "Automatisch gesichert um " +
         String(zeit.getHours()).padStart(2, "0") + ":" + String(zeit.getMinutes()).padStart(2, "0") + " Uhr.";
     } catch (e) { /* localStorage evtl. nicht verfügbar */ }
+  }
+
+  // Nach dem Laden (mobiler Tab-Reload): war der Editor zuletzt offen und gibt es
+  // einen gesicherten Stand, den Editor damit wiederherstellen (inkl. Datum).
+  async function versucheSitzungWiederherzustellen() {
+    var s = ladeLokal(SITZUNG_KEY);
+    if (!s || !s.offen) return false;
+    // Zu alte Sitzungen ignorieren (der Auto-Speicher-Stand bleibt erhalten und
+    // wird beim nächsten Öffnen wie gewohnt als „Weiterschreiben?“ angeboten).
+    if (Date.now() - (s.ts || 0) > 12 * 60 * 60 * 1000) { vergissSitzung(); return false; }
+    var draftKey = "gdft:auto:" + (s.datei || "neu");
+    var draft = ladeLokal(draftKey);
+    if (!draft || !lohntWiederherstellung(draft.stand)) return false;
+    try {
+      await oeffneEditor(s.datei || null, null, true);
+    } catch (e) { return false; }
+    return !editorAnsicht.classList.contains("versteckt");
   }
 
   function planeSpeichern() {
@@ -1090,9 +1138,17 @@
     feld.addEventListener("input", planeSpeichern);
   });
 
-  // Vor dem Verlassen der Seite den aktuellen Stand sichern.
-  window.addEventListener("beforeunload", function () {
+  // Aktuellen Stand sichern, bevor die Seite in den Hintergrund geht oder
+  // verlassen wird. Auf dem Handy ist "beforeunload" unzuverlässig; wenn der
+  // Browser den Tab beim Wegwischen wegwirft, greifen "visibilitychange"
+  // (versteckt) und "pagehide" – so bleiben Datum und Text erhalten.
+  function sichereFallsEditorOffen() {
     if (!editorAnsicht.classList.contains("versteckt")) speichereLokalJetzt();
+  }
+  window.addEventListener("beforeunload", sichereFallsEditorOffen);
+  window.addEventListener("pagehide", sichereFallsEditorOffen);
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") sichereFallsEditorOffen();
   });
 
   function zeigeWiederherstellen(text, stand) {
@@ -1110,7 +1166,11 @@
     };
   }
 
-  async function oeffneEditor(datei, vorgabeDatum) {
+  // datei: Datei einer vorhandenen Andacht (sonst null = neue Andacht).
+  // vorgabeDatum: Datum für eine neue Andacht (z. B. per Kalendertag gewählt).
+  // autoWiederherstellen: gesicherten Stand sofort anwenden (ohne Nachfrage) –
+  //   für die Wiederherstellung nach einem mobilen Tab-Reload.
+  async function oeffneEditor(datei, vorgabeDatum, autoWiederherstellen) {
     var status = document.getElementById("editor-status");
     status.textContent = "";
     status.className = "status";
@@ -1129,15 +1189,17 @@
       aktualisiereDatumsansicht();
       serverZustand = null;
       zeigeNur(editorAnsicht);
+      merkeSitzung();
 
-      // Nur beim „echten“ Neuanfang (ohne vorgegebenen Tag) einen lokal
-      // gesicherten Entwurf anbieten – beim Wechsel auf einen leeren Kalendertag
-      // soll bewusst leer begonnen werden.
-      if (!vorgabeDatum) {
-        var gesichertNeu = ladeLokal(autospeicherSchluessel());
-        if (gesichertNeu && hatInhalt(gesichertNeu.stand)) {
-          zeigeWiederherstellen("Es gibt einen nicht gespeicherten Entwurf. Weiterschreiben?", gesichertNeu.stand);
-        }
+      var gesichertNeu = ladeLokal(autospeicherSchluessel());
+      if (autoWiederherstellen && gesichertNeu && lohntWiederherstellung(gesichertNeu.stand)) {
+        // Nach Tab-Reload: Stand (inkl. Datum) direkt übernehmen.
+        fuelleFormular(gesichertNeu.stand);
+        aktualisiereDatumsansicht();
+      } else if (!vorgabeDatum && gesichertNeu && hatInhalt(gesichertNeu.stand)) {
+        // „Echter“ Neuanfang: gesicherten Entwurf zum Weiterschreiben anbieten.
+        // (Beim Wechsel auf einen leeren Kalendertag soll bewusst leer begonnen werden.)
+        zeigeWiederherstellen("Es gibt einen nicht gespeicherten Entwurf. Weiterschreiben?", gesichertNeu.stand);
       }
       return;
     }
@@ -1159,13 +1221,23 @@
       serverZustand = JSON.stringify(sammleFormular());
       document.getElementById("loeschen-btn").classList.remove("versteckt");
       zeigeNur(editorAnsicht);
+      merkeSitzung();
 
-      // Lokal gesicherte, noch nicht gespeicherte Änderungen anbieten.
+      // Lokal gesicherte, noch nicht gespeicherte Änderungen.
       var gesichert = ladeLokal(autospeicherSchluessel());
       if (gesichert && JSON.stringify(gesichert.stand) !== serverZustand) {
-        zeigeWiederherstellen("Es gibt lokale, noch nicht gespeicherte Änderungen. Wiederherstellen?", gesichert.stand);
+        if (autoWiederherstellen && hatInhalt(gesichert.stand)) {
+          // Nach Tab-Reload: Stand (inkl. Datum) direkt übernehmen.
+          fuelleFormular(gesichert.stand);
+          aktualisiereDatumsansicht();
+        } else {
+          zeigeWiederherstellen("Es gibt lokale, noch nicht gespeicherte Änderungen. Wiederherstellen?", gesichert.stand);
+        }
       }
     } catch (err) {
+      // Bei automatischer Wiederherstellung nicht mit einer Fehlermeldung stören –
+      // dann bleibt der Editor zu und es wird die Liste gezeigt.
+      if (autoWiederherstellen) { vergissSitzung(); return; }
       alert(err.message);
     }
   }
@@ -1270,9 +1342,10 @@
       } else {
         await api("/api/andachten", { method: "POST", body: JSON.stringify(daten) });
       }
-      // Auto-Speicher-Stände aufräumen
+      // Auto-Speicher-Stände aufräumen; die Sitzung ist abgeschlossen.
       loescheLokal(alterSchluessel);
       loescheLokal("gdft:auto:neu");
+      vergissSitzung();
 
       if (alsEntwurf) {
         status.textContent = "Als Entwurf gespeichert (noch nicht öffentlich sichtbar).";
@@ -1302,6 +1375,7 @@
         body: JSON.stringify({ datei: aktuellerEintrag.datei, sha: aktuellerEintrag.sha }),
       });
       loescheLokal(autospeicherSchluessel());
+      vergissSitzung();
       ladeListe();
     } catch (err) {
       status.textContent = err.message;
