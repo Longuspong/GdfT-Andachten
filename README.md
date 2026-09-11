@@ -161,6 +161,17 @@ genau dann, wenn sie auch auf der Seite fällig werden (also am vorgeplanten Tag
 **Titel** und den **Link** zur Andacht (Telegram zeigt darüber automatisch eine
 Vorschaukarte).
 
+Grundregel: **Jede Andacht wird genau einmal gemeldet – in dem Moment, in dem sie
+öffentlich sichtbar wird.** Konkret:
+
+- **Vorgeplant** (Datum in der Zukunft) → wird an ihrem Tag um 6 Uhr sichtbar und
+  dann vom täglichen Lauf gemeldet.
+- **Heute veröffentlicht, aber noch vor 6 Uhr** → erscheint um 6 Uhr und wird dann
+  gemeldet (wie eine vorgeplante).
+- **Heute veröffentlicht, schon nach 6 Uhr** → sofort sichtbar und **sofort**
+  gemeldet (direkt beim Speichern im Admin), nicht erst am nächsten Morgen. So
+  doppelt sie sich nicht mit der am nächsten Tag geplanten Andacht.
+
 **Einrichtung:**
 
 1. In Telegram **@BotFather** öffnen, `/newbot` ausführen, Namen vergeben und das
