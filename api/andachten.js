@@ -1,7 +1,40 @@
 const { isAuthenticated } = require("./_lib/auth");
 const { listDir, getFile, putFile, deleteFile } = require("./_lib/github");
+const { telegramAktiv } = require("./_lib/telegram");
+const { meldeAndachtFallsFaellig } = require("./_lib/melden");
 
 const ORDNER = "src/andachten";
+
+// Slug-Teil (nach dem Datum) aus einem Dateinamen holen, z. B.
+// "2026-09-11-hoffnung.md" -> "hoffnung". Für die Telegram-Meldung, damit der
+// Link exakt zur veröffentlichten Adresse passt.
+function slugAusDateiname(name) {
+  const m = String(name).match(/^\d{4}-\d{2}-\d{2}-(.+)\.md$/);
+  return m ? m[1] : "";
+}
+
+// Eine gerade veröffentlichte (nicht-Entwurf) Andacht ggf. SOFORT per Telegram
+// melden – aber nur, wenn sie jetzt bereits öffentlich sichtbar ist (Datum heute
+// und schon nach 6 Uhr, oder Datum in der Vergangenheit). Vorgeplante Andachten
+// übernimmt weiterhin der tägliche 6-Uhr-Lauf; beide teilen sich denselben
+// "schon gemeldet"-Merker, daher gibt es keine Doppelmeldung.
+// Bricht das Speichern NIE ab: Die Datei ist bereits committet; schlägt der
+// Versand fehl, holt der tägliche Lauf die Meldung im 3-Tage-Fenster nach.
+async function meldeWennFaellig({ datei, datum, titel, entwurf, alterName }) {
+  if (entwurf || !telegramAktiv()) return null;
+  try {
+    return await meldeAndachtFallsFaellig({
+      datei,
+      datum,
+      slug: slugAusDateiname(datei),
+      felder: { titel, entwurf: false },
+      alterName,
+    });
+  } catch (e) {
+    // Nur zurückmelden – die Veröffentlichung selbst war bereits erfolgreich.
+    return { fehler: e.message };
+  }
+}
 
 // Gleiche Logik wie in eleventy.config.js, damit Slugs zur restlichen Seite passen.
 function slugify(text) {
@@ -173,7 +206,8 @@ module.exports = async (req, res) => {
       const inhaltDatei = baueDatei({ titel, losung, stelle, beschreibung, schlagwoerter, inhalt, entwurf });
       const nachricht = entwurf ? `Entwurf gespeichert: ${titel}` : `Andacht veröffentlicht: ${titel}`;
       await putFile(`${ORDNER}/${dateiname}`, inhaltDatei, nachricht);
-      res.status(200).json({ ok: true, datei: dateiname, entwurf });
+      const telegram = await meldeWennFaellig({ datei: dateiname, datum, titel, entwurf });
+      res.status(200).json({ ok: true, datei: dateiname, entwurf, telegram });
       return;
     }
 
@@ -205,13 +239,17 @@ module.exports = async (req, res) => {
 
       if (neuerName === alterName) {
         await putFile(`${ORDNER}/${alterName}`, inhaltDatei, nachricht, sha);
-        res.status(200).json({ ok: true, datei: alterName, entwurf });
+        const telegram = await meldeWennFaellig({ datei: alterName, datum, titel, entwurf });
+        res.status(200).json({ ok: true, datei: alterName, entwurf, telegram });
       } else {
         // Datum oder Titel haben sich geändert -> neuer Dateiname nötig:
         // neue Datei anlegen und alte danach entfernen.
         await putFile(`${ORDNER}/${neuerName}`, inhaltDatei, `${nachricht} (umbenannt)`);
         await deleteFile(`${ORDNER}/${alterName}`, `Alte Datei nach Umbenennung entfernt: ${alterName}`, sha);
-        res.status(200).json({ ok: true, datei: neuerName, entwurf });
+        // alterName mitgeben: war die Andacht schon gemeldet, zieht der Merker
+        // auf den neuen Dateinamen um (keine erneute Meldung über den Cron).
+        const telegram = await meldeWennFaellig({ datei: neuerName, datum, titel, entwurf, alterName });
+        res.status(200).json({ ok: true, datei: neuerName, entwurf, telegram });
       }
       return;
     }

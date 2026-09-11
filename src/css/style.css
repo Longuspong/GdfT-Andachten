@@ -1076,3 +1076,20 @@ a.buch-chip--aktiv:hover {
     padding-right: max(1.15rem, env(safe-area-inset-right));
   }
 }
+
+/* --- Weniger Bewegung (Barrierefreiheit) --------------------------------
+   Wer im Betriebssystem „Bewegung reduzieren“ eingestellt hat (z. B. wegen
+   Schwindel/Migräne bei Animationen), bekommt alle Übergänge und Animationen
+   praktisch abgeschaltet – überall auf der Seite, nicht nur beim Schalter.
+   Der kleine Wert (0.01ms) statt 0 lässt evtl. gebundene „transitionend“-
+   Ereignisse weiterhin auslösen. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

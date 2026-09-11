@@ -161,6 +161,17 @@ genau dann, wenn sie auch auf der Seite fällig werden (also am vorgeplanten Tag
 **Titel** und den **Link** zur Andacht (Telegram zeigt darüber automatisch eine
 Vorschaukarte).
 
+Grundregel: **Jede Andacht wird genau einmal gemeldet – in dem Moment, in dem sie
+öffentlich sichtbar wird.** Konkret:
+
+- **Vorgeplant** (Datum in der Zukunft) → wird an ihrem Tag um 6 Uhr sichtbar und
+  dann vom täglichen Lauf gemeldet.
+- **Heute veröffentlicht, aber noch vor 6 Uhr** → erscheint um 6 Uhr und wird dann
+  gemeldet (wie eine vorgeplante).
+- **Heute veröffentlicht, schon nach 6 Uhr** → sofort sichtbar und **sofort**
+  gemeldet (direkt beim Speichern im Admin), nicht erst am nächsten Morgen. So
+  doppelt sie sich nicht mit der am nächsten Tag geplanten Andacht.
+
 **Einrichtung:**
 
 1. In Telegram **@BotFather** öffnen, `/newbot` ausführen, Namen vergeben und das
@@ -298,6 +309,17 @@ Wie daraus fertige, veröffentlichte Andachten werden, steht in
   Platzhalter durch das Logo ersetzt.
 - **Seitenname, Untertitel und Fußzeile** stehen in
   [`src/_data/site.js`](src/_data/site.js).
+- **Schriften** werden **selbst ausgeliefert** (nicht vom Google-CDN
+  geladen). Das schützt die Privatsphäre der Besucher – es werden keine
+  IP-Adressen an Google übertragen (in Deutschland ein wiederkehrendes
+  Datenschutz-Thema) – und die Seite lädt schneller (kein Fremd-Request,
+  der das Anzeigen blockiert). Die Schrift-Dateien liegen in
+  [`src/assets/fonts/`](src/assets/), die Einbindung in
+  [`src/css/fonts.css`](src/css/) (automatisch erzeugt). Sollen andere
+  Schriften oder Schnitte verwendet werden: die Liste oben in
+  [`scripts/schriften-aktualisieren.mjs`](scripts/schriften-aktualisieren.mjs)
+  anpassen und einmal `npm run schriften` ausführen – das lädt die Dateien
+  neu und schreibt `fonts.css`. Anschließend committen.
 
 ---
 
@@ -311,7 +333,9 @@ src/
   andachten/               eine Markdown-Datei je Andacht  ← hier schreibst du
   andachten/andachten.11tydata.js  blendet Entwürfe & vordatierte Andachten aus
   assets/                  Bilder, Logo, Favicon, Vorschaubild (og-bild.jpg)
+  assets/fonts/            selbst gehostete Schriften (.woff2, DSGVO-freundlich)
   css/style.css            Design (mobile first; Farben & Schriften ganz oben)
+  css/fonts.css            @font-face für die lokalen Schriften (automatisch erzeugt)
   index.njk                Startseite: Andacht des Tages + die fünf „Soli“
   archiv.njk               Übersicht aller Andachten
   bibelstellen.njk         Andachten nach Bibelstelle
@@ -325,6 +349,7 @@ api/                       Server-Funktionen (Vercel)
   taeglich.js              täglicher Lauf: Neu-Bau anstoßen + Telegram-Meldung
   _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff, Telegram)
 andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
+scripts/                   Hilfsskripte (z. B. Schriften laden: npm run schriften)
 telegram-gesendet.json     Merkliste bereits gemeldeter Andachten (automatisch)
 .env.example               Vorlage für die Zugangsdaten (in Vercel eintragen)
 vercel.json                Einstellungen für die Veröffentlichung (Vercel)
