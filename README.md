@@ -298,6 +298,17 @@ Wie daraus fertige, veröffentlichte Andachten werden, steht in
   Platzhalter durch das Logo ersetzt.
 - **Seitenname, Untertitel und Fußzeile** stehen in
   [`src/_data/site.js`](src/_data/site.js).
+- **Schriften** werden **selbst ausgeliefert** (nicht vom Google-CDN
+  geladen). Das schützt die Privatsphäre der Besucher – es werden keine
+  IP-Adressen an Google übertragen (in Deutschland ein wiederkehrendes
+  Datenschutz-Thema) – und die Seite lädt schneller (kein Fremd-Request,
+  der das Anzeigen blockiert). Die Schrift-Dateien liegen in
+  [`src/assets/fonts/`](src/assets/), die Einbindung in
+  [`src/css/fonts.css`](src/css/) (automatisch erzeugt). Sollen andere
+  Schriften oder Schnitte verwendet werden: die Liste oben in
+  [`scripts/schriften-aktualisieren.mjs`](scripts/schriften-aktualisieren.mjs)
+  anpassen und einmal `npm run schriften` ausführen – das lädt die Dateien
+  neu und schreibt `fonts.css`. Anschließend committen.
 
 ---
 
@@ -311,7 +322,9 @@ src/
   andachten/               eine Markdown-Datei je Andacht  ← hier schreibst du
   andachten/andachten.11tydata.js  blendet Entwürfe & vordatierte Andachten aus
   assets/                  Bilder, Logo, Favicon, Vorschaubild (og-bild.jpg)
+  assets/fonts/            selbst gehostete Schriften (.woff2, DSGVO-freundlich)
   css/style.css            Design (mobile first; Farben & Schriften ganz oben)
+  css/fonts.css            @font-face für die lokalen Schriften (automatisch erzeugt)
   index.njk                Startseite: Andacht des Tages + die fünf „Soli“
   archiv.njk               Übersicht aller Andachten
   bibelstellen.njk         Andachten nach Bibelstelle
@@ -325,6 +338,7 @@ api/                       Server-Funktionen (Vercel)
   taeglich.js              täglicher Lauf: Neu-Bau anstoßen + Telegram-Meldung
   _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff, Telegram)
 andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
+scripts/                   Hilfsskripte (z. B. Schriften laden: npm run schriften)
 telegram-gesendet.json     Merkliste bereits gemeldeter Andachten (automatisch)
 .env.example               Vorlage für die Zugangsdaten (in Vercel eintragen)
 vercel.json                Einstellungen für die Veröffentlichung (Vercel)

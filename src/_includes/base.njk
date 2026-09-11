@@ -54,18 +54,60 @@
     <meta name="twitter:description" content="{{ beschreibung or site.beschreibung }}" />
     <meta name="twitter:image" content="{{ (bild or site.vorschaubild) | absolut }}" />
 
+    {# Strukturierte Daten (JSON-LD) – helfen Suchmaschinen, die Seite als
+       Website bzw. jede Andacht als Beitrag zu verstehen (Rich Results). #}
+    {% set ld_url = page.url | absolut %}
+    {% set ld_bild = (bild or site.vorschaubild) | absolut %}
+    {% set ld_logo = "/assets/logo.png" | absolut %}
+    {% if ogTyp == "article" %}
+      {% set ld = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": titel,
+        "description": (beschreibung or site.beschreibung),
+        "inLanguage": site.sprache,
+        "datePublished": (page.date | datumRFC3339),
+        "dateModified": (page.date | datumRFC3339),
+        "url": ld_url,
+        "mainEntityOfPage": ld_url,
+        "image": ld_bild,
+        "isPartOf": { "@type": "WebSite", "name": site.name, "url": site.url + "/" },
+        "author": { "@type": "Organization", "name": site.name, "url": site.url + "/" },
+        "publisher": {
+          "@type": "Organization",
+          "name": site.name,
+          "logo": { "@type": "ImageObject", "url": ld_logo }
+        }
+      } %}
+    {% else %}
+      {% set ld = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": site.name,
+        "alternateName": site.kurzbeschreibung,
+        "description": site.beschreibung,
+        "inLanguage": site.sprache,
+        "url": site.url + "/",
+        "publisher": {
+          "@type": "Organization",
+          "name": site.name,
+          "logo": { "@type": "ImageObject", "url": ld_logo }
+        }
+      } %}
+    {% endif %}
+    <script type="application/ld+json">{{ ld | jsonLd | safe }}</script>
+
     <!-- RSS-/Atom-Feed für Leser, die nicht täglich vorbeischauen -->
     <link rel="alternate" type="application/atom+xml" title="{{ site.name }} – {{ site.kurzbeschreibung }}" href="/feed.xml" />
 
     <link rel="icon" href="/assets/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/assets/logo.png" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    {# Schriften werden selbst ausgeliefert (nicht vom Google-CDN): kein
+       Übertragen von Besucher-IPs an Google (DSGVO) und kein render-blockender
+       Fremd-Request. Definitionen und Dateien: src/css/fonts.css bzw.
+       src/assets/fonts/. #}
+    <link rel="stylesheet" href="/css/fonts.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <script src="/js/thema.js" defer></script>
   </head>

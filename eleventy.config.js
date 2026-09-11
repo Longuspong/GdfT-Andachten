@@ -70,6 +70,17 @@ module.exports = function (eleventyConfig) {
   // Aktuelles Jahr für die Fußzeile
   eleventyConfig.addShortcode("jahr", () => `${new Date().getFullYear()}`);
 
+  // Ein Objekt sicher als JSON-LD (strukturierte Daten) ausgeben.
+  // JSON.stringify übernimmt das korrekte JSON-Escaping; zusätzlich werden
+  // < > & als \uXXXX kodiert, damit im <script>-Block kein "</script>"
+  // entstehen und nichts ausbrechen kann.
+  eleventyConfig.addFilter("jsonLd", (obj) =>
+    JSON.stringify(obj)
+      .replace(/</g, "\\u003c")
+      .replace(/>/g, "\\u003e")
+      .replace(/&/g, "\\u0026")
+  );
+
   // --- Sammlung aller Andachten (neueste zuerst) ---
   eleventyConfig.addCollection("andachten", (collectionApi) => {
     return collectionApi
