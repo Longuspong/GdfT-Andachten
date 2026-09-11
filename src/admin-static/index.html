@@ -5,114 +5,183 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
 <title>Admin · Gerüstet für den Tag</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css" />
+<!-- Dieselben (selbst gehosteten) Schriften wie die öffentliche Seite, damit
+     der Admin-Bereich zur restlichen Website passt. -->
+<link rel="stylesheet" href="/css/fonts.css" />
 <style>
+  /* -----------------------------------------------------------------------
+     Farben & Maße – bewusst an die öffentliche Seite (src/css/style.css)
+     angelehnt: warmes Pergament, Navy, Gold. Inklusive Dunkelmodus, der
+     der System-/Browsereinstellung folgt.
+     ----------------------------------------------------------------------- */
   :root {
-    --blau: #1f3550;
-    --blau-hell: #2c4a6e;
-    --hintergrund: #f4f6f8;
-    --karte: #ffffff;
-    --rand: #dbe1e8;
-    --text: #1c2733;
-    --text-schwach: #5b6b7c;
+    --grund: #f6f1e7;          /* Seitenhintergrund (Pergament) */
+    --flaeche: #fffdf8;        /* Karten */
+    --flaeche-2: #f3ede0;      /* leicht abgesetzte Flächen (Symbolleiste) */
+    --text: #29303a;
+    --text-leise: #6a6f78;
+    --primaer: #1f3550;        /* Navy */
+    --primaer-hell: #3c5f80;   /* Stahlblau */
+    --auf-primaer: #ffffff;
+    --akzent: #c39a45;         /* Gold */
+    --akzent-dunkel: #a67f34;
+    --rand: #e6ddca;           /* feine Linien */
+    --rand-stark: #d8ccae;
     --rot: #b3261e;
+    --rot-bg: #fdf1f0;
     --gruen: #1e7d4b;
-    --gold: #9a7b2e;
     --gold-bg: #fbf3dc;
+    --gold-text: #6b551f;
+    --radius: 12px;
+    --radius-klein: 9px;
+    --schatten: 0 1px 2px rgba(20, 20, 40, 0.04), 0 8px 24px rgba(20, 20, 40, 0.06);
+    --ring: 0 0 0 3px rgba(60, 95, 128, 0.28);
+    --schrift-titel: "Lora", Georgia, "Times New Roman", serif;
+    --schrift-text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --grund: #141a22;
+      --flaeche: #1c2530;
+      --flaeche-2: #232e3b;
+      --text: #e8e5dc;
+      --text-leise: #a3a9b3;
+      --primaer: #b7cae0;
+      --primaer-hell: #d3e0ee;
+      --auf-primaer: #14202e;
+      --akzent: #d8b264;
+      --akzent-dunkel: #e6c583;
+      --rand: #2c3644;
+      --rand-stark: #3a4658;
+      --rot: #f0908a;
+      --rot-bg: #3a1f1d;
+      --gruen: #6fce9c;
+      --gold-bg: #33301f;
+      --gold-text: #e4cf92;
+      --schatten: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+      --ring: 0 0 0 3px rgba(183, 202, 224, 0.30);
+    }
+  }
+
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--hintergrund);
+    font-family: var(--schrift-text);
+    background: var(--grund);
     color: var(--text);
+    line-height: 1.5;
   }
+
+  /* --- Kopfzeile --- */
   header.kopf {
-    background: var(--blau);
+    background: var(--primaer);
     color: #fff;
-    padding: 1rem 1.25rem;
+    padding: 0.9rem 1.1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
   }
-  header.kopf h1 { font-size: 1.05rem; margin: 0; font-weight: 600; }
+  header.kopf h1 {
+    font-family: var(--schrift-titel);
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
   header.kopf button {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     color: #fff;
-    border-radius: 6px;
-    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    padding: 0.45rem 0.85rem;
     cursor: pointer;
     font-size: 0.85rem;
+    min-height: 40px;
   }
-  header.kopf button:hover { background: rgba(255,255,255,0.15); }
+  header.kopf button:hover { background: rgba(255, 255, 255, 0.15); }
 
-  main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
 
   .karte {
-    background: var(--karte);
+    background: var(--flaeche);
     border: 1px solid var(--rand);
-    border-radius: 10px;
+    border-radius: var(--radius);
     padding: 1.25rem;
     margin-bottom: 1.25rem;
+    box-shadow: var(--schatten);
   }
 
   /* --- Login --- */
-  #login-ansicht { max-width: 360px; margin: 3.5rem auto; }
-  #login-ansicht h2 { margin-top: 0; }
+  #login-ansicht { max-width: 380px; margin: 3rem auto; }
+  #login-ansicht h2 { margin-top: 0; font-family: var(--schrift-titel); }
   #login-ansicht input[type="password"] {
     width: 100%;
-    padding: 0.65rem 0.75rem;
-    border: 1px solid var(--rand);
-    border-radius: 8px;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--rand-stark);
+    border-radius: var(--radius-klein);
+    background: var(--flaeche);
+    color: var(--text);
     font-size: 1rem;
     margin: 0.75rem 0;
+    font-family: inherit;
   }
   #login-ansicht button {
     width: 100%;
-    padding: 0.65rem;
-    background: var(--blau);
-    color: #fff;
+    padding: 0.75rem;
+    background: var(--primaer);
+    color: var(--auf-primaer);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-klein);
     font-size: 1rem;
     cursor: pointer;
+    min-height: 48px;
   }
-  #login-ansicht button:hover { background: var(--blau-hell); }
+  #login-ansicht button:hover { background: var(--primaer-hell); }
 
   /* --- Liste --- */
-  .listen-kopf { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-  .listen-kopf h2 { margin: 0; font-size: 1.15rem; }
+  .listen-kopf { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 1rem; }
+  .listen-kopf h2 { margin: 0; font-size: 1.25rem; font-family: var(--schrift-titel); }
+
   button.primaer {
-    background: var(--blau);
-    color: #fff;
+    background: var(--primaer);
+    color: var(--auf-primaer);
     border: none;
-    border-radius: 8px;
-    padding: 0.55rem 1rem;
+    border-radius: var(--radius-klein);
+    padding: 0.6rem 1.05rem;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: 600;
+    min-height: 44px;
+  }
+  button.primaer:hover { background: var(--primaer-hell); }
+  button.sekundaer {
+    background: var(--flaeche);
+    color: var(--primaer);
+    border: 1px solid var(--rand-stark);
+    border-radius: var(--radius-klein);
+    padding: 0.55rem 0.9rem;
     cursor: pointer;
     font-size: 0.9rem;
+    min-height: 44px;
   }
-  button.primaer:hover { background: var(--blau-hell); }
-  button.sekundaer {
-    background: #fff;
-    color: var(--blau);
-    border: 1px solid var(--rand);
-    border-radius: 8px;
-    padding: 0.45rem 0.8rem;
-    cursor: pointer;
-    font-size: 0.85rem;
-  }
-  button.sekundaer:hover { background: #eef2f6; }
+  button.sekundaer:hover { background: var(--flaeche-2); }
   button.gefahr {
-    background: #fff;
+    background: var(--flaeche);
     color: var(--rot);
-    border: 1px solid #f0c9c6;
-    border-radius: 8px;
-    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--rot);
+    border-radius: var(--radius-klein);
+    padding: 0.55rem 0.9rem;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    min-height: 44px;
   }
-  button.gefahr:hover { background: #fdf1f0; }
+  button.gefahr:hover { background: var(--rot-bg); }
 
   ul#liste { list-style: none; margin: 0; padding: 0; }
   ul#liste li {
@@ -120,88 +189,165 @@
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: 0.7rem 0;
+    padding: 0.85rem 0;
     border-bottom: 1px solid var(--rand);
   }
   ul#liste li:last-child { border-bottom: none; }
-  .eintrag-info { display: flex; flex-direction: column; min-width: 0; }
+  .eintrag-info { display: flex; flex-direction: column; min-width: 0; gap: 0.15rem; }
   .eintrag-titel-zeile { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
   .eintrag-titel { font-weight: 600; }
-  .eintrag-datum { font-size: 0.8rem; color: var(--text-schwach); }
+  .eintrag-datum { font-size: 0.82rem; color: var(--text-leise); }
   .eintrag-aktionen { display: flex; gap: 0.5rem; flex-shrink: 0; }
   .badge {
     font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.1rem 0.5rem;
+    font-weight: 700;
+    padding: 0.12rem 0.55rem;
     border-radius: 999px;
     background: var(--gold-bg);
-    color: var(--gold);
-    border: 1px solid #e7d6a5;
-    letter-spacing: 0.02em;
+    color: var(--gold-text);
+    border: 1px solid var(--rand-stark);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 
-  /* --- Editor --- */
-  .editor-kopf { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
-  .editor-kopf h2 { margin: 0; font-size: 1.15rem; }
-  .umschalter { display: inline-flex; border: 1px solid var(--rand); border-radius: 8px; overflow: hidden; }
+  /* --- Editor-Kopf & Umschalter --- */
+  .editor-kopf { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .editor-kopf h2 { margin: 0; font-size: 1.25rem; font-family: var(--schrift-titel); }
+  .umschalter { display: inline-flex; border: 1px solid var(--rand-stark); border-radius: var(--radius-klein); overflow: hidden; }
   .umschalter button {
-    background: #fff;
-    color: var(--blau);
+    background: var(--flaeche);
+    color: var(--primaer);
     border: none;
-    padding: 0.4rem 0.9rem;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
+    min-height: 42px;
   }
-  .umschalter button + button { border-left: 1px solid var(--rand); }
-  .umschalter button.aktiv { background: var(--blau); color: #fff; }
+  .umschalter button + button { border-left: 1px solid var(--rand-stark); }
+  .umschalter button.aktiv { background: var(--primaer); color: var(--auf-primaer); }
 
-  label { display: block; font-size: 0.85rem; font-weight: 600; margin: 0.9rem 0 0.3rem; }
-  label .hinweis { font-weight: 400; color: var(--text-schwach); }
+  /* --- Formularfelder --- */
+  label { display: block; font-size: 0.85rem; font-weight: 700; margin: 1.1rem 0 0.35rem; }
+  label .hinweis { font-weight: 400; color: var(--text-leise); }
+  .feld-hinweis { font-size: 0.78rem; color: var(--text-leise); margin: 0.3rem 0 0; }
+
   input[type="text"], input[type="date"], textarea {
     width: 100%;
-    padding: 0.55rem 0.65rem;
-    border: 1px solid var(--rand);
-    border-radius: 8px;
-    font-size: 0.95rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--rand-stark);
+    border-radius: var(--radius-klein);
+    font-size: 1rem;
     font-family: inherit;
+    background: var(--flaeche);
+    color: var(--text);
+    line-height: 1.5;
   }
-  .form-aktionen { display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap; }
-  .status { font-size: 0.85rem; margin-top: 0.6rem; min-height: 1.2em; }
+  input[type="text"]:focus, input[type="date"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primaer-hell);
+    box-shadow: var(--ring);
+  }
+  /* Automatisch mitwachsende Felder (Losung, Kurzbeschreibung): kein manuelles
+     Ziehen, die Höhe folgt dem Text. */
+  textarea.auto-wachsen { resize: none; overflow: hidden; }
+  #feld-losung { min-height: 3rem; }
+  #feld-beschreibung { min-height: 3.4rem; }
+
+  /* --- Markdown-Editor (eigene, mobil-freundliche Symbolleiste über einem
+         echten Textfeld – so funktioniert die Rechtschreib-/Grammatikprüfung
+         und Autokorrektur des Geräts) --- */
+  .mdeditor {
+    margin-top: 0.35rem;
+    border: 1px solid var(--rand-stark);
+    border-radius: var(--radius-klein);
+    background: var(--flaeche);
+    overflow: hidden;
+  }
+  .mdeditor:focus-within { border-color: var(--primaer-hell); box-shadow: var(--ring); }
+  .mdeditor__leiste {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.15rem;
+    padding: 0.35rem;
+    background: var(--flaeche-2);
+    border-bottom: 1px solid var(--rand);
+  }
+  .mdeditor__leiste button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 0.5rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .mdeditor__leiste button:hover { background: var(--flaeche); border-color: var(--rand); }
+  .mdeditor__leiste button:active { background: var(--rand); }
+  .mdeditor__leiste button.aktiv { background: var(--primaer); color: var(--auf-primaer); }
+  .mdeditor__leiste .fett { font-weight: 800; }
+  .mdeditor__leiste .kursiv { font-style: italic; font-family: var(--schrift-titel); }
+  .mdeditor__leiste .ueberschrift { font-weight: 800; }
+  .mdeditor__leiste svg { width: 20px; height: 20px; display: block; }
+  .mdeditor__trenner { width: 1px; align-self: stretch; margin: 0.25rem 0.25rem; background: var(--rand); }
+  .mdeditor__spacer { flex: 1 1 auto; }
+  #feld-inhalt {
+    border: none;
+    border-radius: 0;
+    background: var(--flaeche);
+    min-height: 340px;
+    resize: none;
+    overflow: hidden;
+    padding: 0.9rem;
+    line-height: 1.65;
+  }
+  #feld-inhalt:focus { box-shadow: none; }
+  .md-hilfe {
+    padding: 0.75rem 0.9rem;
+    border-top: 1px solid var(--rand);
+    background: var(--flaeche-2);
+    font-size: 0.85rem;
+    color: var(--text-leise);
+  }
+  .md-hilfe code {
+    background: var(--flaeche);
+    border: 1px solid var(--rand);
+    border-radius: 5px;
+    padding: 0.05rem 0.35rem;
+    font-size: 0.82em;
+    color: var(--text);
+  }
+  .md-hilfe ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  .md-hilfe li { margin: 0.2rem 0; }
+
+  /* --- Aktionsleiste (klebt am unteren Rand, damit sie mobil immer griffbereit ist) --- */
+  .form-aktionen {
+    display: flex;
+    gap: 0.6rem;
+    margin: 1.5rem -1.25rem -1.25rem;
+    padding: 0.85rem 1.25rem;
+    flex-wrap: wrap;
+    position: sticky;
+    bottom: 0;
+    background: var(--flaeche);
+    border-top: 1px solid var(--rand);
+    border-radius: 0 0 var(--radius) var(--radius);
+    z-index: 10;
+  }
+  .form-aktionen .luecke { flex: 1 1 auto; }
+
+  .status { font-size: 0.88rem; margin-top: 0.7rem; min-height: 1.2em; }
   .status.fehler { color: var(--rot); }
   .status.erfolg { color: var(--gruen); }
   .versteckt { display: none !important; }
-  .EasyMDEContainer { margin-top: 0.3rem; }
 
   /* --- Wiederherstellen-Hinweis (Auto-Speichern) --- */
-  .wiederherstellen {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    background: var(--gold-bg);
-    border: 1px solid #e7d6a5;
-    color: #6b551f;
-    border-radius: 8px;
-    padding: 0.6rem 0.85rem;
-    margin: 0.9rem 0 0.2rem;
-    font-size: 0.9rem;
-  }
-  .wiederherstellen .aktionen { display: flex; gap: 0.5rem; flex-shrink: 0; }
-  .autospeicher-status { font-size: 0.78rem; color: var(--text-schwach); margin-top: 0.4rem; min-height: 1em; }
-
-  /* --- Vorschau --- */
-  .vorschau-info { font-size: 0.82rem; color: var(--text-schwach); margin: 0 0 0.6rem; }
-  #vorschau-rahmen {
-    width: 100%;
-    height: 70vh;
-    min-height: 420px;
-    border: 1px solid var(--rand);
-    border-radius: 8px;
-    background: #fff;
-  }
-
-  /* --- Warnung: Datum schon belegt --- */
+  .wiederherstellen,
   .datum-warnung {
     display: flex;
     align-items: center;
@@ -209,38 +355,53 @@
     gap: 0.75rem;
     flex-wrap: wrap;
     background: var(--gold-bg);
-    border: 1px solid #e7d6a5;
-    color: #6b551f;
-    border-radius: 8px;
-    padding: 0.6rem 0.85rem;
-    margin: 0.5rem 0 0.2rem;
+    border: 1px solid var(--rand-stark);
+    color: var(--gold-text);
+    border-radius: var(--radius-klein);
+    padding: 0.65rem 0.9rem;
     font-size: 0.9rem;
+  }
+  .wiederherstellen { margin: 0.9rem 0 0.2rem; }
+  .datum-warnung { margin: 0.5rem 0 0.2rem; }
+  .wiederherstellen .aktionen { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .autospeicher-status { font-size: 0.78rem; color: var(--text-leise); margin-top: 0.5rem; min-height: 1em; }
+
+  /* --- Vorschau --- */
+  .vorschau-info { font-size: 0.82rem; color: var(--text-leise); margin: 0 0 0.6rem; }
+  #vorschau-rahmen {
+    width: 100%;
+    height: 70vh;
+    min-height: 420px;
+    border: 1px solid var(--rand);
+    border-radius: var(--radius-klein);
+    background: #fff;
   }
 
   /* --- Mini-Kalender in der Datumsauswahl --- */
   .kalender {
     margin-top: 0.6rem;
-    border: 1px solid var(--rand);
-    border-radius: 10px;
-    padding: 0.6rem 0.7rem;
-    background: #fbfcfd;
+    border: 1px solid var(--rand-stark);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.75rem;
+    background: var(--flaeche-2);
   }
+  .kalender-hinweis { font-size: 0.78rem; color: var(--text-leise); margin: 0 0 0.55rem; }
   .kalender-kopf { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
   .kalender-kopf button {
-    background: #fff;
-    border: 1px solid var(--rand);
-    border-radius: 6px;
-    width: 2rem;
-    height: 2rem;
+    background: var(--flaeche);
+    border: 1px solid var(--rand-stark);
+    border-radius: 8px;
+    width: 2.4rem;
+    height: 2.4rem;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1;
-    color: var(--blau);
+    color: var(--primaer);
   }
-  .kalender-kopf button:hover { background: #eef2f6; }
-  .kalender-monat { font-weight: 600; font-size: 0.92rem; }
+  .kalender-kopf button:hover { background: var(--rand); }
+  .kalender-monat { font-weight: 700; font-size: 0.98rem; font-family: var(--schrift-titel); }
   .kalender-gitter { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-  .kalender-wochentag { text-align: center; font-size: 0.68rem; color: var(--text-schwach); padding: 0.15rem 0; font-weight: 600; }
+  .kalender-wochentag { text-align: center; font-size: 0.68rem; color: var(--text-leise); padding: 0.2rem 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
   .kalender-tag { position: relative; }
   .kalender-tag button {
     position: relative;
@@ -248,24 +409,33 @@
     aspect-ratio: 1 / 1;
     border: 1px solid transparent;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 9px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.92rem;
     color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
   }
-  .kalender-tag button:hover { background: #eef2f6; }
-  .kalender-tag.heute button { border-color: var(--blau); font-weight: 600; }
-  .kalender-tag.gewaehlt button { background: var(--blau); color: #fff; }
-  .kalender-punkte { position: absolute; bottom: 3px; left: 0; right: 0; display: flex; gap: 2px; justify-content: center; }
+  .kalender-tag button:hover { background: var(--flaeche); border-color: var(--rand-stark); }
+  .kalender-tag.heute button { border-color: var(--akzent); font-weight: 700; }
+  .kalender-tag.gewaehlt button { background: var(--primaer); color: var(--auf-primaer); border-color: var(--primaer); }
+  .kalender-punkte { position: absolute; bottom: 4px; left: 0; right: 0; display: flex; gap: 2px; justify-content: center; }
   .kalender-punkt { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
   .kalender-punkt.veroeff { background: var(--gruen); }
-  .kalender-punkt.entwurf { background: var(--gold); }
-  .kalender-legende { display: flex; gap: 1rem; margin-top: 0.55rem; font-size: 0.72rem; color: var(--text-schwach); }
+  .kalender-punkt.entwurf { background: var(--akzent); }
+  .kalender-tag.gewaehlt .kalender-punkt { outline: 1px solid rgba(255,255,255,0.6); }
+  .kalender-legende { display: flex; gap: 1rem; margin-top: 0.6rem; font-size: 0.74rem; color: var(--text-leise); }
   .kalender-legende span { display: inline-flex; align-items: center; gap: 0.35rem; }
+
+  @media (max-width: 480px) {
+    main { padding: 1rem 0.85rem 5rem; }
+    .karte { padding: 1rem; }
+    .form-aktionen { margin: 1.25rem -1rem -1rem; padding: 0.75rem 1rem; }
+    .form-aktionen button { flex: 1 1 auto; }
+    .form-aktionen .luecke { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -280,7 +450,7 @@
   <!-- LOGIN -->
   <section id="login-ansicht" class="karte">
     <h2>Anmelden</h2>
-    <p style="color:var(--text-schwach); font-size:0.9rem;">Bitte gib das Admin-Passwort ein.</p>
+    <p style="color:var(--text-leise); font-size:0.9rem;">Bitte gib das Admin-Passwort ein.</p>
     <form id="login-formular">
       <input type="password" id="passwort-feld" placeholder="Passwort" autocomplete="current-password" required />
       <button type="submit">Anmelden</button>
@@ -331,8 +501,10 @@
           <button type="button" class="sekundaer" id="datum-warnung-btn">Öffnen</button>
         </div>
 
-        <!-- Mini-Kalender: belegte Tage sind markiert; ein Klick wählt den Tag -->
+        <!-- Mini-Kalender: belegte Tage sind markiert; ein Klick öffnet die
+             vorhandene Andacht bzw. beginnt für einen leeren Tag eine neue. -->
         <div class="kalender" id="kalender">
+          <p class="kalender-hinweis">Tag mit Punkt öffnet die vorhandene Andacht · leerer Tag beginnt eine neue.</p>
           <div class="kalender-kopf">
             <button type="button" id="kal-zurueck" aria-label="Vorheriger Monat">‹</button>
             <span class="kalender-monat" id="kal-monat"></span>
@@ -346,31 +518,68 @@
         </div>
 
         <label for="feld-titel">Titel</label>
-        <input type="text" id="feld-titel" required />
+        <input type="text" id="feld-titel" spellcheck="true" autocapitalize="sentences" autocomplete="off" required />
 
         <label for="feld-losung">Losung / Bibelvers <span class="hinweis">(wörtliches Zitat)</span></label>
-        <input type="text" id="feld-losung" placeholder="„…“" />
+        <textarea id="feld-losung" class="auto-wachsen" rows="1" spellcheck="true" autocapitalize="sentences" placeholder="„…“"></textarea>
 
         <label for="feld-stelle">Bibelstelle</label>
-        <input type="text" id="feld-stelle" placeholder="z. B. Johannes 3,16" />
+        <input type="text" id="feld-stelle" autocapitalize="words" autocomplete="off" placeholder="z. B. Johannes 3,16" />
 
         <label for="feld-beschreibung">Kurzbeschreibung <span class="hinweis">(für Google & geteilte Links)</span></label>
-        <textarea id="feld-beschreibung" rows="2"></textarea>
+        <textarea id="feld-beschreibung" class="auto-wachsen" rows="2" spellcheck="true" autocapitalize="sentences"></textarea>
 
         <label for="feld-schlagwoerter">Schlagwörter <span class="hinweis">(durch Komma getrennt, optional)</span></label>
-        <input type="text" id="feld-schlagwoerter" placeholder="z. B. Glaube, Vertrauen" />
+        <input type="text" id="feld-schlagwoerter" autocapitalize="words" autocomplete="off" placeholder="z. B. Glaube, Vertrauen" />
 
         <label for="feld-inhalt">Andachtstext</label>
-        <textarea id="feld-inhalt" rows="12"></textarea>
+        <div class="mdeditor" id="mdeditor">
+          <div class="mdeditor__leiste" id="md-leiste" role="toolbar" aria-label="Formatierung">
+            <button type="button" class="fett" data-md="fett" title="Fett" aria-label="Fett">B</button>
+            <button type="button" class="kursiv" data-md="kursiv" title="Kursiv" aria-label="Kursiv">I</button>
+            <button type="button" class="ueberschrift" data-md="ueberschrift" title="Überschrift" aria-label="Überschrift">H</button>
+            <span class="mdeditor__trenner"></span>
+            <button type="button" data-md="zitat" title="Zitat" aria-label="Zitat">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.2 6C5.4 6 4 7.4 4 9.2c0 1.7 1.3 3 3 3 .2 0 .4 0 .6-.1-.3 1.4-1.4 2.5-2.9 2.9-.4.1-.6.5-.5.9.1.4.5.6.9.5C7.6 15.6 9.4 13 9.4 9.8V9.2C9.4 7.4 8 6 7.2 6zm9 0c-1.8 0-3.2 1.4-3.2 3.2 0 1.7 1.3 3 3 3 .2 0 .4 0 .6-.1-.3 1.4-1.4 2.5-2.9 2.9-.4.1-.6.5-.5.9.1.4.5.6.9.5 2.5-.7 4.3-3.3 4.3-6.5V9.2C18.4 7.4 17 6 16.2 6z"/></svg>
+            </button>
+            <button type="button" data-md="liste" title="Aufzählung" aria-label="Aufzählung">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="4" cy="6" r="1.4" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.4" fill="currentColor" stroke="none"/><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/></svg>
+            </button>
+            <button type="button" data-md="nummeriert" title="Nummerierte Liste" aria-label="Nummerierte Liste">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/><text x="2.5" y="8" font-size="7" font-family="sans-serif" fill="currentColor" stroke="none">1</text><text x="2.5" y="14.5" font-size="7" font-family="sans-serif" fill="currentColor" stroke="none">2</text><text x="2.5" y="21" font-size="7" font-family="sans-serif" fill="currentColor" stroke="none">3</text></svg>
+            </button>
+            <span class="mdeditor__trenner"></span>
+            <button type="button" data-md="link" title="Link einfügen" aria-label="Link einfügen">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L12.5 19.5"/></svg>
+            </button>
+            <span class="mdeditor__spacer"></span>
+            <button type="button" id="md-hilfe-btn" title="Formatierungshilfe" aria-label="Formatierungshilfe">?</button>
+          </div>
+          <textarea id="feld-inhalt" spellcheck="true" autocapitalize="sentences" placeholder="Text der Andacht … (Formatierung über die Symbolleiste)"></textarea>
+          <div class="md-hilfe versteckt" id="md-hilfe">
+            <strong>Formatierung mit Markdown:</strong>
+            <ul>
+              <li><code>**fett**</code> · <code>*kursiv*</code></li>
+              <li><code>## Überschrift</code></li>
+              <li><code>&gt; Zitat</code></li>
+              <li><code>- Aufzählung</code> · <code>1. Nummerierte Liste</code></li>
+              <li><code>[Text](https://…)</code> für einen Link</li>
+              <li>Eine Leerzeile beginnt einen neuen Absatz.</li>
+            </ul>
+            <p style="margin:0.5rem 0 0;">Rechtschreib- und Grammatikprüfung sowie Autokorrektur übernimmt dein Gerät bzw. Browser (in Deutsch).</p>
+          </div>
+        </div>
+
+        <p id="autospeicher-status" class="autospeicher-status"></p>
+        <p id="editor-status" class="status"></p>
 
         <div class="form-aktionen">
           <button type="button" class="primaer" id="veroeffentlichen-btn">Veröffentlichen</button>
           <button type="button" class="sekundaer" id="entwurf-btn">Als Entwurf speichern</button>
+          <span class="luecke"></span>
           <button type="button" class="sekundaer" id="abbrechen-btn">Abbrechen</button>
           <button type="button" class="gefahr versteckt" id="loeschen-btn">Löschen</button>
         </div>
-        <p id="autospeicher-status" class="autospeicher-status"></p>
-        <p id="editor-status" class="status"></p>
       </form>
 
       <!-- Vorschau -->
@@ -383,7 +592,8 @@
 
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
+<!-- Nur „marked“ für die Vorschau (Markdown → HTML). Der Editor selbst ist ein
+     einfaches Textfeld, damit die Tastatur/Rechtschreibprüfung des Geräts greift. -->
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script>
 (function () {
@@ -407,6 +617,7 @@
   var feldStelle = document.getElementById("feld-stelle");
   var feldBeschreibung = document.getElementById("feld-beschreibung");
   var feldSchlagwoerter = document.getElementById("feld-schlagwoerter");
+  var feldInhalt = document.getElementById("feld-inhalt");
 
   var datumWarnung = document.getElementById("datum-warnung");
   var datumWarnungText = document.getElementById("datum-warnung-text");
@@ -414,7 +625,6 @@
   var kalMonatLabel = document.getElementById("kal-monat");
   var kalGitter = document.getElementById("kal-gitter");
 
-  var mde = null;
   var aktuellerEintrag = null; // { datei, sha } beim Bearbeiten, sonst null
   var fuelleGerade = false;    // unterdrückt Auto-Speichern beim programmatischen Befüllen
   var serverZustand = null;    // Vergleichsstand der zuletzt geladenen Andacht
@@ -452,6 +662,19 @@
     }
     return daten;
   }
+
+  // --- Automatisch mitwachsende Textfelder ---
+  // Die Höhe folgt dem Inhalt (wie der Andachtstext); kein manuelles Ziehen nötig.
+  function autoWachsen(el) {
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = (el.scrollHeight + 2) + "px";
+  }
+  var autoFelder = [feldLosung, feldBeschreibung];
+  autoFelder.forEach(function (el) {
+    el.addEventListener("input", function () { autoWachsen(el); });
+  });
+  function aktualisiereAutoHoehen() { autoFelder.forEach(autoWachsen); }
 
   // --- Login ---
   document.getElementById("login-formular").addEventListener("submit", async function (ev) {
@@ -536,7 +759,10 @@
   }
 
   document.getElementById("neu-btn").addEventListener("click", function () { oeffneEditor(null); });
-  document.getElementById("abbrechen-btn").addEventListener("click", function () { ladeListe(); });
+  document.getElementById("abbrechen-btn").addEventListener("click", function () {
+    if (!darfVerlassen()) return;
+    ladeListe();
+  });
 
   // --- Auto-Speichern (im Browser) ---
   function autospeicherSchluessel() {
@@ -551,7 +777,7 @@
       stelle: feldStelle.value,
       beschreibung: feldBeschreibung.value,
       schlagwoerter: feldSchlagwoerter.value,
-      inhalt: mde ? mde.value() : "",
+      inhalt: feldInhalt.value,
     };
   }
 
@@ -559,6 +785,19 @@
     if (!z) return false;
     return Boolean((z.titel && z.titel.trim()) || (z.inhalt && z.inhalt.trim()) ||
       (z.losung && z.losung.trim()) || (z.stelle && z.stelle.trim()));
+  }
+
+  // Gibt es ungespeicherte Änderungen gegenüber dem zuletzt geladenen Stand?
+  function gibtUngespeicherteAenderungen() {
+    var jetzt = JSON.stringify(sammleFormular());
+    if (aktuellerEintrag) return jetzt !== serverZustand;
+    return hatInhalt(sammleFormular());
+  }
+
+  // Vor einem Ansichtswechsel abfragen, wenn Änderungen verloren gingen.
+  function darfVerlassen() {
+    if (!gibtUngespeicherteAenderungen()) return true;
+    return confirm("Es gibt noch nicht gespeicherte Änderungen. Möchtest du sie verwerfen und trotzdem wechseln?");
   }
 
   function ladeLokal(schluessel) {
@@ -596,7 +835,8 @@
     feldStelle.value = z.stelle || "";
     feldBeschreibung.value = z.beschreibung || "";
     feldSchlagwoerter.value = z.schlagwoerter || "";
-    if (mde) mde.value(z.inhalt || "");
+    feldInhalt.value = z.inhalt || "";
+    aktualisiereAutoHoehen();
     fuelleGerade = false;
   }
 
@@ -680,7 +920,10 @@
     datumWarnungText.textContent = "Achtung: Für den " + formatiereDatum(iso) +
       " gibt es bereits " + art + ": „" + erste.titel + "“" + mehr + ".";
     datumWarnungBtn.textContent = erste.entwurf ? "Entwurf ansehen" : "Andacht ansehen";
-    datumWarnungBtn.onclick = function () { oeffneEditor(erste.datei); };
+    datumWarnungBtn.onclick = function () {
+      if (!darfVerlassen()) return;
+      oeffneEditor(erste.datei);
+    };
     datumWarnung.classList.remove("versteckt");
   }
 
@@ -694,11 +937,39 @@
   // Native Datumsauswahl -> Kalender/Warnung nachziehen.
   feldDatum.addEventListener("change", aktualisiereDatumsansicht);
 
-  // Klick auf einen Tag im Kalender wählt das Datum.
+  // Klick auf einen Tag im Kalender.
+  //  - Belegter Tag (andere Andacht) -> diese Andacht öffnen.
+  //  - Leerer Tag, während eine gespeicherte Andacht bearbeitet wird
+  //    -> eine NEUE, leere Andacht für diesen Tag beginnen (nichts wird
+  //       aus der vorherigen Andacht übernommen).
+  //  - Leerer Tag bei einer noch neuen (nicht gespeicherten) Andacht
+  //    -> nur das Datum übernehmen, das Geschriebene bleibt erhalten.
   kalGitter.addEventListener("click", function (ev) {
     var knopf = ev.target.closest("button[data-datum]");
     if (!knopf) return;
-    feldDatum.value = knopf.getAttribute("data-datum");
+    var iso = knopf.getAttribute("data-datum");
+    if (iso === feldDatum.value) return;
+
+    var info = belegtMap()[iso];
+    var fremd = info ? info.eintraege.filter(function (e) {
+      return !(aktuellerEintrag && e.datei === aktuellerEintrag.datei);
+    }) : [];
+
+    if (fremd.length) {
+      if (!darfVerlassen()) return;
+      oeffneEditor(fremd[0].datei);
+      return;
+    }
+
+    if (aktuellerEintrag) {
+      // Beim Bearbeiten einer gespeicherten Andacht: für den leeren Tag neu beginnen.
+      if (!darfVerlassen()) return;
+      oeffneEditor(null, iso);
+      return;
+    }
+
+    // Neue, noch nicht gespeicherte Andacht: nur das Datum wählen.
+    feldDatum.value = iso;
     renderKalender();
     pruefeDatumBelegt();
     planeSpeichern();
@@ -713,31 +984,113 @@
     renderKalender();
   });
 
-  // --- Editor ---
-  function stelleEditorSicher() {
-    if (mde) return mde;
-    mde = new EasyMDE({
-      element: document.getElementById("feld-inhalt"),
-      spellChecker: false,
-      status: false,
-      placeholder: "Text der Andacht … (Formatierung über die Symbolleiste)",
-      toolbar: [
-        "bold", "italic", "heading", "|",
-        "quote", "unordered-list", "ordered-list", "|",
-        "link", "|",
-        "guide"
-      ],
-    });
-    mde.codemirror.on("change", planeSpeichern);
-    return mde;
+  // --- Markdown-Symbolleiste (auf einem echten Textfeld) ---
+
+  // Ausgewählten Text mit Zeichen umschließen (fett/kursiv).
+  function umschliesse(vorher, nachher) {
+    var ta = feldInhalt;
+    var start = ta.selectionStart, ende = ta.selectionEnd, text = ta.value;
+    var sel = text.slice(start, ende);
+    var inhaltNeu = vorher + (sel || "") + nachher;
+    ta.value = text.slice(0, start) + inhaltNeu + text.slice(ende);
+    ta.focus();
+    if (sel) {
+      ta.setSelectionRange(start, start + inhaltNeu.length);
+    } else {
+      var pos = start + vorher.length;
+      ta.setSelectionRange(pos, pos);
+    }
+    nachBearbeitung();
   }
 
-  // Eingaben in den normalen Feldern ebenfalls automatisch sichern
+  // Jede betroffene Zeile umformen (Überschrift/Zitat/Listen) – jeweils an/aus.
+  function bearbeiteZeilen(transform) {
+    var ta = feldInhalt;
+    var start = ta.selectionStart, ende = ta.selectionEnd, text = ta.value;
+    var von = text.lastIndexOf("\n", start - 1) + 1;
+    var bis = text.indexOf("\n", ende);
+    if (bis === -1) bis = text.length;
+    var zeilen = text.slice(von, bis).split("\n");
+    var idx = 0;
+    var neu = zeilen.map(function (z) { return transform(z, idx++); }).join("\n");
+    ta.value = text.slice(0, von) + neu + text.slice(bis);
+    ta.focus();
+    ta.setSelectionRange(von, von + neu.length);
+    nachBearbeitung();
+  }
+
+  function fuegeLinkEin() {
+    var ta = feldInhalt;
+    var start = ta.selectionStart, ende = ta.selectionEnd;
+    var sel = ta.value.slice(start, ende) || "Text";
+    var url = prompt("Link-Adresse (URL):", "https://");
+    if (url === null) return;
+    var md = "[" + sel + "](" + (url.trim() || "https://") + ")";
+    ta.value = ta.value.slice(0, start) + md + ta.value.slice(ende);
+    ta.focus();
+    var pos = start + md.length;
+    ta.setSelectionRange(pos, pos);
+    nachBearbeitung();
+  }
+
+  function nachBearbeitung() {
+    autoWachsen(feldInhalt);
+    planeSpeichern();
+  }
+
+  var mdAktionen = {
+    fett: function () { umschliesse("**", "**"); },
+    kursiv: function () { umschliesse("*", "*"); },
+    ueberschrift: function () {
+      bearbeiteZeilen(function (z) {
+        return /^#{1,6}\s/.test(z) ? z.replace(/^#{1,6}\s/, "") : "## " + z;
+      });
+    },
+    zitat: function () {
+      bearbeiteZeilen(function (z) {
+        return /^>\s?/.test(z) ? z.replace(/^>\s?/, "") : "> " + z;
+      });
+    },
+    liste: function () {
+      bearbeiteZeilen(function (z) {
+        return /^[-*]\s/.test(z) ? z.replace(/^[-*]\s/, "") : "- " + z;
+      });
+    },
+    nummeriert: function () {
+      bearbeiteZeilen(function (z, i) {
+        return /^\d+\.\s/.test(z) ? z.replace(/^\d+\.\s/, "") : (i + 1) + ". " + z;
+      });
+    },
+    link: fuegeLinkEin,
+  };
+
+  document.getElementById("md-leiste").addEventListener("click", function (ev) {
+    var knopf = ev.target.closest("button[data-md]");
+    if (!knopf) return;
+    ev.preventDefault();
+    var aktion = mdAktionen[knopf.getAttribute("data-md")];
+    if (aktion) aktion();
+  });
+
+  var mdHilfe = document.getElementById("md-hilfe");
+  var mdHilfeBtn = document.getElementById("md-hilfe-btn");
+  mdHilfeBtn.addEventListener("click", function () {
+    var offen = mdHilfe.classList.toggle("versteckt");
+    mdHilfeBtn.classList.toggle("aktiv", !offen);
+  });
+
+  // Auto-Speichern & Mitwachsen für den Andachtstext.
+  feldInhalt.addEventListener("input", function () {
+    autoWachsen(feldInhalt);
+    planeSpeichern();
+  });
+
+  // Eingaben in den normalen Feldern ebenfalls automatisch sichern.
   [feldDatum, feldTitel, feldLosung, feldStelle, feldBeschreibung, feldSchlagwoerter].forEach(function (feld) {
     feld.addEventListener("input", planeSpeichern);
   });
 
-  // Vor dem Verlassen der Seite den aktuellen Stand sichern
+  // Vor dem Verlassen der Seite den aktuellen Stand sichern.
   window.addEventListener("beforeunload", function () {
     if (!editorAnsicht.classList.contains("versteckt")) speichereLokalJetzt();
   });
@@ -757,29 +1110,34 @@
     };
   }
 
-  async function oeffneEditor(datei) {
+  async function oeffneEditor(datei, vorgabeDatum) {
     var status = document.getElementById("editor-status");
     status.textContent = "";
     status.className = "status";
     autospeicherStatus.textContent = "";
     wiederherstellenHinweis.classList.add("versteckt");
     document.getElementById("loeschen-btn").classList.add("versteckt");
+    mdHilfe.classList.add("versteckt");
+    mdHilfeBtn.classList.remove("aktiv");
     zeigeBearbeiten();
 
-    stelleEditorSicher();
-
     if (!datei) {
-      // Neue Andacht
+      // Neue Andacht (optional für einen bestimmten Tag)
       aktuellerEintrag = null;
       document.getElementById("editor-titel").textContent = "Neue Andacht";
-      fuelleFormular({ datum: heute() });
+      fuelleFormular({ datum: vorgabeDatum || heute() });
       aktualisiereDatumsansicht();
       serverZustand = null;
       zeigeNur(editorAnsicht);
 
-      var gesichertNeu = ladeLokal(autospeicherSchluessel());
-      if (gesichertNeu && hatInhalt(gesichertNeu.stand)) {
-        zeigeWiederherstellen("Es gibt einen nicht gespeicherten Entwurf. Weiterschreiben?", gesichertNeu.stand);
+      // Nur beim „echten“ Neuanfang (ohne vorgegebenen Tag) einen lokal
+      // gesicherten Entwurf anbieten – beim Wechsel auf einen leeren Kalendertag
+      // soll bewusst leer begonnen werden.
+      if (!vorgabeDatum) {
+        var gesichertNeu = ladeLokal(autospeicherSchluessel());
+        if (gesichertNeu && hatInhalt(gesichertNeu.stand)) {
+          zeigeWiederherstellen("Es gibt einen nicht gespeicherten Entwurf. Weiterschreiben?", gesichertNeu.stand);
+        }
       }
       return;
     }
@@ -802,7 +1160,7 @@
       document.getElementById("loeschen-btn").classList.remove("versteckt");
       zeigeNur(editorAnsicht);
 
-      // Lokal gesicherte, noch nicht gespeicherte Änderungen anbieten
+      // Lokal gesicherte, noch nicht gespeicherte Änderungen anbieten.
       var gesichert = ladeLokal(autospeicherSchluessel());
       if (gesichert && JSON.stringify(gesichert.stand) !== serverZustand) {
         zeigeWiederherstellen("Es gibt lokale, noch nicht gespeicherte Änderungen. Wiederherstellen?", gesichert.stand);
@@ -818,6 +1176,9 @@
     tabVorschau.classList.remove("aktiv");
     formular.classList.remove("versteckt");
     vorschauBereich.classList.add("versteckt");
+    // Höhen nach dem Wiederanzeigen neu berechnen (scrollHeight ist bei
+    // ausgeblendeten Elementen 0).
+    aktualisiereAutoHoehen();
   }
 
   function formatiereDatum(iso) {
@@ -837,7 +1198,7 @@
     var stelle = feldStelle.value.trim();
     var datumText = formatiereDatum(feldDatum.value);
     var textHTML = "";
-    try { textHTML = marked.parse(mde ? mde.value() : ""); } catch (e) { textHTML = ""; }
+    try { textHTML = marked.parse(feldInhalt.value || ""); } catch (e) { textHTML = ""; }
 
     var losungHTML = "";
     if (losung) {
@@ -882,7 +1243,7 @@
       stelle: feldStelle.value.trim(),
       beschreibung: feldBeschreibung.value.trim(),
       schlagwoerter: feldSchlagwoerter.value.split(",").map(function (s) { return s.trim(); }).filter(Boolean),
-      inhalt: mde ? mde.value() : "",
+      inhalt: feldInhalt.value,
       entwurf: alsEntwurf,
     };
 
