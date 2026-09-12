@@ -346,6 +346,10 @@
   .status.erfolg { color: var(--gruen); }
   .versteckt { display: none !important; }
 
+  /* Telegram-Diagnose am Ende der Liste (dezent abgesetzt). */
+  .telegram-test { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--rand); }
+  .telegram-test .status { white-space: pre-line; }
+
   /* --- Wiederherstellen-Hinweis (Auto-Speichern) --- */
   .wiederherstellen,
   .datum-warnung {
@@ -467,6 +471,15 @@
       </div>
       <p id="liste-status" class="status"></p>
       <ul id="liste"></ul>
+
+      <!-- Telegram-Diagnose: sendet eine Testnachricht in den Kanal und zeigt
+           bei einem Fehler den genauen Grund an (nicht eingerichtet, Bot-Token
+           ungültig, Bot kein Kanal-Admin …). Macht den sonst stillen Fehlschlag
+           des automatischen Versands sichtbar. -->
+      <div class="telegram-test">
+        <button class="sekundaer" id="telegram-test-btn" type="button">Telegram testen</button>
+        <p id="telegram-test-status" class="status"></p>
+      </div>
     </div>
   </section>
 
@@ -706,6 +719,29 @@
     vergissSitzung();
     abmeldenBtn.classList.add("versteckt");
     zeigeNur(loginAnsicht);
+  });
+
+  // --- Telegram testen ---
+  // Sendet eine Testnachricht in den Kanal und zeigt im Erfolgsfall eine grüne,
+  // sonst eine rote Meldung mit dem genauen Grund (nicht eingerichtet, Token
+  // ungültig, Kanal/Rechte …). So wird sichtbar, warum der automatische Versand
+  // ggf. nicht ankommt.
+  var telegramTestBtn = document.getElementById("telegram-test-btn");
+  telegramTestBtn.addEventListener("click", async function () {
+    var status = document.getElementById("telegram-test-status");
+    status.className = "status";
+    status.textContent = "Sende Testnachricht …";
+    telegramTestBtn.disabled = true;
+    try {
+      var daten = await api("/api/telegram-test", { method: "POST" });
+      status.className = "status " + (daten && daten.ok ? "erfolg" : "fehler");
+      status.textContent = (daten && daten.meldung) || (daten && daten.ok ? "Gesendet." : "Fehlgeschlagen.");
+    } catch (e) {
+      status.className = "status fehler";
+      status.textContent = e.message || "Test fehlgeschlagen.";
+    } finally {
+      telegramTestBtn.disabled = false;
+    }
   });
 
   // --- Liste ---
