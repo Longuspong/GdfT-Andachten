@@ -667,11 +667,20 @@
   // Die Höhe folgt dem Inhalt (wie der Andachtstext); kein manuelles Ziehen nötig.
   function autoWachsen(el) {
     if (!el) return;
+    // Scrollposition der Seite merken: Das kurzzeitige Zurücksetzen der Höhe
+    // auf "auto" verkürzt das Dokument, woraufhin der Browser die
+    // Scrollposition „festklemmt". Ohne Wiederherstellung springt der Text
+    // beim Tippen/Löschen weg und man kann nicht mehr sauber scrollen.
+    var x = window.scrollX, y = window.scrollY;
     el.style.height = "auto";
     el.style.height = (el.scrollHeight + 2) + "px";
+    // Neue Höhe erzwingen (Reflow), damit die Seite wieder ihre volle Höhe
+    // hat, bevor wir die gemerkte Scrollposition zurücksetzen.
+    void el.offsetHeight;
+    if (window.scrollX !== x || window.scrollY !== y) window.scrollTo(x, y);
   }
-  var autoFelder = [feldLosung, feldBeschreibung];
-  autoFelder.forEach(function (el) {
+  var autoFelder = [feldLosung, feldBeschreibung, feldInhalt];
+  [feldLosung, feldBeschreibung].forEach(function (el) {
     el.addEventListener("input", function () { autoWachsen(el); });
   });
   function aktualisiereAutoHoehen() { autoFelder.forEach(autoWachsen); }
