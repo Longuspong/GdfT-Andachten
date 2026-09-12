@@ -5,6 +5,31 @@ const { meldeAndachtFallsFaellig } = require("./_lib/melden");
 
 const ORDNER = "src/andachten";
 
+// waitUntil: nach dem Senden der Antwort im Hintergrund weiterarbeiten (Vercel).
+// So bleibt das Speichern im Admin sofort quittiert, während die Telegram-Meldung
+// erst rausgeht, wenn die neu gebaute Seite wirklich online ist (kann 1–2 Minuten
+// dauern; siehe api/_lib/melden.js). Fehlt das Paket (z. B. lokal), wird die
+// Meldung ersatzweise direkt abgewartet – das Verhalten bleibt korrekt.
+let vercelWaitUntil = null;
+try {
+  ({ waitUntil: vercelWaitUntil } = require("@vercel/functions"));
+} catch {
+  /* @vercel/functions nicht vorhanden -> Fallback in imHintergrund() */
+}
+
+function imHintergrund(promise) {
+  const abgesichert = Promise.resolve(promise).catch(() => {});
+  if (typeof vercelWaitUntil === "function") {
+    try {
+      vercelWaitUntil(abgesichert);
+      return Promise.resolve(); // Antwort sofort schicken, Rest läuft im Hintergrund
+    } catch {
+      /* außerhalb einer Vercel-Funktion -> unten abwarten */
+    }
+  }
+  return abgesichert; // Fallback: vor dem Antworten abwarten
+}
+
 // Slug-Teil (nach dem Datum) aus einem Dateinamen holen, z. B.
 // "2026-09-11-hoffnung.md" -> "hoffnung". Für die Telegram-Meldung, damit der
 // Link exakt zur veröffentlichten Adresse passt.
@@ -206,8 +231,8 @@ module.exports = async (req, res) => {
       const inhaltDatei = baueDatei({ titel, losung, stelle, beschreibung, schlagwoerter, inhalt, entwurf });
       const nachricht = entwurf ? `Entwurf gespeichert: ${titel}` : `Andacht veröffentlicht: ${titel}`;
       await putFile(`${ORDNER}/${dateiname}`, inhaltDatei, nachricht);
-      const telegram = await meldeWennFaellig({ datei: dateiname, datum, titel, entwurf });
-      res.status(200).json({ ok: true, datei: dateiname, entwurf, telegram });
+      await imHintergrund(meldeWennFaellig({ datei: dateiname, datum, titel, entwurf }));
+      res.status(200).json({ ok: true, datei: dateiname, entwurf });
       return;
     }
 
@@ -239,8 +264,8 @@ module.exports = async (req, res) => {
 
       if (neuerName === alterName) {
         await putFile(`${ORDNER}/${alterName}`, inhaltDatei, nachricht, sha);
-        const telegram = await meldeWennFaellig({ datei: alterName, datum, titel, entwurf });
-        res.status(200).json({ ok: true, datei: alterName, entwurf, telegram });
+        await imHintergrund(meldeWennFaellig({ datei: alterName, datum, titel, entwurf }));
+        res.status(200).json({ ok: true, datei: alterName, entwurf });
       } else {
         // Datum oder Titel haben sich geändert -> neuer Dateiname nötig:
         // neue Datei anlegen und alte danach entfernen.
@@ -248,8 +273,8 @@ module.exports = async (req, res) => {
         await deleteFile(`${ORDNER}/${alterName}`, `Alte Datei nach Umbenennung entfernt: ${alterName}`, sha);
         // alterName mitgeben: war die Andacht schon gemeldet, zieht der Merker
         // auf den neuen Dateinamen um (keine erneute Meldung über den Cron).
-        const telegram = await meldeWennFaellig({ datei: neuerName, datum, titel, entwurf, alterName });
-        res.status(200).json({ ok: true, datei: neuerName, entwurf, telegram });
+        await imHintergrund(meldeWennFaellig({ datei: neuerName, datum, titel, entwurf, alterName }));
+        res.status(200).json({ ok: true, datei: neuerName, entwurf });
       }
       return;
     }

@@ -79,6 +79,60 @@ function andachtUrl(datum, slug) {
   return `${basisUrl()}/andachten/${datum}/${slug}/`;
 }
 
+// --- Erst prüfen, dann melden ----------------------------------------------
+// Verhindert, dass der Telegram-Link kurzzeitig ins Leere zeigt, solange Vercel
+// die neu gebaute Seite noch nicht online hat: Vor dem Posten wird die
+// öffentliche Andachts-Adresse abgefragt, bis sie mit HTTP 200 antwortet. Steht
+// sie im Zeitbudget nicht, wird NICHT gemeldet – der tägliche 6-Uhr-Lauf holt die
+// Meldung dann im 3-Tage-Fenster nach.
+const ERREICHBAR_MAX_WARTE_MS = 45000; // Gesamt-Wartebudget (bleibt unter dem Vercel-Funktions-Zeitlimit)
+const ERREICHBAR_ABSTAND_MS = 3000; // Pause zwischen zwei Versuchen
+const ERREICHBAR_ANFRAGE_TIMEOUT_MS = 8000; // Zeitlimit je Einzel-Abruf
+
+// Einzelner Abruf: true bei HTTP 200–299. Netzwerkfehler/Timeout ergeben false.
+async function istErreichbar(url, timeoutMs = ERREICHBAR_ANFRAGE_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const stopp = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    // Cache-Buster + no-cache, damit kein zwischengespeichertes 404 die Prüfung
+    // verfälscht, sobald die neue Version wirklich live ist.
+    const trenn = url.includes("?") ? "&" : "?";
+    const res = await fetch(`${url}${trenn}_=${Date.now()}`, {
+      method: "GET",
+      redirect: "follow",
+      signal: controller.signal,
+      headers: { "cache-control": "no-cache" },
+    });
+    try {
+      await (res.body && res.body.cancel && res.body.cancel());
+    } catch {
+      /* Body nicht benötigt */
+    }
+    return res.ok;
+  } catch {
+    return false; // noch nicht erreichbar (Timeout/Netzwerkfehler)
+  } finally {
+    clearTimeout(stopp);
+  }
+}
+
+// Wartet, bis die URL öffentlich erreichbar ist (HTTP 200), und gibt dann true
+// zurück; sonst false nach Ablauf des Wartebudgets. Ist die Adresse nicht absolut
+// (kein http/https – etwa weil site.url fehlt), lässt sie sich nicht prüfen; dann
+// wird true angenommen, um das Melden nicht dauerhaft zu blockieren.
+async function warteBisErreichbar(
+  url,
+  { maxWarteMs = ERREICHBAR_MAX_WARTE_MS, abstandMs = ERREICHBAR_ABSTAND_MS } = {}
+) {
+  if (!/^https?:\/\//i.test(String(url))) return true;
+  const bis = Date.now() + maxWarteMs;
+  for (;;) {
+    if (await istErreichbar(url)) return true;
+    if (Date.now() + abstandMs >= bis) return false;
+    await new Promise((r) => setTimeout(r, abstandMs));
+  }
+}
+
 // Telegram-Nachricht für eine Andacht bauen: nur der Titel, darunter der Link
 // (Telegram zeigt darüber automatisch eine Vorschaukarte der Seite).
 function baueNachricht({ datum, slug, felder }) {
@@ -181,6 +235,7 @@ async function meldeFaelligeAndachten() {
 
   const gesendet = status.gesendet.slice();
   const gemeldet = [];
+  const verschoben = [];
   for (const a of kandidaten) {
     const file = await getFile(`${ORDNER}/${a.datei}`);
     if (!file) continue;
@@ -188,6 +243,13 @@ async function meldeFaelligeAndachten() {
     // Entwürfe werden nicht gemeldet (und nicht als gesendet vermerkt, damit sie
     // nach dem Veröffentlichen noch gemeldet werden können).
     if (felder.entwurf === true) continue;
+    // Erst melden, wenn die Seite wirklich online ist (sonst zeigt der Link ins
+    // Leere, solange Vercel noch baut). Steht sie im Zeitbudget nicht, NICHT als
+    // gesendet vermerken – der nächste Lauf versucht es erneut (3-Tage-Fenster).
+    if (!(await warteBisErreichbar(andachtUrl(a.datum, a.slug)))) {
+      verschoben.push(a.datei);
+      continue;
+    }
     await sendeTelegram(baueNachricht({ datum: a.datum, slug: a.slug, felder }));
     gesendet.push(a.datei);
     gemeldet.push(a.datei);
@@ -200,7 +262,7 @@ async function meldeFaelligeAndachten() {
       `Telegram: ${gemeldet.length} Andacht(en) gemeldet`
     );
   }
-  return { ersteEinrichtung: false, gemeldet: gemeldet.length, dateien: gemeldet };
+  return { ersteEinrichtung: false, gemeldet: gemeldet.length, dateien: gemeldet, verschoben };
 }
 
 // --- Weg 2: Sofort beim Veröffentlichen -----------------------------------
@@ -251,6 +313,14 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
     return { uebersprungen: true, grund: "noch-nicht-faellig" };
   }
 
+  // Erst melden, wenn die Seite wirklich online ist (sonst zeigt der Link ins
+  // Leere, solange Vercel noch baut). Steht sie im Zeitbudget nicht, NICHT melden
+  // und NICHT als gesendet vermerken – der tägliche Lauf holt es im 3-Tage-Fenster
+  // nach.
+  if (!(await warteBisErreichbar(andachtUrl(datum, slug)))) {
+    return { uebersprungen: true, grund: "seite-noch-nicht-erreichbar" };
+  }
+
   await sendeTelegram(baueNachricht({ datum, slug, felder }));
   const gesendet = status.gesendet.filter((n) => n !== alterName);
   gesendet.push(datei);
@@ -266,6 +336,7 @@ module.exports = {
   verschiebeTage,
   istFaelligJetzt,
   andachtUrl,
+  warteBisErreichbar,
   baueNachricht,
   meldeFaelligeAndachten,
   meldeAndachtFallsFaellig,

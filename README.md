@@ -168,9 +168,20 @@ Grundregel: **Jede Andacht wird genau einmal gemeldet – in dem Moment, in dem 
   dann vom täglichen Lauf gemeldet.
 - **Heute veröffentlicht, aber noch vor 6 Uhr** → erscheint um 6 Uhr und wird dann
   gemeldet (wie eine vorgeplante).
-- **Heute veröffentlicht, schon nach 6 Uhr** → sofort sichtbar und **sofort**
-  gemeldet (direkt beim Speichern im Admin), nicht erst am nächsten Morgen. So
-  doppelt sie sich nicht mit der am nächsten Tag geplanten Andacht.
+- **Heute veröffentlicht, schon nach 6 Uhr** → gemeldet, sobald die neu gebaute
+  Seite online ist (meist ~1–2 Minuten nach dem Speichern), nicht erst am
+  nächsten Morgen. So doppelt sie sich nicht mit der am nächsten Tag geplanten
+  Andacht.
+
+**Erst prüfen, dann melden:** Die Telegram-Meldung geht bewusst **erst raus, wenn
+die Andachts-Seite wirklich erreichbar ist** – sonst würde der Link kurzzeitig ins
+Leere zeigen, solange Vercel die Seite noch baut. Dazu ruft der Code die
+öffentliche Adresse ab, bis sie mit HTTP 200 antwortet. Beim Speichern im Admin
+läuft das im Hintergrund (`waitUntil`), damit die Rückmeldung sofort da ist. Steht
+die Seite ausnahmsweise nicht innerhalb des Zeitbudgets (~45 Sek., unter dem
+60-Sekunden-Limit des Vercel-Hobby-Tarifs, eingestellt in
+[`vercel.json`](vercel.json)), wird **nicht** gemeldet – der tägliche 6-Uhr-Lauf
+holt die Meldung dann im 3-Tage-Fenster nach.
 
 **Einrichtung:**
 
