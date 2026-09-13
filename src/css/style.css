@@ -478,6 +478,123 @@ img {
   }
 }
 
+/* --- Abo-Menü (oben links) ----------------------------------------------
+   Dezenter „+ Abonnieren“-Knopf, der ein kleines Menü aufklappt (Telegram,
+   RSS …). Als <details>/<summary> gebaut: klappt auch ohne JavaScript auf und
+   zu. Gegenstück zum Design-Schalter oben rechts.
+   Mobil: fest in der linken oberen Ecke (wie der Schalter rechts). Ab 40rem
+   läuft der Knopf im normalen Fluss ganz links vor der Marke. */
+
+.abo {
+  position: absolute;
+  top: 1rem;
+  left: max(1.15rem, env(safe-area-inset-left));
+  z-index: 6;
+}
+
+@media (min-width: 40rem) {
+  .abo {
+    position: relative; /* im Fluss, aber Anker für das Menü */
+    top: auto;
+    left: auto;
+  }
+}
+
+/* Der Knopf selbst (die <summary>). Standard-Dreieck der <details> ausblenden. */
+.abo__knopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.7rem 0.4rem 0.55rem;
+  border: 1.5px solid var(--farbe-primaer-hell);
+  border-radius: 999px;
+  background: var(--farbe-flaeche);
+  color: var(--farbe-primaer);
+  font-family: var(--schrift-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.abo__knopf::-webkit-details-marker { display: none; }
+.abo__knopf::marker { content: ""; }
+.abo__knopf:hover { border-color: var(--farbe-akzent); }
+.abo__knopf:focus-visible {
+  outline: 2px solid var(--farbe-akzent);
+  outline-offset: 2px;
+}
+
+.abo__zeichen {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+/* Beim Öffnen dreht sich das „+“ leicht zu einem „×“-Gefühl. */
+.abo[open] .abo__zeichen { transform: rotate(45deg); }
+.abo[open] .abo__knopf { border-color: var(--farbe-akzent); }
+
+/* Auf sehr schmalen Geräten nur das Zeichen zeigen (spart Platz in der Ecke);
+   der aria-label/title bleibt für die Bedeutung erhalten. */
+.abo__text { display: none; }
+@media (min-width: 22.5rem) {
+  .abo__text { display: inline; }
+}
+
+/* Das aufgeklappte Menü – eine kleine Karte unter dem Knopf. */
+.abo__menue {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 40;
+  width: min(17rem, calc(100vw - 2rem));
+  background: var(--farbe-flaeche);
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.abo__titel {
+  margin: 0.25rem 0.5rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--farbe-text-leise);
+}
+
+.abo__option {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--farbe-text);
+  transition: background 0.15s ease;
+}
+.abo__option + .abo__option { margin-top: 0.15rem; }
+.abo__option:hover { background: var(--farbe-grund); }
+.abo__option:focus-visible {
+  outline: 2px solid var(--farbe-akzent);
+  outline-offset: -2px;
+}
+
+.abo__option-name {
+  display: block;
+  font-weight: 600;
+  color: var(--farbe-primaer);
+}
+.abo__option-info {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--farbe-text-leise);
+  margin-top: 0.1rem;
+}
+
 /* --- Hauptinhalt --- */
 
 .inhalt {

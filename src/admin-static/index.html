@@ -369,6 +369,9 @@
   .datum-warnung { margin: 0.5rem 0 0.2rem; }
   .wiederherstellen .aktionen { display: flex; gap: 0.5rem; flex-shrink: 0; }
   .autospeicher-status { font-size: 0.78rem; color: var(--text-leise); margin-top: 0.5rem; min-height: 1em; }
+  .aktionen-hinweis { font-size: 0.82rem; color: var(--text-leise); margin: 0.4rem 0 0; }
+  .aktionen-hinweis:empty { display: none; }
+  #melden-status:empty, #editor-status:empty { min-height: 0; margin-top: 0; }
 
   /* --- Vorschau --- */
   .vorschau-info { font-size: 0.82rem; color: var(--text-leise); margin: 0 0 0.6rem; }
@@ -584,11 +587,14 @@
         </div>
 
         <p id="autospeicher-status" class="autospeicher-status"></p>
+        <p id="aktionen-hinweis" class="aktionen-hinweis"></p>
         <p id="editor-status" class="status"></p>
+        <p id="melden-status" class="status"></p>
 
         <div class="form-aktionen">
           <button type="button" class="primaer" id="veroeffentlichen-btn">Veröffentlichen</button>
           <button type="button" class="sekundaer" id="entwurf-btn">Als Entwurf speichern</button>
+          <button type="button" class="sekundaer versteckt" id="melden-btn">Per Telegram benachrichtigen</button>
           <span class="luecke"></span>
           <button type="button" class="sekundaer" id="abbrechen-btn">Abbrechen</button>
           <button type="button" class="gefahr versteckt" id="loeschen-btn">Löschen</button>
@@ -631,6 +637,12 @@
   var feldBeschreibung = document.getElementById("feld-beschreibung");
   var feldSchlagwoerter = document.getElementById("feld-schlagwoerter");
   var feldInhalt = document.getElementById("feld-inhalt");
+
+  var veroeffentlichenBtn = document.getElementById("veroeffentlichen-btn");
+  var entwurfBtn = document.getElementById("entwurf-btn");
+  var meldenBtn = document.getElementById("melden-btn");
+  var aktionenHinweis = document.getElementById("aktionen-hinweis");
+  var meldenStatus = document.getElementById("melden-status");
 
   var datumWarnung = document.getElementById("datum-warnung");
   var datumWarnungText = document.getElementById("datum-warnung-text");
@@ -781,6 +793,14 @@
 
         var aktionen = document.createElement("div");
         aktionen.className = "eintrag-aktionen";
+
+        var vorschau = document.createElement("button");
+        vorschau.className = "sekundaer";
+        vorschau.type = "button";
+        vorschau.textContent = "Vorschau";
+        vorschau.addEventListener("click", function () { oeffneVorschau(e.datei); });
+        aktionen.appendChild(vorschau);
+
         var bearbeiten = document.createElement("button");
         bearbeiten.className = "sekundaer";
         bearbeiten.type = "button";
@@ -1233,6 +1253,7 @@
       fuelleFormular({ datum: vorgabeDatum || heute() });
       aktualisiereDatumsansicht();
       serverZustand = null;
+      aktualisiereAktionen();
       zeigeNur(editorAnsicht);
       merkeSitzung();
 
@@ -1251,7 +1272,7 @@
 
     try {
       var e = await api("/api/andachten?datei=" + encodeURIComponent(datei));
-      aktuellerEintrag = { datei: e.datei, sha: e.sha };
+      aktuellerEintrag = { datei: e.datei, sha: e.sha, entwurf: e.entwurf === true, datum: e.datum || "" };
       document.getElementById("editor-titel").textContent = e.entwurf ? "Entwurf bearbeiten" : "Andacht bearbeiten";
       fuelleFormular({
         datum: e.datum || heute(),
@@ -1265,6 +1286,7 @@
       aktualisiereDatumsansicht();
       serverZustand = JSON.stringify(sammleFormular());
       document.getElementById("loeschen-btn").classList.remove("versteckt");
+      aktualisiereAktionen();
       zeigeNur(editorAnsicht);
       merkeSitzung();
 
@@ -1350,6 +1372,73 @@
   tabBearbeiten.addEventListener("click", zeigeBearbeiten);
   tabVorschau.addEventListener("click", zeigeVorschau);
 
+  // Eine vorhandene Andacht direkt in der Vorschau öffnen (aus der Liste).
+  async function oeffneVorschau(datei) {
+    await oeffneEditor(datei);
+    if (!editorAnsicht.classList.contains("versteckt")) zeigeVorschau();
+  }
+
+  // Aktionsleiste an den Zustand anpassen:
+  //  - Neue Andacht / Entwurf: „Veröffentlichen“ + „Als Entwurf speichern“.
+  //    Beim Veröffentlichen meldet der Server automatisch per Telegram, sobald
+  //    die Andacht online ist.
+  //  - Bereits veröffentlichte Andacht: „Korrektur speichern“ (ändert den Text,
+  //    OHNE erneut zu benachrichtigen) + „Per Telegram benachrichtigen“ (stößt
+  //    die Meldung von Hand an – nur möglich, wenn die Andacht schon online ist).
+  function aktualisiereAktionen() {
+    meldenStatus.textContent = "";
+    meldenStatus.className = "status";
+
+    var veroeffentlicht = Boolean(aktuellerEintrag && !aktuellerEintrag.entwurf);
+
+    if (veroeffentlicht) {
+      veroeffentlichenBtn.textContent = "Korrektur speichern";
+      entwurfBtn.classList.add("versteckt");
+      meldenBtn.classList.remove("versteckt");
+
+      var datum = aktuellerEintrag.datum || feldDatum.value;
+      var schonOnline = !datum || datum <= heute();
+      meldenBtn.disabled = !schonOnline;
+      meldenBtn.title = schonOnline
+        ? "Sendet die Andacht (noch einmal) in den Telegram-Kanal – nur, wenn sie wirklich online ist."
+        : "Erst ab dem Erscheinungstag möglich (" + formatiereDatum(datum) + ").";
+      aktionenHinweis.textContent = schonOnline
+        ? "„Korrektur speichern“ ändert den Text, ohne erneut zu benachrichtigen. „Per Telegram benachrichtigen“ stößt die Meldung von Hand an – z. B. falls sie beim Veröffentlichen nicht ankam."
+        : "Diese Andacht ist vorgeplant und erscheint automatisch am " + formatiereDatum(datum) +
+          " um 6 Uhr. Erst dann lässt sie sich per Telegram melden.";
+    } else {
+      veroeffentlichenBtn.textContent = "Veröffentlichen";
+      entwurfBtn.classList.remove("versteckt");
+      meldenBtn.classList.add("versteckt");
+      meldenBtn.disabled = false;
+      aktionenHinweis.textContent =
+        "Beim Veröffentlichen wird – sobald die Andacht online ist – automatisch per Telegram benachrichtigt.";
+    }
+  }
+
+  // Manuelle Telegram-Meldung für die gerade geöffnete, veröffentlichte Andacht.
+  meldenBtn.addEventListener("click", async function () {
+    if (!aktuellerEintrag) return;
+    meldenStatus.className = "status";
+    meldenStatus.textContent = "Prüfe, ob die Andacht online ist, und melde per Telegram …";
+    meldenBtn.disabled = true;
+    try {
+      var daten = await api("/api/andacht-melden", {
+        method: "POST",
+        body: JSON.stringify({ datei: aktuellerEintrag.datei }),
+      });
+      meldenStatus.className = "status erfolg";
+      meldenStatus.textContent = (daten && daten.meldung) || "Per Telegram gemeldet.";
+    } catch (e) {
+      meldenStatus.className = "status fehler";
+      meldenStatus.textContent = e.message || "Melden fehlgeschlagen.";
+    } finally {
+      // Wieder freigeben (erneuter Versuch möglich), außer bei künftigem Datum.
+      var datum = aktuellerEintrag.datum || feldDatum.value;
+      meldenBtn.disabled = Boolean(datum && datum > heute());
+    }
+  });
+
   // --- Speichern (Entwurf oder Veröffentlichen) ---
   async function speichern(alsEntwurf) {
     var status = document.getElementById("editor-status");
@@ -1375,6 +1464,10 @@
       return;
     }
 
+    // Wurde eine bereits veröffentlichte Andacht bearbeitet? Dann ist das eine
+    // Korrektur (kein erneutes Melden) – für die passende Erfolgsmeldung.
+    var warVeroeffentlicht = Boolean(aktuellerEintrag && !aktuellerEintrag.entwurf);
+
     status.textContent = "Speichere …";
     status.className = "status";
 
@@ -1396,6 +1489,8 @@
         status.textContent = "Als Entwurf gespeichert (noch nicht öffentlich sichtbar).";
       } else if (daten.datum > heute()) {
         status.textContent = "Gespeichert. Diese Andacht ist vorgeplant und erscheint automatisch am " + formatiereDatum(daten.datum) + ".";
+      } else if (warVeroeffentlicht) {
+        status.textContent = "Korrektur gespeichert. Die Seite baut jetzt neu (kann 1–2 Minuten dauern). Es wird nicht erneut per Telegram benachrichtigt.";
       } else {
         status.textContent = "Veröffentlicht. Die Seite baut jetzt neu (kann 1–2 Minuten dauern).";
       }
