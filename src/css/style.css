@@ -550,7 +550,7 @@ img {
   top: calc(100% + 0.5rem);
   left: 0;
   z-index: 40;
-  width: min(17rem, calc(100vw - 2rem));
+  width: min(19rem, calc(100vw - 2rem));
   background: var(--farbe-flaeche);
   border: 1px solid var(--farbe-linie);
   border-radius: var(--radius);
@@ -593,6 +593,61 @@ img {
   font-size: 0.8rem;
   color: var(--farbe-text-leise);
   margin-top: 0.1rem;
+}
+
+/* --- E-Mail-Anmeldung im Abo-Menü --- */
+.abo__mail { padding: 0.5rem 0.6rem 0.3rem; }
+.abo__mail-zeile { display: flex; gap: 0.4rem; margin-top: 0.5rem; }
+.abo__mail-feld {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  border: 1.5px solid var(--farbe-primaer-hell);
+  border-radius: 9px;
+  background: var(--farbe-flaeche);
+  color: var(--farbe-text);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.abo__mail-feld:focus-visible {
+  outline: 2px solid var(--farbe-akzent);
+  outline-offset: 1px;
+  border-color: var(--farbe-akzent);
+}
+.abo__mail-knopf {
+  flex: 0 0 auto;
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: 9px;
+  background: var(--farbe-primaer);
+  color: var(--farbe-grund);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.abo__mail-knopf:hover { background: var(--farbe-primaer-hell); }
+.abo__mail-knopf:disabled { opacity: 0.6; cursor: default; }
+.abo__mail-status {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  min-height: 0;
+}
+.abo__mail-status:empty { display: none; }
+.abo__mail-status.erfolg { color: var(--farbe-akzent-dunkel); }
+.abo__mail-status.fehler { color: #b3261e; }
+.abo__mail-hinweis {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--farbe-text-leise);
+}
+.abo__trenner {
+  border: none;
+  border-top: 1px solid var(--farbe-linie);
+  margin: 0.5rem 0.3rem;
 }
 
 /* --- Hauptinhalt --- */

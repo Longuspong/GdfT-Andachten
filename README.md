@@ -222,9 +222,53 @@ nachholen – über *Per Telegram benachrichtigen* im Editor (Endpunkt
 die Andacht schon online erreichbar ist.
 
 **So abonnieren Besucher die Seite:** Oben links öffnet ein dezenter
-*Abonnieren*-Knopf ein kleines Menü mit den Möglichkeiten – aktuell der
-**Telegram-Kanal** und der **RSS-Feed** ([`feed.xml`](src/feed.njk)). Das Menü ist
-als `<details>` gebaut und funktioniert auch ohne JavaScript.
+*Abonnieren*-Knopf ein kleines Menü mit den Möglichkeiten – **E-Mail** (siehe
+unten, nur wenn eingerichtet), der **Telegram-Kanal** und der **RSS-Feed**
+([`feed.xml`](src/feed.njk)). Das Menü ist als `<details>` gebaut und funktioniert
+auch ohne JavaScript.
+
+### Newsletter per E-Mail (Brevo)
+
+Optional können neue Andachten zusätzlich **per E-Mail** verschickt werden – über
+**Brevo** (EU-Anbieter, kostenlos bis 300 Mails/Tag). Ist Brevo nicht
+eingerichtet, erscheint das E-Mail-Feld im Abo-Menü gar nicht erst, und es wird
+nichts versendet.
+
+Ablauf (Double-Opt-In, wie in Deutschland vorgeschrieben):
+
+1. Besucher trägt im Abo-Menü seine Adresse ein → bekommt eine **Bestätigungsmail**.
+2. Klick auf den Bestätigungslink → die Adresse landet in der Brevo-Liste
+   ([`api/newsletter-bestaetigen.js`](api/newsletter-bestaetigen.js)).
+3. Ab dann bekommt er jede neue Andacht per Mail – mit **Abmeldelink** in jeder
+   Nachricht ([`api/newsletter-abmelden.js`](api/newsletter-abmelden.js), inkl.
+   Ein-Klick-Abmeldung `List-Unsubscribe`).
+
+Der Versand läuft parallel zu Telegram: beim Veröffentlichen (sobald online) und
+über den täglichen 6-Uhr-Lauf. Ein eigener Merker
+**`newsletter-gesendet.json`** sorgt – getrennt von Telegram – dafür, dass jede
+Andacht genau **einmal** gemailt wird; beim ersten Lauf wird der Bestand ohne
+rückwirkenden Versand verbucht.
+
+**Einrichtung:**
+
+1. Kostenloses **Brevo-Konto** anlegen (brevo.com).
+2. **Absender-Adresse verifizieren** (Brevo → *Senders, Domains & Dedicated IPs*)
+   – am besten mit SPF/DKIM, damit die Mails nicht im Spam landen.
+3. Eine **Kontaktliste** anlegen und deren **ID** notieren (Brevo → *Contacts →
+   Lists*).
+4. Einen **API-Schlüssel** erzeugen (Brevo → *SMTP & API → API Keys*).
+5. In Vercel als Umgebungsvariablen eintragen (siehe [`.env.example`](.env.example)):
+   `BREVO_API_KEY`, `BREVO_LIST_ID`, `BREVO_SENDER_EMAIL`, optional
+   `BREVO_SENDER_NAME` und `NEWSLETTER_SECRET`. Danach **neu deployen** – erst dann
+   erscheint das E-Mail-Feld im Abo-Menü.
+6. Im Admin-Bereich prüft der Knopf **„Newsletter (E-Mail) testen“** die
+   Einrichtung und schickt eine Testmail an die Absender-Adresse
+   ([`api/newsletter-test.js`](api/newsletter-test.js)).
+
+> **Datenschutz:** Die Adressen liegen bei Brevo (EU, mit Auftragsverarbeitungs­-
+> vertrag), nicht im öffentlichen Repo. Abmeldung ist jederzeit über den Link in
+> jeder Mail möglich. Bitte einen kurzen Hinweis zum Newsletter in die
+> Datenschutzerklärung aufnehmen.
 
 Wie es sich merkt, was schon gepostet wurde (ohne Datenbank):
 
@@ -376,6 +420,7 @@ Wie daraus fertige, veröffentlichte Andachten werden, steht in
 ```
 src/
   _data/site.js            Grundeinstellungen (Name, Beschreibung, Adresse …)
+  _data/features.js        Bau-Schalter (z. B. E-Mail-Abo nur, wenn Brevo gesetzt)
   _includes/               Vorlagen (Layouts, Kopf, Fuß)
   admin-static/index.html  Admin-Oberfläche (erreichbar unter /admin/)
   andachten/               eine Markdown-Datei je Andacht  ← hier schreibst du
@@ -397,11 +442,16 @@ api/                       Server-Funktionen (Vercel)
   login.js / logout.js     An- und Abmelden
   andachten.js             Andachten lesen, anlegen, ändern, löschen
   andacht-melden.js        eine veröffentlichte Andacht von Hand per Telegram melden
-  taeglich.js              täglicher Lauf: Neu-Bau anstoßen + Telegram-Meldung
-  _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff, Telegram, Melden)
+  abonnieren.js            E-Mail-Newsletter: Anmeldung (Double-Opt-In, Schritt 1)
+  newsletter-bestaetigen.js  Bestätigungslink (Schritt 2)
+  newsletter-abmelden.js   Abmeldung (Link + Ein-Klick per List-Unsubscribe)
+  newsletter-test.js       Admin-Diagnose der Brevo-Einrichtung
+  taeglich.js              täglicher Lauf: Neu-Bau + Telegram-Meldung + E-Mail-Versand
+  _lib/                    Hilfsmodule (Sitzung, GitHub, Telegram, Melden, Brevo, Mailen)
 andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
 scripts/                   Hilfsskripte (z. B. Schriften laden: npm run schriften)
 telegram-gesendet.json     Merkliste bereits gemeldeter Andachten (automatisch)
+newsletter-gesendet.json   Merkliste bereits gemailter Andachten (automatisch)
 .env.example               Vorlage für die Zugangsdaten (in Vercel eintragen)
 vercel.json                Einstellungen für die Veröffentlichung (Vercel)
 ```

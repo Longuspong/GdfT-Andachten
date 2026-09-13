@@ -2,6 +2,8 @@ const { isAuthenticated } = require("./_lib/auth");
 const { listDir, getFile, putFile, deleteFile } = require("./_lib/github");
 const { telegramAktiv } = require("./_lib/telegram");
 const { meldeAndachtFallsFaellig } = require("./_lib/melden");
+const { newsletterAktiv } = require("./_lib/brevo");
+const { maileAndachtFallsFaellig } = require("./_lib/mailen");
 
 const ORDNER = "src/andachten";
 
@@ -59,6 +61,30 @@ async function meldeWennFaellig({ datei, datum, titel, entwurf, alterName }) {
     // Nur zurückmelden – die Veröffentlichung selbst war bereits erfolgreich.
     return { fehler: e.message };
   }
+}
+
+// Wie meldeWennFaellig, aber für den E-Mail-Newsletter (Brevo). Die vollständigen
+// Felder holt sich mailen.js frisch aus der Datei; hier genügt der Titel als
+// Rückfall. Bricht die Veröffentlichung NIE ab – der tägliche Lauf holt eine
+// ausgefallene Mail im 3-Tage-Fenster nach.
+async function maileWennFaellig({ datei, datum, titel, entwurf, alterName }) {
+  if (entwurf || !newsletterAktiv()) return null;
+  try {
+    return await maileAndachtFallsFaellig({
+      datei,
+      datum,
+      slug: slugAusDateiname(datei),
+      felder: { titel, entwurf: false },
+      alterName,
+    });
+  } catch (e) {
+    return { fehler: e.message };
+  }
+}
+
+// Beide Kanäle (Telegram + E-Mail) parallel im Hintergrund anstoßen.
+function benachrichtige(args) {
+  return Promise.all([meldeWennFaellig(args), maileWennFaellig(args)]);
 }
 
 // Gleiche Logik wie in eleventy.config.js, damit Slugs zur restlichen Seite passen.
@@ -231,7 +257,7 @@ module.exports = async (req, res) => {
       const inhaltDatei = baueDatei({ titel, losung, stelle, beschreibung, schlagwoerter, inhalt, entwurf });
       const nachricht = entwurf ? `Entwurf gespeichert: ${titel}` : `Andacht veröffentlicht: ${titel}`;
       await putFile(`${ORDNER}/${dateiname}`, inhaltDatei, nachricht);
-      await imHintergrund(meldeWennFaellig({ datei: dateiname, datum, titel, entwurf }));
+      await imHintergrund(benachrichtige({ datei: dateiname, datum, titel, entwurf }));
       res.status(200).json({ ok: true, datei: dateiname, entwurf });
       return;
     }
@@ -264,16 +290,16 @@ module.exports = async (req, res) => {
 
       if (neuerName === alterName) {
         await putFile(`${ORDNER}/${alterName}`, inhaltDatei, nachricht, sha);
-        await imHintergrund(meldeWennFaellig({ datei: alterName, datum, titel, entwurf }));
+        await imHintergrund(benachrichtige({ datei: alterName, datum, titel, entwurf }));
         res.status(200).json({ ok: true, datei: alterName, entwurf });
       } else {
         // Datum oder Titel haben sich geändert -> neuer Dateiname nötig:
         // neue Datei anlegen und alte danach entfernen.
         await putFile(`${ORDNER}/${neuerName}`, inhaltDatei, `${nachricht} (umbenannt)`);
         await deleteFile(`${ORDNER}/${alterName}`, `Alte Datei nach Umbenennung entfernt: ${alterName}`, sha);
-        // alterName mitgeben: war die Andacht schon gemeldet, zieht der Merker
-        // auf den neuen Dateinamen um (keine erneute Meldung über den Cron).
-        await imHintergrund(meldeWennFaellig({ datei: neuerName, datum, titel, entwurf, alterName }));
+        // alterName mitgeben: war die Andacht schon gemeldet/gemailt, zieht der
+        // Merker auf den neuen Dateinamen um (keine erneute Meldung über den Cron).
+        await imHintergrund(benachrichtige({ datei: neuerName, datum, titel, entwurf, alterName }));
         res.status(200).json({ ok: true, datei: neuerName, entwurf });
       }
       return;

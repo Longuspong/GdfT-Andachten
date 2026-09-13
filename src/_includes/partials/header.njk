@@ -15,6 +15,26 @@
       </summary>
       <div class="abo__menue">
         <p class="abo__titel">Andachten abonnieren</p>
+
+        {# E-Mail-Anmeldung – nur wenn der Newsletter (Brevo) eingerichtet ist.
+           Funktioniert ohne JavaScript (normaler POST, Endpunkt antwortet mit
+           einer Seite); js/abo.js macht daraus eine Anmeldung ohne Seitenwechsel. #}
+        {% if features.newsletter %}
+          <form class="abo__mail" method="post" action="/api/abonnieren">
+            <label class="abo__option-name" for="abo-mail-feld">Per E-Mail</label>
+            <span class="abo__option-info">Jede neue Andacht in dein Postfach.</span>
+            <div class="abo__mail-zeile">
+              <input class="abo__mail-feld" type="email" id="abo-mail-feld" name="email"
+                     required placeholder="deine@e-mail.de" autocomplete="email"
+                     inputmode="email" spellcheck="false" />
+              <button class="abo__mail-knopf" type="submit">Anmelden</button>
+            </div>
+            <p class="abo__mail-status" id="abo-mail-status" role="status" aria-live="polite"></p>
+            <p class="abo__mail-hinweis">Du bekommst eine Bestätigungsmail. Abmeldung jederzeit über den Link in jeder Mail.</p>
+          </form>
+          <hr class="abo__trenner" />
+        {% endif %}
+
         {% if site.telegram %}
           <a class="abo__option" href="{{ site.telegram }}" rel="noopener">
             <span class="abo__option-name">Telegram-Kanal</span>
