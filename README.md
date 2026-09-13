@@ -117,8 +117,11 @@ Nach dem Eintragen einmal neu deployen. Danach ist `/admin/` einsatzbereit.
 Zwei zusammengehörige Funktionen: Andachten **im Voraus** schreiben und am
 richtigen Tag **morgens um 6 Uhr** automatisch erscheinen lassen – und neue
 Andachten automatisch in einen **Telegram-Kanal** posten. Beides läuft über einen
-kleinen Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den zwei
-**Vercel-Cron-Jobs** (eingetragen in [`vercel.json`](vercel.json)) morgens aufrufen.
+kleinen Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den ein
+**GitHub-Actions-Workflow**
+([`.github/workflows/taeglich.yml`](.github/workflows/taeglich.yml)) morgens
+anstößt. (Früher übernahm das ein Vercel-Cron; der war – vor allem am Wochenende –
+unzuverlässig und wurde deshalb durch GitHub Actions ersetzt.)
 
 ### So funktioniert das Vorplanen
 
@@ -132,22 +135,30 @@ kleinen Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den zwei
 - Alle Zeiten werden in **deutscher Zeit** (Europe/Berlin) bestimmt – unabhängig
   davon, dass Vercel intern in UTC rechnet.
 
-**Warum zwei Cron-Zeiten (04:00 und 05:00 UTC)?** Vercel-Cron kennt nur UTC. Wegen
-der Sommer-/Winterzeit entspricht 6 Uhr deutscher Zeit mal 04:00 UTC (Sommer),
-mal 05:00 UTC (Winter). Beide Läufe sind eingetragen; der Code lässt aber nur den
-Lauf durch, der tatsächlich in die 6-Uhr-Stunde deutscher Zeit fällt (der andere
-wird abgewiesen). So wird ganzjährig zuverlässig gegen 6 Uhr veröffentlicht.
-(Hinweis: Vercel löst Cron-Jobs irgendwann **innerhalb** der geplanten Stunde aus,
-die Veröffentlichung liegt also in der 6-Uhr-Stunde, nicht sekundengenau um 6:00.)
+**Warum zwei Zeiten (05:00 und 07:00 UTC)?** GitHub-Actions-Cron rechnet in UTC.
+Beide Zeiten liegen ganzjährig (Sommer- wie Winterzeit) **nach 6 Uhr deutscher
+Zeit**, sodass der Endpunkt nicht durch seine eigene 6-Uhr-Sperre übersprungen
+wird. Der **07:00-UTC-Lauf ist die Reserve**: Er fängt einen ausgefallenen
+Haupt-Lauf ab – dass dabei nichts doppelt gemeldet wird, sichert
+`telegram-gesendet.json`. (Hinweis: GitHub kann geplante Läufe **verzögern**; das
+schiebt sie nur nach hinten, also weiterhin nach 6 Uhr. Der Workflow lässt sich im
+**Actions-Tab** auch manuell starten – zum Testen mit der Option „force", die die
+6-Uhr-Sperre umgeht.)
 
-**Einmalige Einrichtung in Vercel** (damit der nächtliche Neu-Bau klappt):
+**Einmalige Einrichtung** (damit der morgendliche Neu-Bau klappt):
 
-1. **Deploy Hook anlegen:** Project Settings → Git → **Deploy Hooks**, Branch
-   `main` wählen, Namen vergeben (z. B. `taeglich`), URL kopieren.
-2. Diese URL als Environment Variable **`DEPLOY_HOOK_URL`** eintragen.
-3. Empfohlen: **`CRON_SECRET`** setzen (z. B. `openssl rand -hex 32`). Vercel
-   schickt diesen Wert beim Cron-Aufruf automatisch mit; nur damit ist der
-   Endpunkt `/api/taeglich` vor fremden Aufrufen geschützt.
+1. **Deploy Hook anlegen:** Vercel → Project Settings → Git → **Deploy Hooks**,
+   Branch `main` wählen, Namen vergeben (z. B. `taeglich`), URL kopieren.
+2. Diese URL in Vercel als Environment Variable **`DEPLOY_HOOK_URL`** eintragen.
+3. Empfohlen: **`CRON_SECRET`** setzen (z. B. `openssl rand -hex 32`), damit der
+   Endpunkt `/api/taeglich` vor fremden Aufrufen geschützt ist. Diesen Wert an
+   **zwei** Stellen mit **identischem** Inhalt hinterlegen:
+   - in **Vercel** als Environment Variable `CRON_SECRET`, und
+   - in **GitHub** als Actions-Secret: Repo → Settings → **Secrets and variables**
+     → **Actions** → *New repository secret* → Name `CRON_SECRET`.
+
+   Der Workflow schickt diesen Wert beim Aufruf mit. Meldet ein Lauf im
+   Actions-Tab **HTTP 401**, stimmen die beiden Werte nicht überein.
 
 > Ohne `DEPLOY_HOOK_URL` bleibt das Vorplanen grundsätzlich erhalten (die Andacht
 > ist weiterhin versteckt), sie erscheint dann aber erst, wenn die Seite aus einem
@@ -210,12 +221,18 @@ Wie es sich merkt, was schon gepostet wurde (ohne Datenbank):
 > WhatsApp-Kanäle lassen sich nicht automatisiert bespielen. Wer auch WhatsApp
 > möchte, kann die neue Andacht weiterhin von Hand dort teilen.
 
-### Hinweis zum Vercel-Tarif
+### Hinweis zum Zeitplan
 
-Der **Hobby-Tarif** erlaubt **bis zu 2 Cron-Jobs**, jeweils **einmal pro Tag** –
-also genau die beiden hier genutzten Zeiten (04:00 und 05:00 UTC für 6 Uhr
-deutscher Zeit, ganzjährig). Häufigere Zeitpläne (z. B. stündlich) oder eine
-sekundengenaue Auslösung erfordern einen kostenpflichtigen Tarif.
+Der tägliche Lauf hängt **nicht** mehr am Vercel-Cron (der auf dem Hobby-Tarif
+unzuverlässig war), sondern an **GitHub Actions**
+([`.github/workflows/taeglich.yml`](.github/workflows/taeglich.yml)) – kostenlos
+für öffentliche wie private Repos im normalen Umfang. Der Endpunkt
+`/api/taeglich` selbst bleibt auf Vercel; GitHub Actions ruft ihn nur auf.
+
+> Hinweis: GitHub deaktiviert geplante Workflows automatisch, wenn ein Repo
+> **60 Tage** ohne Aktivität ist. Da hier regelmäßig Andachten committet werden,
+> passiert das im Normalbetrieb nicht; nach einer langen Pause den Workflow ggf.
+> im Actions-Tab wieder aktivieren.
 
 ---
 

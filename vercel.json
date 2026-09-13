@@ -7,15 +7,5 @@
   "functions": {
     "api/andachten.js": { "maxDuration": 60 },
     "api/taeglich.js": { "maxDuration": 60 }
-  },
-  "crons": [
-    {
-      "path": "/api/taeglich",
-      "schedule": "0 4 * * *"
-    },
-    {
-      "path": "/api/taeglich",
-      "schedule": "0 5 * * *"
-    }
-  ]
+  }
 }

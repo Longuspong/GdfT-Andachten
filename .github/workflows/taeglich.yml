@@ -1,0 +1,68 @@
+name: Täglicher Lauf (Andacht veröffentlichen + Telegram)
+
+# Ersetzt den früheren Vercel-Cron, der – vor allem am Wochenende – unzuverlässig
+# war. Dieser Workflow ruft einmal täglich den bestehenden Endpunkt
+# `api/taeglich` auf. Der stößt einen neuen Seitenbau an (macht vordatierte
+# Andachten an ihrem Tag sichtbar) und meldet fällige Andachten an Telegram.
+# Die eigentliche Logik (Fälligkeit, 6-Uhr-Sperre, Doppel-Schutz) bleibt
+# unverändert im Endpunkt – hier wird er nur zuverlässig angestoßen.
+
+on:
+  schedule:
+    # GitHub-Cron rechnet in UTC. Beide Zeiten liegen ganzjährig (Sommer- wie
+    # Winterzeit) NACH 6 Uhr deutscher Zeit, damit der Endpunkt nicht durch seine
+    # eigene 6-Uhr-Sperre übersprungen wird:
+    #   05:00 UTC = 06:00 (Winter) / 07:00 (Sommer) deutscher Zeit → Haupt-Lauf
+    #   07:00 UTC = 08:00 (Winter) / 09:00 (Sommer) deutscher Zeit → Reserve-Lauf
+    # GitHub kann geplante Läufe verzögern; das verschiebt sie nur nach HINTEN
+    # (also weiterhin nach 6 Uhr – unkritisch). Der Reserve-Lauf fängt einen
+    # ausgefallenen Haupt-Lauf ab; eine Doppel-Meldung ist durch
+    # telegram-gesendet.json ausgeschlossen.
+    - cron: "0 5 * * *"
+    - cron: "0 7 * * *"
+  # Manuell aus dem Actions-Tab startbar (zum Testen).
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "6-Uhr-Sperre umgehen (sofort ausführen, nur zum Testen)"
+        type: boolean
+        default: false
+
+# Nie zwei Läufe gleichzeitig (z. B. Reserve-Lauf trifft manuellen Start).
+concurrency:
+  group: taeglich
+  cancel-in-progress: false
+
+jobs:
+  anstossen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: api/taeglich aufrufen
+        env:
+          # Öffentliche Adresse der Seite (siehe src/_data/site.js → url).
+          BASIS_URL: https://gfdt-andachten.de
+          # Muss mit dem CRON_SECRET in Vercel übereinstimmen. Als GitHub-Secret
+          # hinterlegen: Repo → Settings → Secrets and variables → Actions.
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          # Nur bei manuellem Start und angehaktem Häkchen "force".
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
+        run: |
+          set -uo pipefail
+          url="$BASIS_URL/api/taeglich"
+          if [ "${FORCE:-false}" = "true" ]; then
+            url="$url?force=1"
+          fi
+          echo "Rufe $url auf ..."
+          code=$(curl -sS -m 60 --retry 3 --retry-delay 10 --retry-all-errors \
+            -o antwort.txt -w '%{http_code}' \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "$url") || { echo "::error::curl-Aufruf fehlgeschlagen (Netzwerk)"; exit 1; }
+          echo "HTTP-Status: $code"
+          echo "Antwort des Endpunkts:"
+          cat antwort.txt 2>/dev/null || true
+          echo
+          if [ "$code" -ge 400 ]; then
+            echo "::error::api/taeglich meldete HTTP $code – Lauf fehlgeschlagen. Bei 401 das GitHub-Secret CRON_SECRET prüfen (muss dem Wert in Vercel entsprechen)."
+            exit 1
+          fi
+          echo "Fertig."
