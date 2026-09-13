@@ -223,9 +223,12 @@ die Andacht schon online erreichbar ist.
 
 **So abonnieren Besucher die Seite:** Oben links öffnet ein dezenter
 *Abonnieren*-Knopf ein kleines Menü mit den Möglichkeiten – **E-Mail** (siehe
-unten, nur wenn eingerichtet), der **Telegram-Kanal** und der **RSS-Feed**
-([`feed.xml`](src/feed.njk)). Das Menü ist als `<details>` gebaut und funktioniert
-auch ohne JavaScript.
+unten, nur wenn eingerichtet) und der **Telegram-Kanal**. Das Menü ist als
+`<details>` gebaut und funktioniert auch ohne JavaScript.
+
+> Der RSS-/Atom-Feed unter `/feed.xml` ([`feed.njk`](src/feed.njk)) bleibt für
+> Feed-Reader bestehen und ist im Seitenkopf verlinkt (Auto-Discovery), wird aber
+> bewusst **nicht** mehr als sichtbare Abo-Option angeboten.
 
 ### Newsletter per E-Mail (Brevo)
 
