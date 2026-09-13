@@ -1167,6 +1167,31 @@ a.buch-chip--aktiv:hover {
   margin: 0 0 1.2rem;
 }
 
+/* Längere Fließtexte / Rechtstexte (Impressum, Datenschutz) */
+.fliesstext h2 {
+  font-size: 1.25rem;
+  margin: 2rem 0 0.6rem;
+}
+
+.fliesstext h2:first-child {
+  margin-top: 0;
+}
+
+.fliesstext ul {
+  margin: 0 0 1.2rem;
+  padding-left: 1.3rem;
+}
+
+.fliesstext li {
+  margin: 0 0 0.4rem;
+}
+
+.rechtstext-stand {
+  color: var(--farbe-text-leise);
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
 /* --- Fußbereich --- */
 
 .fuss {

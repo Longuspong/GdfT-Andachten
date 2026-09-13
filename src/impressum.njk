@@ -1,0 +1,73 @@
+---
+layout: base.njk
+titel: Impressum
+beschreibung: Impressum und Anbieterkennzeichnung von „Gerüstet für den Tag“.
+permalink: /impressum/index.html
+---
+{#
+  Impressum. Die persönlichen Angaben (Name, Anschrift, E-Mail) stehen zentral
+  in src/_data/site.js unter „betreiber“ – dort einmal ausfüllen, dann erscheinen
+  sie hier automatisch. Solange dort „BITTE-AUSFÜLLEN“ steht, ist das Impressum
+  rechtlich unwirksam.
+#}
+<section class="seite-kopf">
+  <h1 class="seite-kopf__titel">Impressum</h1>
+</section>
+
+<div class="fliesstext">
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>
+    {{ site.betreiber.name }}<br />
+    {{ site.betreiber.strasse }}<br />
+    {{ site.betreiber.plz_ort }}<br />
+    {{ site.betreiber.land }}
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    E-Mail: <a href="mailto:{{ site.betreiber.email }}">{{ site.betreiber.email }}</a>
+  </p>
+
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>
+    {{ site.betreiber.name }}<br />
+    {{ site.betreiber.strasse }}<br />
+    {{ site.betreiber.plz_ort }}
+  </p>
+
+  <h2>Haftung für Inhalte</h2>
+  <p>
+    Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die
+    Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine
+    Gewähr übernommen werden. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG
+    für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
+    verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch
+    nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu
+    überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige
+    Tätigkeit hinweisen.
+  </p>
+
+  <h2>Haftung für Links</h2>
+  <p>
+    Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte
+    wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch
+    keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der
+    jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Bei Bekanntwerden
+    von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+  </p>
+
+  <h2>Urheberrecht</h2>
+  <p>
+    Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten
+    unterliegen dem deutschen Urheberrecht. Beiträge Dritter sind als solche
+    gekennzeichnet. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art
+    der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der
+    schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+  </p>
+
+  <h2>Verbraucherstreitbeilegung</h2>
+  <p>
+    Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor
+    einer Verbraucherschlichtungsstelle teilzunehmen.
+  </p>
+</div>
