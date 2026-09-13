@@ -20,7 +20,9 @@ Fettdruck, Überschriften, Zitate und Listen.
 
 Besonderheiten:
 
-- **Vorschau:** Über den Reiter *Vorschau* siehst du sofort, wie die Andacht
+- **Liste mit Vorschau & Bearbeiten:** Jede Andacht hat zwei Knöpfe – *Vorschau*
+  (öffnet sie direkt in der Ansicht, ohne etwas zu ändern) und *Bearbeiten*.
+- **Vorschau:** Auch im Editor zeigt der Reiter *Vorschau* sofort, wie die Andacht
   später auf der Seite aussieht – ohne sie zu veröffentlichen.
 - **Auto-Speichern:** Während des Schreibens wird dein Text laufend im Browser
   gesichert. Wenn du unterbrichst oder den Tab schließt, kannst du beim nächsten
@@ -28,7 +30,14 @@ Besonderheiten:
 - **Entwurf oder Veröffentlichen:** *Als Entwurf speichern* legt die Andacht ab,
   ohne sie öffentlich zu zeigen (in der Liste als „Entwurf“ markiert). Du kannst
   sie später – auch von einem anderen Gerät – weiterbearbeiten und dann per
-  *Veröffentlichen* live schalten.
+  *Veröffentlichen* live schalten. Beim Veröffentlichen wird – sobald die Andacht
+  online ist – automatisch per Telegram benachrichtigt.
+- **Korrektur & manuelles Melden:** Bei einer **bereits veröffentlichten** Andacht
+  heißt der Speichern-Knopf *Korrektur speichern* – so lässt sich ein Tippfehler
+  ausbessern, **ohne erneut** per Telegram zu benachrichtigen. Ein zweiter Knopf,
+  *Per Telegram benachrichtigen*, stößt die Meldung bei Bedarf **von Hand** an
+  (z. B. falls sie beim Veröffentlichen einmal nicht ankam). Er sendet nur, wenn
+  die Andacht **wirklich schon online** ist – sonst gibt es eine klare Meldung.
 
 Gespeichert wird direkt ins GitHub-Repository; kurz darauf baut Vercel die Seite
 automatisch neu (dauert meist 1–2 Minuten). Es gibt keine zusätzliche Datenbank.
@@ -202,9 +211,20 @@ holt die Meldung dann im 3-Tage-Fenster nach.
    **Administrator** hinzufügen (mit dem Recht, Nachrichten zu posten).
 3. Das **Ziel** als Variable **`TELEGRAM_CHAT_ID`** eintragen – entweder der
    öffentliche Kanalname (z. B. `@morgenandachten`) oder die numerische Chat-ID.
-4. Im Footer/auf der „Über“-Seite ist der Kanal bereits verlinkt
-   ([`src/_data/site.js`](src/_data/site.js), Feld `telegram`) – dort ggf. den
-   richtigen Kanal eintragen, damit Besucher ihn finden.
+4. Im **Abo-Menü** (der dezente Knopf oben links) und auf der „Über“-Seite ist der
+   Kanal bereits verlinkt ([`src/_data/site.js`](src/_data/site.js), Feld
+   `telegram`) – dort ggf. den richtigen Kanal eintragen, damit Besucher ihn finden.
+
+**Falls eine Meldung einmal nicht ankommt:** Im Admin-Bereich lässt sich die
+Telegram-Nachricht für eine **bereits veröffentlichte** Andacht von Hand
+nachholen – über *Per Telegram benachrichtigen* im Editor (Endpunkt
+[`api/andacht-melden.js`](api/andacht-melden.js)). Der Versand erfolgt nur, wenn
+die Andacht schon online erreichbar ist.
+
+**So abonnieren Besucher die Seite:** Oben links öffnet ein dezenter
+*Abonnieren*-Knopf ein kleines Menü mit den Möglichkeiten – aktuell der
+**Telegram-Kanal** und der **RSS-Feed** ([`feed.xml`](src/feed.njk)). Das Menü ist
+als `<details>` gebaut und funktioniert auch ohne JavaScript.
 
 Wie es sich merkt, was schon gepostet wurde (ohne Datenbank):
 
@@ -364,6 +384,8 @@ src/
   assets/fonts/            selbst gehostete Schriften (.woff2, DSGVO-freundlich)
   css/style.css            Design (mobile first; Farben & Schriften ganz oben)
   css/fonts.css            @font-face für die lokalen Schriften (automatisch erzeugt)
+  js/thema.js              Hell-/Dunkel-Schalter (oben rechts)
+  js/abo.js                Abo-Menü (oben links) – schließt bei Klick außerhalb/Escape
   index.njk                Startseite: Andacht des Tages + die fünf „Soli“
   archiv.njk               Übersicht aller Andachten
   bibelstellen.njk         Andachten nach Bibelstelle
@@ -374,8 +396,9 @@ src/
 api/                       Server-Funktionen (Vercel)
   login.js / logout.js     An- und Abmelden
   andachten.js             Andachten lesen, anlegen, ändern, löschen
+  andacht-melden.js        eine veröffentlichte Andacht von Hand per Telegram melden
   taeglich.js              täglicher Lauf: Neu-Bau anstoßen + Telegram-Meldung
-  _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff, Telegram)
+  _lib/                    Hilfsmodule (Sitzung, GitHub-Zugriff, Telegram, Melden)
 andachten-archiv/          Rohmaterial des alten Archivs (nicht Teil der Website)
 scripts/                   Hilfsskripte (z. B. Schriften laden: npm run schriften)
 telegram-gesendet.json     Merkliste bereits gemeldeter Andachten (automatisch)

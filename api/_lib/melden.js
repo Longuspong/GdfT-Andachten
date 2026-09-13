@@ -262,6 +262,100 @@ async function meldeFaelligeAndachten() {
   return { ersteEinrichtung: false, gemeldet: gemeldet.length, dateien: gemeldet };
 }
 
+// --- Weg 3: Manuell aus dem Admin ("noch mal per Telegram melden") ----------
+// Meldet EINE bereits veröffentlichte Andacht auf ausdrücklichen Wunsch erneut –
+// als Absicherung, falls der automatische Versand beim Veröffentlichen einmal
+// nicht angekommen ist. Anders als Weg 2 wird bewusst auch dann gesendet, wenn
+// die Andacht schon als "gemeldet" vermerkt ist ("noch mal" anstoßen).
+//
+// WICHTIG (Wunsch): Der Versand geschieht NUR, wenn die Andacht tatsächlich schon
+// online ist – also fällig (nicht Entwurf, Datum erreicht) UND die öffentliche
+// Adresse mit HTTP 200 antwortet. Sonst wird mit einer klaren Meldung abgelehnt,
+// damit kein Telegram-Link auf eine (noch) nicht existierende Seite verweist.
+async function meldeManuell({ datei }) {
+  const safe = String(datei || "");
+  const m = safe.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.md$/);
+  if (!m) {
+    const e = new Error("Ungültiger Dateiname der Andacht.");
+    e.status = 400;
+    throw e;
+  }
+  const datum = m[1];
+  const slug = m[2];
+
+  const file = await getFile(`${ORDNER}/${safe}`);
+  if (!file) {
+    const e = new Error("Andacht nicht gefunden.");
+    e.status = 404;
+    throw e;
+  }
+  const felder = frontMatterFelder(file.content);
+  if (felder.entwurf === true) {
+    const e = new Error(
+      "Das ist noch ein Entwurf und nicht öffentlich. Bitte zuerst veröffentlichen."
+    );
+    e.status = 409;
+    throw e;
+  }
+
+  // 1. Fällig? (Datum erreicht, an seinem Tag ab 6 Uhr deutscher Zeit.)
+  const heute = heuteBerlin();
+  if (!istFaelligJetzt(datum, heute, stundeBerlin())) {
+    const e = new Error(
+      "Diese Andacht ist noch nicht veröffentlicht – sie erscheint erst an ihrem Tag um 6 Uhr."
+    );
+    e.status = 409;
+    throw e;
+  }
+
+  // 2. Wirklich online? Ein einzelner, zeitlich begrenzter Abruf der echten
+  //    Adresse. Antwortet sie nicht mit 200 (Build noch nicht fertig, Seite
+  //    nicht erreichbar), wird NICHT gemeldet – der Nutzer kann es kurz später
+  //    erneut versuchen.
+  const url = andachtUrl(datum, slug);
+  if (!/^https?:\/\//i.test(url)) {
+    const e = new Error(
+      "Die öffentliche Adresse ist nicht konfiguriert (site.url), Online-Prüfung nicht möglich."
+    );
+    e.status = 500;
+    throw e;
+  }
+  const online = await istErreichbar(url, 7000);
+  if (!online) {
+    const e = new Error(
+      "Die Andacht ist gerade nicht online erreichbar. Bitte in 1–2 Minuten (nach dem Neu-Bau der Seite) erneut versuchen."
+    );
+    e.status = 409;
+    throw e;
+  }
+
+  // 3. Senden.
+  await sendeTelegram(baueNachricht({ datum, slug, felder }));
+
+  // 4. Merker pflegen, damit der tägliche Lauf nicht zusätzlich meldet.
+  const status = await ladeStatus();
+  if (!status.vorhanden) {
+    // Noch kein Merker: gesamten fälligen Bestand als bekannt verbuchen (Flut-
+    // Schutz) und diese Andacht mit aufnehmen.
+    const alle = await listeAndachten();
+    const bestand = alle.filter((a) => a.datum <= heute).map((a) => a.datei);
+    if (!bestand.includes(safe)) bestand.push(safe);
+    await speichereStatus(
+      bestand,
+      undefined,
+      `Telegram-Status initialisiert + Andacht manuell gemeldet (${safe})`
+    );
+  } else if (!status.gesendet.includes(safe)) {
+    const gesendet = status.gesendet.slice();
+    gesendet.push(safe);
+    await speichereStatus(gesendet, status.sha, `Telegram: Andacht manuell gemeldet (${safe})`);
+  }
+  // War sie bereits vermerkt, bleibt der Merker unverändert – erneut gesendet
+  // wurde trotzdem (bewusstes "noch mal").
+
+  return { ok: true, gemeldet: 1, datei: safe, url };
+}
+
 // --- Weg 2: Sofort beim Veröffentlichen -----------------------------------
 // Meldet EINE gerade veröffentlichte Andacht, aber nur wenn sie jetzt bereits
 // öffentlich sichtbar ist. Vorgeplante (künftige) und vor-6-Uhr-Andachten werden
@@ -331,8 +425,10 @@ module.exports = {
   verschiebeTage,
   istFaelligJetzt,
   andachtUrl,
+  istErreichbar,
   warteBisErreichbar,
   baueNachricht,
   meldeFaelligeAndachten,
   meldeAndachtFallsFaellig,
+  meldeManuell,
 };

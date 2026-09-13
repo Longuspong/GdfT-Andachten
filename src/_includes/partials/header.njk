@@ -1,5 +1,33 @@
 <header class="kopf">
   <div class="kopf__innen">
+
+    {# Dezentes Abo-Menü (oben links, Gegenstück zum Design-Schalter oben rechts).
+       Als <details> gebaut, damit es AUCH OHNE JavaScript auf- und zuklappt.
+       JavaScript (js/abo.js) verbessert es nur (Schließen bei Klick außerhalb /
+       Escape). Hier sammeln sich die Möglichkeiten, die Andachten zu abonnieren. #}
+    <details class="abo">
+      <summary class="abo__knopf" title="Andachten abonnieren" aria-label="Andachten abonnieren">
+        <svg class="abo__zeichen" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+          <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+        <span class="abo__text">Abonnieren</span>
+      </summary>
+      <div class="abo__menue">
+        <p class="abo__titel">Andachten abonnieren</p>
+        {% if site.telegram %}
+          <a class="abo__option" href="{{ site.telegram }}" rel="noopener">
+            <span class="abo__option-name">Telegram-Kanal</span>
+            <span class="abo__option-info">Jede neue Andacht direkt aufs Handy.</span>
+          </a>
+        {% endif %}
+        <a class="abo__option" href="/feed.xml">
+          <span class="abo__option-name">RSS-Feed</span>
+          <span class="abo__option-info">Für deine Feed-App (z.&nbsp;B. Feedly, NetNewsWire).</span>
+        </a>
+      </div>
+    </details>
+
     <a class="marke" href="/">
       <img class="marke__logo" src="/assets/logo-rund.png" width="64" height="64"
            alt="Logo: Gerüstet für den Tag" />
