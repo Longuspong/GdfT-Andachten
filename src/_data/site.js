@@ -27,4 +27,19 @@ module.exports = {
   telegram: "https://t.me/morgenandachten",
   // Text in der Fußzeile
   fusszeile: "Gerüstet für den Tag",
+
+  // --- Angaben für Impressum & Datenschutz ------------------------------
+  // Diese Felder erscheinen 1:1 auf den Seiten /impressum/ und /datenschutz/.
+  // In Deutschland ist ein Impressum Pflicht – bitte mit deinen ECHTEN
+  // Angaben füllen. Solange hier „BITTE-AUSFÜLLEN“ steht, ist das Impressum
+  // rechtlich unwirksam.
+  betreiber: {
+    name: "BITTE-AUSFÜLLEN: Vor- und Nachname",
+    strasse: "BITTE-AUSFÜLLEN: Straße und Hausnummer",
+    plz_ort: "BITTE-AUSFÜLLEN: PLZ und Ort",
+    land: "Deutschland",
+    // Kontakt-Adresse (die verifizierte Domain-Adresse eignet sich gut, da du
+    // sie im STRATO-Postfach mitliest). Bei Bedarf ändern.
+    email: "ronny@gfdt-andachten.de",
+  },
 };

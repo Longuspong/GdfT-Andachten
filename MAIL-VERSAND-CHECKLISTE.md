@@ -52,20 +52,23 @@ Arbeite die Punkte am besten von oben nach unten ab.
 - [ ] **Zustellbarkeit prüfen:** je eine Testmail an **Gmail, GMX/Web.de und
       Outlook** – landet nichts im Spam?
 
-## D. Rechtliches (in Deutschland Pflicht – fehlt noch!)
+## D. Rechtliches (in Deutschland Pflicht)
 
-> ⚠️ Aktuell hat die Seite **weder eine Datenschutzerklärung noch ein Impressum**.
-> Beides ist bei einer öffentlichen Seite mit Newsletter erforderlich.
+Impressum und Datenschutzerklärung sind als Vorlage **angelegt** und in der
+Fußzeile verlinkt:
 
-- [ ] **Datenschutzerklärung** anlegen, mit Hinweis auf:
-      Newsletter-Anmeldung, **Double-Opt-In**, Speicherung der Adresse **bei Brevo
-      (EU)**, **Auftragsverarbeitungsvertrag** mit Brevo, jederzeitiges
-      **Widerrufsrecht** über den Abmeldelink.
-- [ ] **Impressum** anlegen (Anbieterkennzeichnung nach § 5 DDG/TMG).
-- [ ] Beide Seiten in der **Fußzeile verlinken**.
+- ✅ **Datenschutzerklärung** (`src/datenschutz.njk` → `/datenschutz/`) – auf den
+      tatsächlichen Aufbau zugeschnitten: Brevo (EU, Double-Opt-In, Widerruf),
+      Hosting Vercel, Domain/E-Mail STRATO, lokale Schriften, keine Cookies.
+- ✅ **Impressum** (`src/impressum.njk` → `/impressum/`) – nach § 5 DDG.
+- ✅ **Fußzeile** verlinkt beide Seiten.
 
-*(Wenn du möchtest, lege ich die beiden Seiten als Vorlage im Projekt an – Text
-musst du dann nur noch mit deinen Angaben füllen.)*
+- [ ] ⚠️ **Betreiber-Angaben ausfüllen:** in
+      [`src/_data/site.js`](src/_data/site.js) unter `betreiber` deinen **Namen,
+      Anschrift und Kontakt** eintragen. Solange dort „BITTE-AUSFÜLLEN“ steht, ist
+      das Impressum **rechtlich unwirksam**.
+- [ ] *(empfohlen)* Vorlage kurz gegenlesen bzw. prüfen lassen – die Texte sind
+      sorgfältig, aber keine Rechtsberatung.
 
 ## E. Betrieb & Grenzen (gut zu wissen)
 
