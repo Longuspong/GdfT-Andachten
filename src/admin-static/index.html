@@ -483,6 +483,13 @@
         <button class="sekundaer" id="telegram-test-btn" type="button">Telegram testen</button>
         <p id="telegram-test-status" class="status"></p>
       </div>
+
+      <!-- Newsletter-Diagnose: prüft die Brevo-Einrichtung (Schlüssel, Absender)
+           und schickt eine Testmail an die eigene Absender-Adresse. -->
+      <div class="telegram-test">
+        <button class="sekundaer" id="newsletter-test-btn" type="button">Newsletter (E-Mail) testen</button>
+        <p id="newsletter-test-status" class="status"></p>
+      </div>
     </div>
   </section>
 
@@ -753,6 +760,27 @@
       status.textContent = e.message || "Test fehlgeschlagen.";
     } finally {
       telegramTestBtn.disabled = false;
+    }
+  });
+
+  // --- Newsletter (E-Mail / Brevo) testen ---
+  // Prüft die Brevo-Einrichtung und schickt eine Testmail an die eigene
+  // Absender-Adresse; zeigt im Fehlerfall den genauen Grund an.
+  var newsletterTestBtn = document.getElementById("newsletter-test-btn");
+  newsletterTestBtn.addEventListener("click", async function () {
+    var status = document.getElementById("newsletter-test-status");
+    status.className = "status";
+    status.textContent = "Prüfe Einrichtung und sende Testmail …";
+    newsletterTestBtn.disabled = true;
+    try {
+      var daten = await api("/api/newsletter-test", { method: "POST" });
+      status.className = "status " + (daten && daten.ok ? "erfolg" : "fehler");
+      status.textContent = (daten && daten.meldung) || (daten && daten.ok ? "Gesendet." : "Fehlgeschlagen.");
+    } catch (e) {
+      status.className = "status fehler";
+      status.textContent = e.message || "Test fehlgeschlagen.";
+    } finally {
+      newsletterTestBtn.disabled = false;
     }
   });
 

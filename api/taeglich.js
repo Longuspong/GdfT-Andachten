@@ -19,6 +19,8 @@ const {
   stundeBerlin,
   meldeFaelligeAndachten,
 } = require("./_lib/melden");
+const { newsletterAktiv } = require("./_lib/brevo");
+const { maileFaelligeAndachten } = require("./_lib/mailen");
 
 // Neu-Bau der Seite anstoßen (Vercel Deploy Hook).
 async function stosseNeubauAn() {
@@ -64,7 +66,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const ergebnis = { neubau: null, telegram: null };
+  const ergebnis = { neubau: null, telegram: null, newsletter: null };
   try {
     // 1. Neu-Bau anstoßen (unabhängig von Telegram; darf den Lauf nicht abbrechen).
     try {
@@ -78,6 +80,18 @@ module.exports = async (req, res) => {
       ergebnis.telegram = { uebersprungen: true, grund: "Telegram nicht konfiguriert." };
     } else {
       ergebnis.telegram = await meldeFaelligeAndachten();
+    }
+
+    // 3. E-Mail-Newsletter (nur wenn konfiguriert). Fehler dürfen den Lauf nicht
+    //    abbrechen – Telegram/Neu-Bau sind bereits erledigt.
+    if (!newsletterAktiv()) {
+      ergebnis.newsletter = { uebersprungen: true, grund: "Newsletter nicht konfiguriert." };
+    } else {
+      try {
+        ergebnis.newsletter = await maileFaelligeAndachten();
+      } catch (e) {
+        ergebnis.newsletter = { ok: false, fehler: e.message };
+      }
     }
 
     res.status(200).json({ ok: true, datum: heuteBerlin(), ...ergebnis });
