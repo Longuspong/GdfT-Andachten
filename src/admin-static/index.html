@@ -490,6 +490,14 @@
         <button class="sekundaer" id="newsletter-test-btn" type="button">Newsletter (E-Mail) testen</button>
         <p id="newsletter-test-status" class="status"></p>
       </div>
+
+      <!-- Echte Vorschau: schickt die fertig formatierte Newsletter-Mail der
+           heutigen (fälligen) Andacht NUR an die eigene Absender-Adresse. Löst
+           KEINEN Versand an die Abonnenten aus und ändert den Merker nicht. -->
+      <div class="telegram-test">
+        <button class="sekundaer" id="newsletter-vorschau-btn" type="button">Test-Mail mit heutiger Andacht (nur an mich)</button>
+        <p id="newsletter-vorschau-status" class="status"></p>
+      </div>
     </div>
   </section>
 
@@ -781,6 +789,29 @@
       status.textContent = e.message || "Test fehlgeschlagen.";
     } finally {
       newsletterTestBtn.disabled = false;
+    }
+  });
+
+  // --- Newsletter: echte Vorschau der heutigen Andacht (nur an mich) ---
+  // Schickt die fertig formatierte Newsletter-Mail der heutigen (fälligen)
+  // Andacht an die eigene Absender-Adresse – ohne Versand an die Abonnenten und
+  // ohne den "gesendet"-Merker zu ändern. So sieht man, wie die Mail wirklich
+  // aussieht.
+  var newsletterVorschauBtn = document.getElementById("newsletter-vorschau-btn");
+  newsletterVorschauBtn.addEventListener("click", async function () {
+    var status = document.getElementById("newsletter-vorschau-status");
+    status.className = "status";
+    status.textContent = "Sende Test-Newsletter der heutigen Andacht …";
+    newsletterVorschauBtn.disabled = true;
+    try {
+      var daten = await api("/api/newsletter-vorschau", { method: "POST" });
+      status.className = "status " + (daten && daten.ok ? "erfolg" : "fehler");
+      status.textContent = (daten && daten.meldung) || (daten && daten.ok ? "Gesendet." : "Fehlgeschlagen.");
+    } catch (e) {
+      status.className = "status fehler";
+      status.textContent = e.message || "Test fehlgeschlagen.";
+    } finally {
+      newsletterVorschauBtn.disabled = false;
     }
   });
 
