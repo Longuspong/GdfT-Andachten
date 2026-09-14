@@ -492,10 +492,15 @@
       </div>
 
       <!-- Echte Vorschau: schickt die fertig formatierte Newsletter-Mail der
-           heutigen (fälligen) Andacht NUR an die eigene Absender-Adresse. Löst
-           KEINEN Versand an die Abonnenten aus und ändert den Merker nicht. -->
+           heutigen (fälligen) Andacht NUR an EINE eingegebene Adresse. Löst
+           KEINEN Versand an die Abonnenten aus und ändert den Merker nicht.
+           (Eigene Absender-Adresse als Empfänger vermeiden – manche Postfächer,
+           z. B. STRATO, lehnen Mail an sich selbst ab. Am besten eine externe
+           Adresse, z. B. Gmail.) -->
       <div class="telegram-test">
-        <button class="sekundaer" id="newsletter-vorschau-btn" type="button">Test-Mail mit heutiger Andacht (nur an mich)</button>
+        <label for="newsletter-vorschau-an">Test-Mail mit heutiger Andacht an</label>
+        <input type="email" id="newsletter-vorschau-an" autocomplete="email" autocapitalize="off" placeholder="z. B. deine Gmail-Adresse" />
+        <button class="sekundaer" id="newsletter-vorschau-btn" type="button">Test-Mail senden</button>
         <p id="newsletter-vorschau-status" class="status"></p>
       </div>
     </div>
@@ -792,19 +797,37 @@
     }
   });
 
-  // --- Newsletter: echte Vorschau der heutigen Andacht (nur an mich) ---
+  // --- Newsletter: echte Vorschau der heutigen Andacht an eine Test-Adresse ---
   // Schickt die fertig formatierte Newsletter-Mail der heutigen (fälligen)
-  // Andacht an die eigene Absender-Adresse – ohne Versand an die Abonnenten und
+  // Andacht an EINE eingegebene Adresse – ohne Versand an die Abonnenten und
   // ohne den "gesendet"-Merker zu ändern. So sieht man, wie die Mail wirklich
-  // aussieht.
+  // aussieht. Die zuletzt genutzte Adresse wird lokal im Browser gemerkt (bleibt
+  // also aus dem Repo/Git heraus).
+  var VORSCHAU_AN_KEY = "gdft-newsletter-vorschau-an";
   var newsletterVorschauBtn = document.getElementById("newsletter-vorschau-btn");
+  var newsletterVorschauAn = document.getElementById("newsletter-vorschau-an");
+  try {
+    var gemerkt = localStorage.getItem(VORSCHAU_AN_KEY);
+    if (gemerkt) newsletterVorschauAn.value = gemerkt;
+  } catch (e) { /* localStorage evtl. nicht verfügbar */ }
   newsletterVorschauBtn.addEventListener("click", async function () {
     var status = document.getElementById("newsletter-vorschau-status");
+    var an = (newsletterVorschauAn.value || "").trim();
+    if (!an) {
+      status.className = "status fehler";
+      status.textContent = "Bitte oben eine Empfänger-Adresse eingeben (z. B. deine Gmail).";
+      newsletterVorschauAn.focus();
+      return;
+    }
+    try { localStorage.setItem(VORSCHAU_AN_KEY, an); } catch (e) { /* egal */ }
     status.className = "status";
-    status.textContent = "Sende Test-Newsletter der heutigen Andacht …";
+    status.textContent = "Sende Test-Newsletter der heutigen Andacht an " + an + " …";
     newsletterVorschauBtn.disabled = true;
     try {
-      var daten = await api("/api/newsletter-vorschau", { method: "POST" });
+      var daten = await api("/api/newsletter-vorschau", {
+        method: "POST",
+        body: JSON.stringify({ an: an }),
+      });
       status.className = "status " + (daten && daten.ok ? "erfolg" : "fehler");
       status.textContent = (daten && daten.meldung) || (daten && daten.ok ? "Gesendet." : "Fehlgeschlagen.");
     } catch (e) {

@@ -12,7 +12,14 @@
 
 const { isAuthenticated } = require("./_lib/auth");
 const { getFile } = require("./_lib/github");
-const { newsletterAktiv, absender, abmeldeUrl, sendeMail } = require("./_lib/brevo");
+const {
+  newsletterAktiv,
+  absender,
+  abmeldeUrl,
+  sendeMail,
+  istGueltigeEmail,
+  normalisiereEmail,
+} = require("./_lib/brevo");
 const { baueAndachtMail } = require("./_lib/mailen");
 const {
   heuteBerlin,
@@ -105,7 +112,21 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const ziel = absender().email;
+    // Empfänger: wahlweise eine im Admin eingegebene Adresse (nötig, weil manche
+    // Postfächer – z. B. STRATO – Mails an die eigene Absender-Adresse ablehnen),
+    // sonst die Absender-Adresse als Rückfall. Nur an EINE Adresse, nie an die
+    // Abonnentenliste.
+    const gewuenschtesZiel = body && body.an ? normalisiereEmail(body.an) : "";
+    if (gewuenschtesZiel && !istGueltigeEmail(gewuenschtesZiel)) {
+      res.status(200).json({
+        ok: false,
+        schritt: "empfaenger",
+        meldung: "Die eingegebene Empfänger-Adresse ist ungültig.",
+      });
+      return;
+    }
+    const ziel = gewuenschtesZiel || absender().email;
+
     const { betreff, html, text } = baueAndachtMail({
       datum: andacht.datum,
       slug: andacht.slug,
