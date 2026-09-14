@@ -11,6 +11,7 @@
 // Weg sie fällig wird.
 
 const { listDir, getFile, putFile } = require("./github");
+const { beanspruche, gibFrei } = require("./merker");
 const { sendeTelegram } = require("./telegram");
 const SITE = require("../../src/_data/site.js");
 
@@ -235,7 +236,6 @@ async function meldeFaelligeAndachten() {
     )
     .sort((a, b) => (a.datum < b.datum ? -1 : a.datum > b.datum ? 1 : 0));
 
-  const gesendet = status.gesendet.slice();
   const gemeldet = [];
   for (const a of kandidaten) {
     const file = await getFile(`${ORDNER}/${a.datei}`);
@@ -245,20 +245,30 @@ async function meldeFaelligeAndachten() {
     // nach dem Veröffentlichen noch gemeldet werden können).
     if (felder.entwurf === true) continue;
     // Best effort: kurz warten, bis die Seite online ist (schöne Vorschau) –
-    // aber den Versand nicht davon abhängig machen.
+    // aber den Versand nicht davon abhängig machen. Bewusst VOR dem Beanspruchen,
+    // damit das (bis zu 20 s lange) Warten nicht in das Zeitfenster zwischen
+    // "beansprucht" und "gesendet" fällt.
     await warteBisErreichbar(andachtUrl(a.datum, a.slug));
-    await sendeTelegram(baueNachricht({ datum: a.datum, slug: a.slug, felder }));
-    gesendet.push(a.datei);
-    gemeldet.push(a.datei);
+    // WICHTIG: Erst ATOMAR beanspruchen, dann senden. So kann bei zwei
+    // gleichzeitigen Läufen nur einer diese Andacht melden – der andere sieht den
+    // Anspruch und überspringt (kein Doppel-Post).
+    const zuschlag = await beanspruche(
+      STATUS_DATEI,
+      a.datei,
+      `Telegram: Andacht gemeldet (${a.datei})`
+    );
+    if (!zuschlag) continue; // anderer Lauf meldet diese Andacht bereits
+    try {
+      await sendeTelegram(baueNachricht({ datum: a.datum, slug: a.slug, felder }));
+      gemeldet.push(a.datei);
+    } catch (e) {
+      // Versand fehlgeschlagen -> Anspruch zurücknehmen, damit der nächste Lauf es
+      // im 3-Tage-Fenster erneut versucht (keine Meldung geht dauerhaft verloren).
+      await gibFrei(STATUS_DATEI, a.datei, `Telegram-Anspruch zurückgenommen (${a.datei})`);
+      throw e;
+    }
   }
 
-  if (gemeldet.length) {
-    await speichereStatus(
-      gesendet,
-      status.sha,
-      `Telegram: ${gemeldet.length} Andacht(en) gemeldet`
-    );
-  }
   return { ersteEinrichtung: false, gemeldet: gemeldet.length, dateien: gemeldet };
 }
 
@@ -410,10 +420,19 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
   // später (nach Abschluss des Vercel-Builds).
   await warteBisErreichbar(andachtUrl(datum, slug));
 
-  await sendeTelegram(baueNachricht({ datum, slug, felder }));
-  const gesendet = status.gesendet.filter((n) => n !== alterName);
-  gesendet.push(datei);
-  await speichereStatus(gesendet, status.sha, `Telegram: Andacht gemeldet (${datei})`);
+  // Erst ATOMAR beanspruchen, dann senden: verhindert eine Doppelmeldung, falls
+  // der tägliche Lauf dieselbe Andacht zeitgleich meldet. Sieht ein anderer Lauf
+  // die Andacht bereits als beansprucht, wird hier nichts gesendet.
+  const zuschlag = await beanspruche(STATUS_DATEI, datei, `Telegram: Andacht gemeldet (${datei})`);
+  if (!zuschlag) {
+    return { uebersprungen: true, grund: "bereits-gemeldet" };
+  }
+  try {
+    await sendeTelegram(baueNachricht({ datum, slug, felder }));
+  } catch (e) {
+    await gibFrei(STATUS_DATEI, datei, `Telegram-Anspruch zurückgenommen (${datei})`);
+    throw e;
+  }
   return { gemeldet: 1, datei };
 }
 

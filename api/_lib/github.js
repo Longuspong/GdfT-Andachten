@@ -72,7 +72,12 @@ async function putFile(filePath, content, message, sha) {
   });
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`Speichern in GitHub fehlgeschlagen (${res.status}): ${err}`);
+    // Statuscode am Fehler mitgeben: der Merker (merker.js) erkennt an einem 409
+    // (sha nicht mehr aktuell = paralleler Schreibzugriff) einen Konflikt und
+    // versucht es erneut, statt den Lauf abzubrechen.
+    const fehler = new Error(`Speichern in GitHub fehlgeschlagen (${res.status}): ${err}`);
+    fehler.status = res.status;
+    throw fehler;
   }
   return res.json();
 }

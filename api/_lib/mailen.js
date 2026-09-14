@@ -11,6 +11,7 @@
 // (siehe brevo.js), passiert nichts.
 
 const { getFile, putFile } = require("./github");
+const { beanspruche, gibFrei } = require("./merker");
 const SITE = require("../../src/_data/site.js");
 const {
   MELDE_FENSTER_TAGE,
@@ -179,7 +180,6 @@ async function maileFaelligeAndachten() {
     )
     .sort((a, b) => (a.datum < b.datum ? -1 : a.datum > b.datum ? 1 : 0));
 
-  const gesendet = status.gesendet.slice();
   const gemailt = [];
   for (const a of kandidaten) {
     const file = await getFile(`${ORDNER}/${a.datei}`);
@@ -187,15 +187,29 @@ async function maileFaelligeAndachten() {
     const felder = frontMatterFelder(file.content);
     if (felder.entwurf === true) continue; // Entwürfe nicht mailen
     // Kurz warten, bis die Seite online ist (schöner Link) – nicht blockierend.
+    // Bewusst VOR dem Beanspruchen (das Warten soll nicht ins Fenster zwischen
+    // "beansprucht" und "gemailt" fallen).
     await warteBisErreichbar(andachtUrl(a.datum, a.slug));
-    await sendeAnAlleAbonnenten({ datum: a.datum, slug: a.slug, felder });
-    gesendet.push(a.datei);
-    gemailt.push(a.datei);
+    // WICHTIG: Erst ATOMAR beanspruchen, dann mailen. So kann bei zwei
+    // gleichzeitigen Läufen nur einer diese Andacht versenden – der andere sieht
+    // den Anspruch und überspringt (keine doppelte Mail an alle Abonnenten).
+    const zuschlag = await beanspruche(
+      STATUS_DATEI,
+      a.datei,
+      `Newsletter: Andacht gemailt (${a.datei})`
+    );
+    if (!zuschlag) continue; // anderer Lauf mailt diese Andacht bereits
+    try {
+      await sendeAnAlleAbonnenten({ datum: a.datum, slug: a.slug, felder });
+      gemailt.push(a.datei);
+    } catch (e) {
+      // Systemischer Versandfehler (z. B. Abonnentenliste nicht abrufbar) ->
+      // Anspruch zurücknehmen, damit der nächste Lauf es erneut versucht.
+      await gibFrei(STATUS_DATEI, a.datei, `Newsletter-Anspruch zurückgenommen (${a.datei})`);
+      throw e;
+    }
   }
 
-  if (gemailt.length) {
-    await speichereStatus(gesendet, status.sha, `Newsletter: ${gemailt.length} Andacht(en) gemailt`);
-  }
   return { ersteEinrichtung: false, gemailt: gemailt.length, dateien: gemailt };
 }
 
@@ -237,10 +251,20 @@ async function maileAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
   if (felderVoll.entwurf === true) return { uebersprungen: true, grund: "entwurf" };
 
   await warteBisErreichbar(andachtUrl(datum, slug));
-  const ergebnis = await sendeAnAlleAbonnenten({ datum, slug, felder: felderVoll });
-  const gesendet = status.gesendet.filter((n) => n !== alterName);
-  gesendet.push(datei);
-  await speichereStatus(gesendet, status.sha, `Newsletter: Andacht gemailt (${datei})`);
+
+  // Erst ATOMAR beanspruchen, dann mailen: verhindert doppelte Mails, falls der
+  // tägliche Lauf dieselbe Andacht zeitgleich versendet.
+  const zuschlag = await beanspruche(STATUS_DATEI, datei, `Newsletter: Andacht gemailt (${datei})`);
+  if (!zuschlag) {
+    return { uebersprungen: true, grund: "bereits-gemailt" };
+  }
+  let ergebnis;
+  try {
+    ergebnis = await sendeAnAlleAbonnenten({ datum, slug, felder: felderVoll });
+  } catch (e) {
+    await gibFrei(STATUS_DATEI, datei, `Newsletter-Anspruch zurückgenommen (${datei})`);
+    throw e;
+  }
   return { gemailt: 1, datei, ...ergebnis };
 }
 

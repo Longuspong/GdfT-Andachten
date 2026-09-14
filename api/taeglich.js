@@ -1,4 +1,10 @@
-// Täglicher Lauf – wird von einem Vercel-Cron-Job aufgerufen (siehe vercel.json).
+// Täglicher Lauf – wird einmal pro Tag angestoßen (aktuell durch den GitHub-
+// Actions-Workflow .github/workflows/taeglich.yml; früher per Vercel-Cron).
+//
+// WICHTIG: Dieser Endpunkt muss gefahrlos MEHRFACH bzw. GLEICHZEITIG aufrufbar
+// sein – Cron-/Aufruf-Systeme liefern in der Praxis oft „mindestens einmal".
+// Der Schutz gegen doppelte Telegram-/E-Mail-Zustellung steckt in
+// api/_lib/merker.js (atomare Beanspruchung vor dem Senden).
 //
 // Zwei Aufgaben:
 //   1. Neu-Bau anstoßen: Vordatierte Andachten (Datum in der Zukunft) werden beim
