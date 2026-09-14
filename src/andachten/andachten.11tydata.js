@@ -9,9 +9,12 @@ function isoDatum(datum) {
 }
 
 // Vor dieser Uhrzeit (deutscher Zeit) am Erscheinungstag bleibt die Andacht
-// versteckt. Muss zur gleichen Konstante in api/taeglich.js passen, damit eine
-// vordatierte Andacht genau dann sichtbar wird, wenn sie auch gemeldet wird.
-const VEROEFFENTLICHUNGS_STUNDE = 6;
+// versteckt; ab dieser Stunde ist sie ONLINE (sichtbar). Bewusst früh (4 Uhr),
+// damit eine vordatierte Andacht zuverlässig VOR 6 Uhr online ist – auch wenn der
+// auslösende Lauf sich etwas verspätet. Muss zur gleichen Konstante
+// SICHTBAR_AB_STUNDE in api/_lib/melden.js passen. Die Telegram-/E-Mail-Meldung
+// geht bewusst erst später (MELDE_STUNDE, 6 Uhr) raus – siehe api/taeglich.js.
+const SICHTBAR_AB_STUNDE = 4;
 
 // Heutiges Datum als "JJJJ-MM-TT" in deutscher Zeit (Europe/Berlin). So wird eine
 // vordatierte Andacht genau an ihrem Tag sichtbar – unabhängig davon, in welcher
@@ -49,14 +52,14 @@ function datumDerAndacht(data) {
 }
 
 // Ist die Andacht noch NICHT fällig, d. h. bleibt sie (noch) versteckt?
-// Fällig wird sie an ihrem Datum um VEROEFFENTLICHUNGS_STUNDE Uhr deutscher Zeit.
+// Sichtbar wird sie an ihrem Datum um SICHTBAR_AB_STUNDE Uhr deutscher Zeit.
 function istNochNichtFaellig(data) {
   const datum = datumDerAndacht(data);
   const heute = heuteBerlin();
-  if (datum < heute) return false; // Vergangenheit -> längst fällig
+  if (datum < heute) return false; // Vergangenheit -> längst sichtbar
   if (datum > heute) return true; // Zukunft -> noch nicht
-  // Heute: erst ab der Veröffentlichungs-Stunde fällig (davor noch versteckt).
-  return stundeBerlin() < VEROEFFENTLICHUNGS_STUNDE;
+  // Heute: erst ab der Sichtbar-Stunde sichtbar (davor noch versteckt).
+  return stundeBerlin() < SICHTBAR_AB_STUNDE;
 }
 
 module.exports = {
@@ -79,7 +82,7 @@ module.exports = {
     // Entwürfe und noch nicht fällige Andachten tauchen in keiner Sammlung/Liste
     // auf (Startseite, Archiv, Feed, Sitemap, Nach-Bibelstelle) – Entwürfe sind
     // nur im Admin-Bereich sichtbar, vordatierte Andachten erscheinen automatisch
-    // beim ersten Seitenbau ab ihrem Datum/6 Uhr (täglicher Neu-Bau in
+    // beim ersten Seitenbau ab ihrem Datum/4 Uhr (täglicher Neu-Bau in
     // api/taeglich.js).
     eleventyExcludeFromCollections: (data) =>
       data.entwurf || istNochNichtFaellig(data)

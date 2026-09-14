@@ -108,10 +108,13 @@ Nach dem Eintragen einmal neu deployen. Danach ist `/admin/` einsatzbereit.
 
 > **Vorplanen:** Steht das Datum in der **Zukunft**, wird die Andacht bis dahin
 > automatisch **versteckt** (keine Seite, nicht im Archiv, Feed oder auf der
-> Startseite) und erscheint dann von selbst an ihrem Tag **morgens um 6 Uhr**
-> (deutscher Zeit). Du kannst sie also heute schreiben und „veröffentlichen“,
-> sichtbar wird sie erst am gewählten Tag um 6 Uhr. Wie das technisch funktioniert
-> (und was einmalig in Vercel einzurichten ist), steht im Abschnitt
+> Startseite) und erscheint dann von selbst an ihrem Tag – **online ab ca. 4 Uhr
+> morgens**, die **Benachrichtigung** (Telegram/E-Mail) folgt **ab 6 Uhr**
+> (deutscher Zeit). So ist die Andacht sicher schon da, wenn ein Frühaufsteher um
+> 6 Uhr auf die Seite schaut, ohne Abonnenten mitten in der Nacht zu wecken. Du
+> kannst sie also heute schreiben und „veröffentlichen“, sichtbar wird sie erst am
+> gewählten Tag. Wie das technisch funktioniert (und was einmalig einzurichten
+> ist), steht im Abschnitt
 > [„Vorplanen & Benachrichtigung“](#vorplanen--benachrichtigung).
 >
 > Im Admin-Bereich zeigt ein **Mini-Kalender** unter dem Datumsfeld, an welchen
@@ -124,35 +127,41 @@ Nach dem Eintragen einmal neu deployen. Danach ist `/admin/` einsatzbereit.
 ## Vorplanen & Benachrichtigung
 
 Zwei zusammengehörige Funktionen: Andachten **im Voraus** schreiben und am
-richtigen Tag **morgens um 6 Uhr** automatisch erscheinen lassen – und neue
-Andachten automatisch in einen **Telegram-Kanal** posten. Beides läuft über einen
-kleinen Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den ein
-**GitHub-Actions-Workflow**
-([`.github/workflows/taeglich.yml`](.github/workflows/taeglich.yml)) morgens
-anstößt. (Früher übernahm das ein Vercel-Cron; der war – vor allem am Wochenende –
-unzuverlässig und wurde deshalb durch GitHub Actions ersetzt.)
+richtigen Tag automatisch erscheinen lassen (**online ab ca. 4 Uhr**) – und neue
+Andachten automatisch in einen **Telegram-Kanal** posten bzw. per E-Mail
+verschicken (**Benachrichtigung ab 6 Uhr**). Beides läuft über einen kleinen
+Hintergrundlauf ([`api/taeglich.js`](api/taeglich.js)), den morgens ein Cron-Dienst
+anstößt. Zuverlässig und minutengenau übernimmt das ein **externer Pinger** (z. B.
+**cron-job.org**); ein **GitHub-Actions-Workflow**
+([`.github/workflows/taeglich.yml`](.github/workflows/taeglich.yml)) läuft als
+**Reserve** mit (siehe [„Hinweis zum Zeitplan“](#hinweis-zum-zeitplan)). (Früher
+übernahm das allein ein Vercel-Cron; der war – vor allem am Wochenende –
+unzuverlässig.)
 
 ### So funktioniert das Vorplanen
 
 - Eine Andacht mit einem Datum **in der Zukunft** wird beim Seitenbau
-  automatisch ausgeblendet – und zwar bis zu ihrem Tag um 6 Uhr deutscher Zeit
-  (geregelt in
+  automatisch ausgeblendet – und zwar bis zu ihrem Tag um **4 Uhr** deutscher Zeit
+  (`SICHTBAR_AB_STUNDE`, geregelt in
   [`src/andachten/andachten.11tydata.js`](src/andachten/andachten.11tydata.js)).
 - Weil eine fertig gebaute Seite sich nicht von selbst neu baut, stößt der
-  morgendliche Lauf einen **neuen Seitenbau** an. Ab 6 Uhr am gewählten Tag ist
-  die Andacht nicht mehr „Zukunft“ und erscheint automatisch.
+  morgendliche Lauf einen **neuen Seitenbau** an. Ab 4 Uhr am gewählten Tag ist
+  die Andacht nicht mehr „Zukunft“ und erscheint automatisch – also mit Puffer
+  **vor 6 Uhr**, selbst wenn sich ein Lauf etwas verspätet.
+- Die **Benachrichtigung** (Telegram/E-Mail) geht bewusst erst **ab 6 Uhr**
+  (`MELDE_STUNDE`) raus, damit niemand eine Nachricht mitten in der Nacht bekommt.
+  Der Link zeigt dann bereits die fertig gebaute Seite.
 - Alle Zeiten werden in **deutscher Zeit** (Europe/Berlin) bestimmt – unabhängig
   davon, dass Vercel intern in UTC rechnet.
 
-**Warum zwei Zeiten (05:00 und 07:00 UTC)?** GitHub-Actions-Cron rechnet in UTC.
-Beide Zeiten liegen ganzjährig (Sommer- wie Winterzeit) **nach 6 Uhr deutscher
-Zeit**, sodass der Endpunkt nicht durch seine eigene 6-Uhr-Sperre übersprungen
-wird. Der **07:00-UTC-Lauf ist die Reserve**: Er fängt einen ausgefallenen
-Haupt-Lauf ab – dass dabei nichts doppelt gemeldet wird, sichert
-`telegram-gesendet.json`. (Hinweis: GitHub kann geplante Läufe **verzögern**; das
-schiebt sie nur nach hinten, also weiterhin nach 6 Uhr. Der Workflow lässt sich im
-**Actions-Tab** auch manuell starten – zum Testen mit der Option „force", die die
-6-Uhr-Sperre umgeht.)
+> **Warum zwei Uhrzeiten (4 und 6)?** Kostenlose Cron-Dienste treffen einen
+> Zeitpunkt nie sekundengenau und können sich verspäten. Deshalb wird **früh**
+> (ab 4 Uhr) nur veröffentlicht – so ist die Andacht sicher vor 6 Uhr online – und
+> erst **ab 6 Uhr** benachrichtigt. Der Endpunkt darf gefahrlos **mehrmals** im
+> Morgenfenster aufgerufen werden: Ein zweiter Seitenbau unterbleibt, sobald die
+> Andacht online ist (`neubauNoetig`), und doppelte Meldungen verhindern
+> `telegram-gesendet.json` bzw. `newsletter-gesendet.json`. Zum Testen lässt sich
+> der Lauf mit der Option **`force`** starten (umgeht beide Uhrzeit-Sperren).
 
 **Einmalige Einrichtung** (damit der morgendliche Neu-Bau klappt):
 
@@ -160,14 +169,21 @@ schiebt sie nur nach hinten, also weiterhin nach 6 Uhr. Der Workflow lässt sich
    Branch `main` wählen, Namen vergeben (z. B. `taeglich`), URL kopieren.
 2. Diese URL in Vercel als Environment Variable **`DEPLOY_HOOK_URL`** eintragen.
 3. Empfohlen: **`CRON_SECRET`** setzen (z. B. `openssl rand -hex 32`), damit der
-   Endpunkt `/api/taeglich` vor fremden Aufrufen geschützt ist. Diesen Wert an
-   **zwei** Stellen mit **identischem** Inhalt hinterlegen:
-   - in **Vercel** als Environment Variable `CRON_SECRET`, und
-   - in **GitHub** als Actions-Secret: Repo → Settings → **Secrets and variables**
-     → **Actions** → *New repository secret* → Name `CRON_SECRET`.
+   Endpunkt `/api/taeglich` vor fremden Aufrufen geschützt ist. Diesen Wert
+   hinterlegen:
+   - in **Vercel** als Environment Variable `CRON_SECRET`,
+   - beim **externen Cron-Dienst** als Header `Authorization: Bearer <Wert>` (siehe
+     [„Hinweis zum Zeitplan“](#hinweis-zum-zeitplan)), und
+   - in **GitHub** als Actions-Secret (für die Reserve): Repo → Settings →
+     **Secrets and variables** → **Actions** → *New repository secret* → Name
+     `CRON_SECRET`.
 
-   Der Workflow schickt diesen Wert beim Aufruf mit. Meldet ein Lauf im
-   Actions-Tab **HTTP 401**, stimmen die beiden Werte nicht überein.
+   Alle Aufrufer schicken diesen Wert mit. Meldet ein Lauf **HTTP 401**, stimmen
+   die Werte nicht überein.
+4. **Morgendlichen Aufruf einrichten:** einen externen Cron-Dienst auf
+   `/api/taeglich/` zeigen lassen (zuverlässig, minutengenau) – Schritt-für-Schritt
+   im Abschnitt [„Hinweis zum Zeitplan“](#hinweis-zum-zeitplan). Die GitHub-Action
+   läuft ohne weiteres Zutun als Reserve mit.
 
 > Ohne `DEPLOY_HOOK_URL` bleibt das Vorplanen grundsätzlich erhalten (die Andacht
 > ist weiterhin versteckt), sie erscheint dann aber erst, wenn die Seite aus einem
@@ -175,19 +191,17 @@ schiebt sie nur nach hinten, also weiterhin nach 6 Uhr. Der Workflow lässt sich
 
 ### Benachrichtigung per Telegram
 
-Neue Andachten können automatisch in einen Telegram-Kanal gepostet werden –
-genau dann, wenn sie auch auf der Seite fällig werden (also am vorgeplanten Tag um
-6 Uhr). Leser abonnieren einfach den Kanal. Die Nachricht enthält bewusst nur den
-**Titel** und den **Link** zur Andacht (Telegram zeigt darüber automatisch eine
-Vorschaukarte).
+Neue Andachten können automatisch in einen Telegram-Kanal gepostet werden. Leser
+abonnieren einfach den Kanal. Die Nachricht enthält bewusst nur den **Titel** und
+den **Link** zur Andacht (Telegram zeigt darüber automatisch eine Vorschaukarte).
 
-Grundregel: **Jede Andacht wird genau einmal gemeldet – in dem Moment, in dem sie
-öffentlich sichtbar wird.** Konkret:
+Grundregel: **Jede Andacht wird genau einmal gemeldet.** Die Andacht ist an ihrem
+Tag ab 4 Uhr online, die Meldung folgt ab 6 Uhr. Konkret:
 
-- **Vorgeplant** (Datum in der Zukunft) → wird an ihrem Tag um 6 Uhr sichtbar und
-  dann vom täglichen Lauf gemeldet.
-- **Heute veröffentlicht, aber noch vor 6 Uhr** → erscheint um 6 Uhr und wird dann
-  gemeldet (wie eine vorgeplante).
+- **Vorgeplant** (Datum in der Zukunft) → wird an ihrem Tag ab 4 Uhr sichtbar; die
+  Telegram-/E-Mail-Meldung stößt der tägliche Lauf ab 6 Uhr an.
+- **Heute veröffentlicht, aber noch vor 6 Uhr** → ist (spätestens ab 4 Uhr) online
+  und wird ab 6 Uhr gemeldet (wie eine vorgeplante).
 - **Heute veröffentlicht, schon nach 6 Uhr** → gemeldet, sobald die neu gebaute
   Seite online ist (meist ~1–2 Minuten nach dem Speichern), nicht erst am
   nächsten Morgen. So doppelt sie sich nicht mit der am nächsten Tag geplanten
@@ -200,8 +214,8 @@ Leere zeigen, solange Vercel die Seite noch baut. Dazu ruft der Code die
 läuft das im Hintergrund (`waitUntil`), damit die Rückmeldung sofort da ist. Steht
 die Seite ausnahmsweise nicht innerhalb des Zeitbudgets (~45 Sek., unter dem
 60-Sekunden-Limit des Vercel-Hobby-Tarifs, eingestellt in
-[`vercel.json`](vercel.json)), wird **nicht** gemeldet – der tägliche 6-Uhr-Lauf
-holt die Meldung dann im 3-Tage-Fenster nach.
+[`vercel.json`](vercel.json)), wird **nicht** gemeldet – der tägliche Lauf holt
+die Meldung dann im 3-Tage-Fenster nach.
 
 **Einrichtung:**
 
@@ -247,7 +261,7 @@ Ablauf (Double-Opt-In, wie in Deutschland vorgeschrieben):
    Ein-Klick-Abmeldung `List-Unsubscribe`).
 
 Der Versand läuft parallel zu Telegram: beim Veröffentlichen (sobald online) und
-über den täglichen 6-Uhr-Lauf. Ein eigener Merker
+über den täglichen Lauf. Ein eigener Merker
 **`newsletter-gesendet.json`** sorgt – getrennt von Telegram – dafür, dass jede
 Andacht genau **einmal** gemailt wird; beim ersten Lauf wird der Bestand ohne
 rückwirkenden Versand verbucht.
@@ -290,16 +304,41 @@ Wie es sich merkt, was schon gepostet wurde (ohne Datenbank):
 
 ### Hinweis zum Zeitplan
 
-Der tägliche Lauf hängt **nicht** mehr am Vercel-Cron (der auf dem Hobby-Tarif
-unzuverlässig war), sondern an **GitHub Actions**
-([`.github/workflows/taeglich.yml`](.github/workflows/taeglich.yml)) – kostenlos
-für öffentliche wie private Repos im normalen Umfang. Der Endpunkt
-`/api/taeglich` selbst bleibt auf Vercel; GitHub Actions ruft ihn nur auf.
+Der Endpunkt `/api/taeglich` liegt auf Vercel; ein **Cron-Dienst ruft ihn morgens
+nur auf**. Kostenlose Scheduler treffen einen Zeitpunkt aber nie sekundengenau –
+GitHub-Actions- und Vercel-Cron können sich um viele Minuten verspäten oder ganz
+ausfallen. Deshalb ist das Timing im Code **entspannt gebaut** (veröffentlichen ab
+4 Uhr, melden ab 6 Uhr) **und** es gibt zwei voneinander unabhängige Auslöser:
 
-> Hinweis: GitHub deaktiviert geplante Workflows automatisch, wenn ein Repo
-> **60 Tage** ohne Aktivität ist. Da hier regelmäßig Andachten committet werden,
-> passiert das im Normalbetrieb nicht; nach einer langen Pause den Workflow ggf.
-> im Actions-Tab wieder aktivieren.
+**1. Empfohlen – externer Pinger [cron-job.org](https://cron-job.org) (kostenlos,
+minutengenau, sommerzeitfest).** Einmal einrichten:
+
+1. Konto anlegen, **Create cronjob**.
+2. **URL:** `https://gfdt-andachten.de/api/taeglich/` (mit Schrägstrich am Ende!).
+3. **Zeitplan:** in **deutscher Zeit** (unter *Settings → Timezone* Europe/Berlin
+   wählen – dann stimmt es automatisch in Sommer- wie Winterzeit). Sinnvoll sind
+   ein paar Aufrufe im Fenster, z. B. **05:30** (veröffentlichen, sicher vor 6 Uhr)
+   und **06:00** sowie **06:15** (melden). Mehrere Aufrufe schaden nicht – der
+   Endpunkt ist gegen Doppel-Bau und Doppel-Meldung abgesichert.
+4. **Ist `CRON_SECRET` gesetzt:** unter *Advanced → Headers* den Header
+   `Authorization` mit dem Wert `Bearer <dein CRON_SECRET>` hinzufügen. Sonst
+   antwortet der Endpunkt mit **HTTP 401**.
+5. Speichern. cron-job.org zeigt im Verlauf jeden Aufruf mit HTTP-Status und
+   wiederholt fehlgeschlagene Aufrufe automatisch.
+
+**2. Reserve – GitHub Actions**
+([`.github/workflows/taeglich.yml`](.github/workflows/taeglich.yml), kostenlos).
+Läuft ohne weiteres Zutun mehrmals morgens und fängt einen Ausfall des externen
+Diensts ab. Er lässt sich im **Actions-Tab** auch von Hand starten – zum Testen mit
+der Option **„force“** (umgeht die Uhrzeit-Sperren).
+
+> Hinweise: GitHub-Actions-`schedule` ist ausdrücklich „best effort“ und feuert
+> gerade zur vollen Stunde oft **verspätet oder gar nicht** – deshalb ist es hier
+> nur die Reserve, nicht der Haupt-Auslöser. Außerdem deaktiviert GitHub geplante
+> Workflows nach **60 Tagen** ohne Repo-Aktivität; da regelmäßig Andachten
+> committet werden, passiert das im Normalbetrieb nicht. Zum Prüfen, ob ein Lauf
+> wirklich etwas getan hat, hilft die JSON-Antwort des Endpunkts (Felder
+> `stundeBerlin`, `meldenErlaubt`, `neubau`, `telegram`, `newsletter`).
 
 ---
 

@@ -1,25 +1,32 @@
 name: Täglicher Lauf (Andacht veröffentlichen + Telegram)
 
-# Ersetzt den früheren Vercel-Cron, der – vor allem am Wochenende – unzuverlässig
-# war. Dieser Workflow ruft einmal täglich den bestehenden Endpunkt
-# `api/taeglich` auf. Der stößt einen neuen Seitenbau an (macht vordatierte
-# Andachten an ihrem Tag sichtbar) und meldet fällige Andachten an Telegram.
-# Die eigentliche Logik (Fälligkeit, 6-Uhr-Sperre, Doppel-Schutz) bleibt
-# unverändert im Endpunkt – hier wird er nur zuverlässig angestoßen.
+# RESERVE-Auslöser. Der zuverlässige, minutengenaue Auslöser ist ein externer
+# Cron-Dienst (z. B. cron-job.org, in deutscher Zeit eingestellt) – siehe README,
+# Abschnitt „Hinweis zum Zeitplan". Dieser Workflow springt zusätzlich ein, falls
+# der externe Dienst einmal ausfällt. Er ruft mehrmals morgens den bestehenden
+# Endpunkt `api/taeglich` auf. Der stößt einen neuen Seitenbau an (macht
+# vordatierte Andachten sichtbar) und meldet fällige Andachten an Telegram/E-Mail.
+# Die Logik (Fälligkeit, Sichtbar-/Melde-Stunde, Doppel-Schutz) bleibt im Endpunkt.
 
 on:
   schedule:
-    # GitHub-Cron rechnet in UTC. Beide Zeiten liegen ganzjährig (Sommer- wie
-    # Winterzeit) NACH 6 Uhr deutscher Zeit, damit der Endpunkt nicht durch seine
-    # eigene 6-Uhr-Sperre übersprungen wird:
-    #   05:00 UTC = 06:00 (Winter) / 07:00 (Sommer) deutscher Zeit → Haupt-Lauf
-    #   07:00 UTC = 08:00 (Winter) / 09:00 (Sommer) deutscher Zeit → Reserve-Lauf
-    # GitHub kann geplante Läufe verzögern; das verschiebt sie nur nach HINTEN
-    # (also weiterhin nach 6 Uhr – unkritisch). Der Reserve-Lauf fängt einen
-    # ausgefallenen Haupt-Lauf ab; eine Doppel-Meldung ist durch
-    # telegram-gesendet.json ausgeschlossen.
-    - cron: "0 5 * * *"
-    - cron: "0 7 * * *"
+    # GitHub-Cron rechnet in UTC. Der Endpunkt trennt zwei Phasen (deutscher Zeit):
+    # VERÖFFENTLICHEN ab 4 Uhr, MELDEN (Telegram/Newsletter) ab 6 Uhr. Deshalb hier
+    # sowohl Läufe im 4–6-Uhr-Fenster (damit die Andacht vor 6 Uhr online ist) als
+    # auch nach 6 Uhr (für die Meldung) – jeweils ganzjährig, also für Sommer- wie
+    # Winterzeit. Minuten bewusst ungerade (nicht :00), weil GitHub Läufe zur vollen
+    # Stunde am stärksten verzögert. GitHub kann geplante Läufe verzögern; das
+    # verschiebt sie nur nach HINTEN (unkritisch). Doppelte Meldungen sind durch
+    # telegram-/newsletter-gesendet.json ausgeschlossen, doppelte Deploys durch die
+    # neubauNoetig-Prüfung.
+    #   03:17 UTC = 04:17 (Winter) / 05:17 (Sommer) → Veröffentlichen (vor 6 Uhr)
+    #   03:47 UTC = 04:47 (Winter) / 05:47 (Sommer) → Veröffentlichen (vor 6 Uhr)
+    #   05:17 UTC = 06:17 (Winter) / 07:17 (Sommer) → Melden (Telegram/Newsletter)
+    #   06:47 UTC = 07:47 (Winter) / 08:47 (Sommer) → Reserve-Meldung
+    - cron: "17 3 * * *"
+    - cron: "47 3 * * *"
+    - cron: "17 5 * * *"
+    - cron: "47 6 * * *"
   # Manuell aus dem Actions-Tab startbar (zum Testen).
   workflow_dispatch:
     inputs:

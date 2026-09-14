@@ -1,7 +1,7 @@
 // E-Mail-Versand der Andachten an die bestätigten Abonnenten – das Gegenstück zu
 // api/_lib/melden.js (Telegram). Aufgerufen von zwei Stellen:
-//   1. api/taeglich.js  – der tägliche 6-Uhr-Lauf mailt die neu fällig gewordenen
-//      (vorgeplanten) Andachten.
+//   1. api/taeglich.js  – der tägliche Lauf mailt (ab 6 Uhr, MELDE_STUNDE) die neu
+//      fällig gewordenen (vorgeplanten) Andachten.
 //   2. api/andachten.js – beim Veröffentlichen im Admin: ist die Andacht sofort
 //      sichtbar, wird sie direkt gemailt.
 //
@@ -215,7 +215,8 @@ async function maileFaelligeAndachten() {
 
 // --- Weg 2: Sofort beim Veröffentlichen -----------------------------------
 // Mailt EINE gerade veröffentlichte Andacht, aber nur wenn sie jetzt bereits
-// öffentlich sichtbar ist. Vorgeplante/vor-6-Uhr-Andachten übernimmt der Cron.
+// öffentlich sichtbar ist. Vorgeplante/noch nicht sichtbare Andachten übernimmt
+// der tägliche Lauf (Meldung ab MELDE_STUNDE / 6 Uhr).
 async function maileAndachtFallsFaellig({ datei, datum, slug, felder, alterName }) {
   if (!newsletterAktiv()) return { uebersprungen: true, grund: "nicht-konfiguriert" };
   if (felder && felder.entwurf === true) return { uebersprungen: true, grund: "entwurf" };
