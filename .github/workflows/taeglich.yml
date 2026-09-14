@@ -48,12 +48,18 @@ jobs:
           FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
         run: |
           set -uo pipefail
-          url="$BASIS_URL/api/taeglich"
+          # WICHTIG: Schrägstrich am Ende! vercel.json hat "trailingSlash": true,
+          # d. h. Vercel leitet /api/taeglich per 308 auf /api/taeglich/ um. Ohne
+          # den Schrägstrich (und ohne -L bei curl) landete der Aufruf nur auf der
+          # Weiterleitung – die Funktion lief nie, der Lauf galt aber als "grün".
+          url="$BASIS_URL/api/taeglich/"
           if [ "${FORCE:-false}" = "true" ]; then
             url="$url?force=1"
           fi
           echo "Rufe $url auf ..."
-          code=$(curl -sS -m 60 --retry 3 --retry-delay 10 --retry-all-errors \
+          # -L: Weiterleitungen trotzdem folgen (Sicherheitsnetz, falls sich die
+          # Adresse einmal ändert). --write-out liefert den finalen HTTP-Status.
+          code=$(curl -sS -L -m 60 --retry 3 --retry-delay 10 --retry-all-errors \
             -o antwort.txt -w '%{http_code}' \
             -H "Authorization: Bearer ${CRON_SECRET}" \
             "$url") || { echo "::error::curl-Aufruf fehlgeschlagen (Netzwerk)"; exit 1; }
@@ -61,8 +67,11 @@ jobs:
           echo "Antwort des Endpunkts:"
           cat antwort.txt 2>/dev/null || true
           echo
-          if [ "$code" -ge 400 ]; then
-            echo "::error::api/taeglich meldete HTTP $code – Lauf fehlgeschlagen. Bei 401 das GitHub-Secret CRON_SECRET prüfen (muss dem Wert in Vercel entsprechen)."
+          # Nur echte 2xx-Antworten sind ein Erfolg. Eine 3xx-Weiterleitung, die
+          # nicht aufgelöst werden konnte, bedeutet: der Endpunkt wurde NICHT
+          # ausgeführt – das muss der Lauf als Fehler melden (früher unsichtbar).
+          if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
+            echo "::error::api/taeglich meldete HTTP $code – Lauf fehlgeschlagen. Bei 401 das GitHub-Secret CRON_SECRET prüfen (muss dem Wert in Vercel entsprechen); bei 3xx stimmt die Adresse/Weiterleitung nicht."
             exit 1
           fi
           echo "Fertig."
