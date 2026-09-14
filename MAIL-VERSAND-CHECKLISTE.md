@@ -2,7 +2,7 @@
 
 **Kurzstand:** Der E-Mail-Versand ist im Code **vollständig fertig** – Anmeldung
 mit Double-Opt-In, Bestätigung, Versand beim Veröffentlichen und über den
-täglichen 6-Uhr-Lauf, Abmeldung inkl. Ein-Klick, und ein Test-Knopf im Admin.
+täglichen Lauf (Meldungen ab 6 Uhr), Abmeldung inkl. Ein-Klick, und ein Test-Knopf im Admin.
 Es fehlt also **nichts zu programmieren**, sondern nur die **Einrichtung bei
 Brevo**, das **Eintragen der Zugangsdaten in Vercel**, ein **Praxis-Test** und
 das **Rechtliche** (Datenschutz/Impressum).

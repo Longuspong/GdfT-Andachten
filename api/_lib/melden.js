@@ -21,11 +21,16 @@ const STATUS_DATEI = "telegram-gesendet.json";
 // Fängt ausgefallene Cron-Läufe (z. B. Wochenende) ab, verhindert aber, dass
 // nachträglich eingepflegte alte Archiv-Andachten den Kanal fluten.
 const MELDE_FENSTER_TAGE = 3;
-// Vor dieser Uhrzeit (deutscher Zeit) wird nichts veröffentlicht/gemeldet.
-// Muss zur gleichen Konstante im Build-Filter passen
-// (src/andachten/andachten.11tydata.js), damit "sichtbar" und "gemeldet"
-// zum selben Zeitpunkt passieren.
-const VEROEFFENTLICHUNGS_STUNDE = 6;
+// Zwei getrennte Morgen-Zeitpunkte (deutscher Zeit):
+//   SICHTBAR_AB_STUNDE – ab wann eine vordatierte Andacht ONLINE (sichtbar) wird.
+//     Bewusst früh (4 Uhr), damit sie – auch bei einem leicht verspäteten Lauf –
+//     zuverlässig VOR 6 Uhr online steht (für Frühaufsteher). Muss zur gleichen
+//     Konstante im Build-Filter (src/andachten/andachten.11tydata.js) passen.
+//   MELDE_STUNDE – ab wann die automatischen Meldungen (Telegram/Newsletter)
+//     rausgehen. Später (6 Uhr), damit Abonnenten keine sehr frühe Morgen-Nachricht
+//     bekommen; der Link zeigt dann bereits die fertig gebaute Seite.
+const SICHTBAR_AB_STUNDE = 4;
+const MELDE_STUNDE = 6;
 
 // Heutiges Datum als "JJJJ-MM-TT" in deutscher Zeit (Europe/Berlin).
 function heuteBerlin() {
@@ -57,12 +62,12 @@ function verschiebeTage(iso, tage) {
 }
 
 // Ist die Andacht JETZT fällig (also öffentlich sichtbar)? Spiegelt die Logik
-// aus src/andachten/andachten.11tydata.js: an ihrem Tag erst ab 6 Uhr, davor
-// (und an künftigen Tagen) noch nicht; an vergangenen Tagen längst.
+// aus src/andachten/andachten.11tydata.js: an ihrem Tag erst ab SICHTBAR_AB_STUNDE
+// (4 Uhr), davor (und an künftigen Tagen) noch nicht; an vergangenen Tagen längst.
 function istFaelligJetzt(datum, heute, stunde) {
   if (datum > heute) return false;
   if (datum < heute) return true;
-  return stunde >= VEROEFFENTLICHUNGS_STUNDE;
+  return stunde >= SICHTBAR_AB_STUNDE;
 }
 
 // Liegt das Datum im Meldefenster (nicht älter als MELDE_FENSTER_TAGE Tage)?
@@ -215,6 +220,33 @@ async function initStatusMitBestand(alle, heute) {
   return { ersteEinrichtung: true, gemerkt: bestand.length, gemeldet: 0 };
 }
 
+// Prüft, ob JETZT ein Neu-Bau der Seite (Vercel Deploy Hook) nötig ist: Gibt es
+// eine bereits fällige (sichtbare), veröffentlichte Andacht, deren Seite noch NICHT
+// online erreichbar ist? Nur dann lohnt ein Neu-Bau. Ist heute schon alles online,
+// liefert die Prüfung false. So darf der Endpunkt beliebig oft aufgerufen werden
+// (z. B. mehrfach im Morgenfenster durch einen externen Pinger), ohne bei jedem
+// Aufruf ein überflüssiges Deployment auszulösen.
+async function neubauNoetig() {
+  const heute = heuteBerlin();
+  const stunde = stundeBerlin();
+  const frueheste = verschiebeTage(heute, -MELDE_FENSTER_TAGE);
+  const kandidaten = (await listeAndachten()).filter(
+    (a) => a.datum >= frueheste && istFaelligJetzt(a.datum, heute, stunde)
+  );
+  for (const a of kandidaten) {
+    const url = andachtUrl(a.datum, a.slug);
+    // Ohne absolute Adresse (site.url fehlt) lässt sich nichts prüfen -> sicher-
+    // heitshalber bauen.
+    if (!/^https?:\/\//i.test(url)) return true;
+    if (await istErreichbar(url, 6000)) continue; // schon online -> kein Bau nötig
+    // Noch nicht online: Entwürfe sollen versteckt bleiben (kein Bau deswegen).
+    const file = await getFile(`${ORDNER}/${a.datei}`);
+    if (file && frontMatterFelder(file.content).entwurf === true) continue;
+    return true; // fällige, veröffentlichte Andacht ist (noch) nicht online -> Bau nötig
+  }
+  return false;
+}
+
 // --- Weg 1: Batch (täglicher Cron-Lauf) -----------------------------------
 // Alle im Meldefenster fällig gewordenen, noch nicht gemeldeten Andachten posten.
 async function meldeFaelligeAndachten() {
@@ -308,11 +340,11 @@ async function meldeManuell({ datei }) {
     throw e;
   }
 
-  // 1. Fällig? (Datum erreicht, an seinem Tag ab 6 Uhr deutscher Zeit.)
+  // 1. Fällig? (Datum erreicht, an seinem Tag ab der Sichtbar-Stunde deutscher Zeit.)
   const heute = heuteBerlin();
   if (!istFaelligJetzt(datum, heute, stundeBerlin())) {
     const e = new Error(
-      "Diese Andacht ist noch nicht veröffentlicht – sie erscheint erst an ihrem Tag um 6 Uhr."
+      `Diese Andacht ist noch nicht veröffentlicht – sie erscheint erst an ihrem Tag um ${SICHTBAR_AB_STUNDE} Uhr.`
     );
     e.status = 409;
     throw e;
@@ -368,8 +400,9 @@ async function meldeManuell({ datei }) {
 
 // --- Weg 2: Sofort beim Veröffentlichen -----------------------------------
 // Meldet EINE gerade veröffentlichte Andacht, aber nur wenn sie jetzt bereits
-// öffentlich sichtbar ist. Vorgeplante (künftige) und vor-6-Uhr-Andachten werden
-// bewusst NICHT gemeldet – die übernimmt weiterhin der tägliche 6-Uhr-Lauf.
+// öffentlich sichtbar ist (an ihrem Tag ab der Sichtbar-Stunde). Vorgeplante
+// (künftige) und noch nicht sichtbare Andachten werden bewusst NICHT gemeldet –
+// die übernimmt weiterhin der tägliche Lauf (Meldung ab MELDE_STUNDE / 6 Uhr).
 //
 //   datei      Dateiname der (neuen) Andacht, z. B. "2026-09-11-hoffnung.md"
 //   datum      "JJJJ-MM-TT"
@@ -437,7 +470,8 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
 }
 
 module.exports = {
-  VEROEFFENTLICHUNGS_STUNDE,
+  SICHTBAR_AB_STUNDE,
+  MELDE_STUNDE,
   MELDE_FENSTER_TAGE,
   heuteBerlin,
   stundeBerlin,
@@ -451,6 +485,7 @@ module.exports = {
   baueNachricht,
   frontMatterFelder,
   listeAndachten,
+  neubauNoetig,
   meldeFaelligeAndachten,
   meldeAndachtFallsFaellig,
   meldeManuell,
