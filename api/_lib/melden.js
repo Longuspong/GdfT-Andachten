@@ -12,7 +12,7 @@
 
 const { listDir, getFile, putFile } = require("./github");
 const { beanspruche, gibFrei } = require("./merker");
-const { sendeTelegram } = require("./telegram");
+const { sendeTelegramAndacht } = require("./telegram");
 const SITE = require("../../src/_data/site.js");
 
 const ORDNER = "src/andachten";
@@ -141,11 +141,28 @@ async function warteBisErreichbar(
   }
 }
 
-// Telegram-Nachricht für eine Andacht bauen: nur der Titel, darunter der Link
-// (Telegram zeigt darüber automatisch eine Vorschaukarte der Seite).
+// Telegram-Nachricht für eine Andacht bauen: nur der Titel, darunter der Link.
+// Als Foto-Bildunterschrift (sendPhoto) steht der Link unter dem Bild; als
+// reine Textnachricht (Rückfall) zeigt Telegram darüber automatisch eine
+// Vorschaukarte der Seite.
 function baueNachricht({ datum, slug, felder }) {
   const titel = (felder && felder.titel) || slug;
   return `${titel}\n${andachtUrl(datum, slug)}`;
+}
+
+// Absolute Adresse des Vorschaubildes einer Andacht – passend zum og:image der
+// Seite (siehe src/_includes/base.njk): das (optionale) Feld „bild" der Andacht,
+// sonst das Standard-Vorschaubild der Seite (site.vorschaubild). Wird für den
+// direkten Foto-Versand (sendPhoto) gebraucht, damit das Bild sicher erscheint –
+// unabhängig davon, ob Telegram eine Link-Vorschau erzeugen kann. Ohne absolute
+// Basis-Adresse (site.url fehlt) wird "" geliefert -> dann greift der Text-Rückfall.
+function bildUrl(felder) {
+  const roh = String((felder && felder.bild) || SITE.vorschaubild || "").trim();
+  if (!roh) return "";
+  if (/^https?:\/\//i.test(roh)) return roh;
+  const basis = basisUrl();
+  if (!/^https?:\/\//i.test(basis)) return "";
+  return `${basis}${roh.startsWith("/") ? "" : "/"}${roh}`;
 }
 
 // Nur die benötigten Front-Matter-Felder lesen (titel, entwurf …). Bewusst
@@ -291,7 +308,10 @@ async function meldeFaelligeAndachten() {
     );
     if (!zuschlag) continue; // anderer Lauf meldet diese Andacht bereits
     try {
-      await sendeTelegram(baueNachricht({ datum: a.datum, slug: a.slug, felder }));
+      await sendeTelegramAndacht({
+        text: baueNachricht({ datum: a.datum, slug: a.slug, felder }),
+        bildUrl: bildUrl(felder),
+      });
       gemeldet.push(a.datei);
     } catch (e) {
       // Versand fehlgeschlagen -> Anspruch zurücknehmen, damit der nächste Lauf es
@@ -372,7 +392,10 @@ async function meldeManuell({ datei }) {
   }
 
   // 3. Senden.
-  await sendeTelegram(baueNachricht({ datum, slug, felder }));
+  await sendeTelegramAndacht({
+    text: baueNachricht({ datum, slug, felder }),
+    bildUrl: bildUrl(felder),
+  });
 
   // 4. Merker pflegen, damit der tägliche Lauf nicht zusätzlich meldet.
   const status = await ladeStatus();
@@ -461,7 +484,10 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
     return { uebersprungen: true, grund: "bereits-gemeldet" };
   }
   try {
-    await sendeTelegram(baueNachricht({ datum, slug, felder }));
+    await sendeTelegramAndacht({
+      text: baueNachricht({ datum, slug, felder }),
+      bildUrl: bildUrl(felder),
+    });
   } catch (e) {
     await gibFrei(STATUS_DATEI, datei, `Telegram-Anspruch zurückgenommen (${datei})`);
     throw e;
@@ -483,6 +509,7 @@ module.exports = {
   istErreichbar,
   warteBisErreichbar,
   baueNachricht,
+  bildUrl,
   frontMatterFelder,
   listeAndachten,
   neubauNoetig,
