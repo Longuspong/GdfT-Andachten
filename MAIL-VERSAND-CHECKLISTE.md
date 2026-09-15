@@ -52,23 +52,30 @@ Arbeite die Punkte am besten von oben nach unten ab.
 - [ ] **Zustellbarkeit prüfen:** je eine Testmail an **Gmail, GMX/Web.de und
       Outlook** – landet nichts im Spam?
 
-## D. Rechtliches (in Deutschland Pflicht)
+## D. Rechtliches & Kontakt
 
-Impressum und Datenschutzerklärung sind als Vorlage **angelegt** und in der
-Fußzeile verlinkt:
+Aktueller Zwischenstand (bewusst so gewählt, bis geklärt ist, ob ein
+Verein/eine Gemeinde als Betreiber angegeben werden kann):
 
 - ✅ **Datenschutzerklärung** (`src/datenschutz.njk` → `/datenschutz/`) – auf den
       tatsächlichen Aufbau zugeschnitten: Brevo (EU, Double-Opt-In, Widerruf),
       Hosting Vercel, Domain/E-Mail STRATO, lokale Schriften, keine Cookies.
-- ✅ **Impressum** (`src/impressum.njk` → `/impressum/`) – nach § 5 DDG.
-- ✅ **Fußzeile** verlinkt beide Seiten.
+      Der Verantwortliche wird vorerst nur über Kontakt-Adresse/-Formular genannt.
+- ✅ **Kontaktseite** (`src/kontakt.njk` → `/kontakt/`) mit Formular, verlinkt in
+      der Fußzeile. Der Endpunkt `api/kontakt.js` schickt die Nachricht per
+      **STRATO-SMTP** an `site.kontakt_email` (`ronny@gfdt-andachten.de`).
+- ⏸️ **Impressum** – vorerst **entfernt**, bis die Betreiber-Frage geklärt ist.
 
-- [ ] ⚠️ **Betreiber-Angaben ausfüllen:** in
-      [`src/_data/site.js`](src/_data/site.js) unter `betreiber` deinen **Namen,
-      Anschrift und Kontakt** eintragen. Solange dort „BITTE-AUSFÜLLEN“ steht, ist
-      das Impressum **rechtlich unwirksam**.
-- [ ] *(empfohlen)* Vorlage kurz gegenlesen bzw. prüfen lassen – die Texte sind
-      sorgfältig, aber keine Rechtsberatung.
+- [ ] ⚠️ **SMTP-Zugang in Vercel eintragen**, damit das Kontaktformular sendet:
+      `SMTP_USER` (STRATO-Postfach-Login) und `SMTP_PASS` (Passwort); optional
+      `SMTP_HOST`/`SMTP_PORT`/`SMTP_FROM` (siehe [`.env.example`](.env.example)).
+      Danach neu deployen.
+- [ ] ⚠️ **Impressum ist in Deutschland grundsätzlich Pflicht** und fehlt derzeit
+      bewusst. Sobald geklärt ist, ob ein Verein/eine Gemeinde (oder dein Name +
+      Anschrift) angegeben werden kann: Angaben ergänzen und Impressum wieder
+      aufnehmen.
+- [ ] *(empfohlen)* Datenschutz-Vorlage kurz gegenlesen bzw. prüfen lassen – die
+      Texte sind sorgfältig, aber keine Rechtsberatung.
 
 ## E. Betrieb & Grenzen (gut zu wissen)
 

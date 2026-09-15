@@ -1,0 +1,56 @@
+---
+layout: base.njk
+titel: Kontakt
+beschreibung: Kontaktformular von „Gerüstet für den Tag“ – schreib uns eine Nachricht.
+permalink: /kontakt/index.html
+---
+{#
+  Kontaktformular. Sendet per POST an /api/kontakt; der Endpunkt verschickt die
+  Nachricht per E-Mail an site.kontakt_email (über den STRATO-Mailserver).
+  Funktioniert auch ohne JavaScript (normaler POST, der Endpunkt antwortet mit
+  einer gestalteten Seite).
+#}
+<section class="seite-kopf">
+  <h1 class="seite-kopf__titel">Kontakt</h1>
+  <p class="seite-kopf__text">
+    Fragen, Anregungen oder ein Hinweis? Schreib uns – wir freuen uns über jede
+    Nachricht.
+  </p>
+</section>
+
+<div class="fliesstext">
+  <form class="kontakt" method="post" action="/api/kontakt">
+    <label class="kontakt__feld">
+      <span class="kontakt__label">Dein Name</span>
+      <input type="text" name="name" autocomplete="name" required maxlength="120" />
+    </label>
+
+    <label class="kontakt__feld">
+      <span class="kontakt__label">Deine E-Mail-Adresse</span>
+      <input type="email" name="email" autocomplete="email" inputmode="email"
+             spellcheck="false" required maxlength="254"
+             placeholder="deine@e-mail.de" />
+      <span class="kontakt__hinweis">Damit wir dir antworten können.</span>
+    </label>
+
+    <label class="kontakt__feld">
+      <span class="kontakt__label">Deine Nachricht</span>
+      <textarea name="nachricht" rows="6" required maxlength="5000"></textarea>
+    </label>
+
+    {# Honigtopf gegen Spam-Bots: für Menschen unsichtbar, bleibt leer.
+       Füllt ein Bot das Feld, wird die Nachricht verworfen. #}
+    <div class="kontakt__hp" aria-hidden="true">
+      <label>Bitte dieses Feld frei lassen
+        <input type="text" name="webseite" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+
+    <button class="kontakt__knopf" type="submit">Nachricht senden</button>
+    <p class="kontakt__datenschutz">
+      Mit dem Absenden bist du einverstanden, dass wir deine Angaben zur
+      Bearbeitung deiner Anfrage verarbeiten. Näheres in der
+      <a href="/datenschutz/">Datenschutzerklärung</a>.
+    </p>
+  </form>
+</div>

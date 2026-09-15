@@ -1192,6 +1192,86 @@ a.buch-chip--aktiv:hover {
   margin-top: 2rem;
 }
 
+/* --- Kontaktformular --- */
+
+.kontakt {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 34rem;
+}
+
+.kontakt__feld {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.kontakt__label {
+  font-weight: 600;
+  color: var(--farbe-primaer);
+}
+
+.kontakt input,
+.kontakt textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--farbe-text);
+  background: var(--farbe-flaeche);
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+}
+
+.kontakt textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.kontakt input:focus,
+.kontakt textarea:focus {
+  outline: 2px solid var(--farbe-akzent);
+  outline-offset: 1px;
+  border-color: var(--farbe-akzent);
+}
+
+.kontakt__hinweis {
+  font-size: 0.85rem;
+  color: var(--farbe-text-leise);
+}
+
+/* Honigtopf: für Menschen unsichtbar, aber für Bots im DOM vorhanden. */
+.kontakt__hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.kontakt__knopf {
+  align-self: flex-start;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  background: var(--farbe-primaer);
+  border: 0;
+  border-radius: var(--radius);
+  padding: 0.75rem 1.4rem;
+}
+
+.kontakt__knopf:hover {
+  background: var(--farbe-primaer-hell);
+}
+
+.kontakt__datenschutz {
+  font-size: 0.85rem;
+  color: var(--farbe-text-leise);
+  margin: 0;
+}
+
 /* --- Fußbereich --- */
 
 .fuss {

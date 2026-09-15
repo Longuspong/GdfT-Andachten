@@ -28,18 +28,15 @@ module.exports = {
   // Text in der Fußzeile
   fusszeile: "Gerüstet für den Tag",
 
-  // --- Angaben für Impressum & Datenschutz ------------------------------
-  // Diese Felder erscheinen 1:1 auf den Seiten /impressum/ und /datenschutz/.
-  // In Deutschland ist ein Impressum Pflicht – bitte mit deinen ECHTEN
-  // Angaben füllen. Solange hier „BITTE-AUSFÜLLEN“ steht, ist das Impressum
-  // rechtlich unwirksam.
-  betreiber: {
-    name: "BITTE-AUSFÜLLEN: Vor- und Nachname",
-    strasse: "BITTE-AUSFÜLLEN: Straße und Hausnummer",
-    plz_ort: "BITTE-AUSFÜLLEN: PLZ und Ort",
-    land: "Deutschland",
-    // Kontakt-Adresse (die verifizierte Domain-Adresse eignet sich gut, da du
-    // sie im STRATO-Postfach mitliest). Bei Bedarf ändern.
-    email: "ronny@gfdt-andachten.de",
-  },
+  // --- Kontakt ----------------------------------------------------------
+  // Adresse, an die das Kontaktformular (/kontakt/) die Nachrichten schickt.
+  // Landet in diesem Postfach (bzw. dessen Alias). Bei Bedarf ändern.
+  kontakt_email: "ronny@gfdt-andachten.de",
+
+  // Hinweis: Ein vollständiges Impressum (mit Name/Anschrift bzw. den Angaben
+  // eines Vereins/einer Gemeinde) sowie die Angabe des Verantwortlichen in der
+  // Datenschutzerklärung sind in Deutschland grundsätzlich Pflicht. Beides ist
+  // hier bewusst noch offen gelassen, bis geklärt ist, ob ein Verein/eine
+  // Einrichtung angegeben werden kann. Dann hier die Daten ergänzen und das
+  // Impressum wieder aufnehmen.
 };
