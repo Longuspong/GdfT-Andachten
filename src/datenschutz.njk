@@ -8,7 +8,7 @@ permalink: /datenschutz/index.html
   Datenschutzerklärung. Auf den tatsächlichen Aufbau der Seite zugeschnitten:
   Hosting über Vercel, Domain/E-Mail über STRATO, Newsletter über Brevo,
   lokal ausgelieferte Schriften, keine Cookies/kein Tracking auf der Website.
-  Der Verantwortliche wird aus src/_data/site.js („betreiber“) übernommen.
+  Kontakt/Verantwortlicher wird aus src/_data/site.js („kontakt_email“) übernommen.
 
   Hinweis: sorgfältig erstellte Vorlage, aber keine Rechtsberatung. Bitte die
   Angaben (insbesondere zu Brevo/Vercel und deinen Kontaktdaten) vor dem
@@ -19,16 +19,21 @@ permalink: /datenschutz/index.html
 </section>
 
 <div class="fliesstext">
-  <h2>1. Verantwortlicher</h2>
+  <h2>1. Verantwortlicher &amp; Kontakt</h2>
+  {#
+    Hinweis: Nach DSGVO ist der Verantwortliche eigentlich mit Namen/Anschrift zu
+    nennen. Das ist hier bewusst noch offen gelassen (siehe site.js), bis geklärt
+    ist, ob ein Verein/eine Einrichtung angegeben werden kann. Bis dahin dient das
+    Kontaktformular als Kontaktmöglichkeit.
+  #}
   <p>
-    Verantwortlich für die Datenverarbeitung auf dieser Website ist:
+    Verantwortlich für die Datenverarbeitung auf dieser Website ist der Betreiber
+    des Angebots „{{ site.name }}“. Kontakt für Datenschutz-Anliegen und alle
+    Anfragen:
   </p>
   <p>
-    {{ site.betreiber.name }}<br />
-    {{ site.betreiber.strasse }}<br />
-    {{ site.betreiber.plz_ort }}<br />
-    {{ site.betreiber.land }}<br />
-    E-Mail: <a href="mailto:{{ site.betreiber.email }}">{{ site.betreiber.email }}</a>
+    E-Mail: <a href="mailto:{{ site.kontakt_email }}">{{ site.kontakt_email }}</a><br />
+    Kontaktformular: <a href="/kontakt/">{{ site.url | replace("https://", "") }}/kontakt/</a>
   </p>
 
   <h2>2. Aufruf der Website &amp; Hosting</h2>
