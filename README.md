@@ -192,8 +192,13 @@ unzuverlässig.)
 ### Benachrichtigung per Telegram
 
 Neue Andachten können automatisch in einen Telegram-Kanal gepostet werden. Leser
-abonnieren einfach den Kanal. Die Nachricht enthält bewusst nur den **Titel** und
-den **Link** zur Andacht (Telegram zeigt darüber automatisch eine Vorschaukarte).
+abonnieren einfach den Kanal. Die Nachricht wird als **Bild mit Bildunterschrift**
+verschickt (`sendPhoto`): oben das Vorschaubild der Andacht (`og:image`, standard­
+mäßig [`og-bild.jpg`](src/assets/)), darunter **Titel** und **Link**. So erscheint
+das Bild **immer zuverlässig** – unabhängig davon, ob Telegram für den Link gerade
+eine Vorschaukarte erzeugen kann. Klappt der Foto-Versand ausnahmsweise nicht,
+fällt der Code automatisch auf eine reine **Textnachricht** (Titel + Link mit
+Link-Vorschau) zurück, damit nie ganz eine Meldung ausbleibt.
 
 Grundregel: **Jede Andacht wird genau einmal gemeldet.** Die Andacht ist an ihrem
 Tag ab 4 Uhr online, die Meldung folgt ab 6 Uhr. Konkret:
@@ -207,15 +212,15 @@ Tag ab 4 Uhr online, die Meldung folgt ab 6 Uhr. Konkret:
   nächsten Morgen. So doppelt sie sich nicht mit der am nächsten Tag geplanten
   Andacht.
 
-**Erst prüfen, dann melden:** Die Telegram-Meldung geht bewusst **erst raus, wenn
-die Andachts-Seite wirklich erreichbar ist** – sonst würde der Link kurzzeitig ins
-Leere zeigen, solange Vercel die Seite noch baut. Dazu ruft der Code die
-öffentliche Adresse ab, bis sie mit HTTP 200 antwortet. Beim Speichern im Admin
-läuft das im Hintergrund (`waitUntil`), damit die Rückmeldung sofort da ist. Steht
-die Seite ausnahmsweise nicht innerhalb des Zeitbudgets (~45 Sek., unter dem
-60-Sekunden-Limit des Vercel-Hobby-Tarifs, eingestellt in
-[`vercel.json`](vercel.json)), wird **nicht** gemeldet – der tägliche Lauf holt
-die Meldung dann im 3-Tage-Fenster nach.
+**Kurz warten, aber nie blockieren:** Vor dem Melden wartet der Code kurz (bis zu
+~20 Sek.), bis die frisch gebaute Andachts-Seite mit HTTP 200 antwortet – damit
+der Link gleich funktioniert. Dieses Warten ist aber nur „best effort": Lässt sich
+die Seite im Zeitbudget nicht bestätigen, wird **trotzdem gemeldet** (der Link
+greift dann wenige Minuten später, sobald Vercel fertig gebaut hat). Das Bild
+selbst hängt **nicht** mehr an diesem Timing, weil es direkt als Foto mitgeschickt
+wird (siehe oben) – anders als früher, als das Bild von der Telegram-Link-Vorschau
+abhing und deshalb ausbleiben konnte, wenn die Seite beim Versand noch nicht online
+war.
 
 **Einrichtung:**
 
