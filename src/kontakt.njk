@@ -11,14 +11,18 @@ permalink: /kontakt/index.html
   einer gestalteten Seite).
 #}
 <section class="seite-kopf">
-  <h1 class="seite-kopf__titel">Kontakt</h1>
-  <p class="seite-kopf__text">
-    Fragen, Anregungen oder ein Hinweis? Schreib uns – wir freuen uns über jede
-    Nachricht.
-  </p>
+  <div class="seite-kopf__innen">
+    <p class="rubrik" style="color:var(--gold)">Kontakt</p>
+    <h1 class="seite-kopf__titel">Schreib uns</h1>
+    <p class="seite-kopf__text">
+      Fragen, Anregungen oder ein Hinweis? Schreib uns – wir freuen uns über jede
+      Nachricht.
+    </p>
+  </div>
 </section>
 
-<div class="fliesstext">
+<div class="inhalt">
+  <div class="fliesstext">
   <form class="kontakt" method="post" action="/api/kontakt">
     <label class="kontakt__feld">
       <span class="kontakt__label">Dein Name</span>
@@ -53,4 +57,5 @@ permalink: /kontakt/index.html
       <a href="/datenschutz/">Datenschutzerklärung</a>.
     </p>
   </form>
+  </div>
 </div>

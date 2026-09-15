@@ -2,22 +2,63 @@
 layout: base.njk
 ogTyp: article
 ---
-<article class="andacht">
-  <header class="andacht__kopf">
-    <p class="andacht__datum">
-      <time datetime="{{ page.date | datumISO }}">{{ page.date | datumVoll }}</time>
-    </p>
-    <h1 class="andacht__titel">{{ titel }}</h1>
-    {% if losung %}
-      <p class="andacht__losung">{{ losung }}{% if stelle %} <span class="andacht__stelle">({{ stelle }})</span>{% endif %}</p>
-    {% endif %}
-  </header>
+{% set vorige = collections.andachten | getPreviousCollectionItem %}
+{% set naechste = collections.andachten | getNextCollectionItem %}
 
-  <div class="andacht__text">
-    {{ content | safe }}
-  </div>
+<div class="inhalt">
+  <article class="andacht">
+    <div class="andacht__rand">
+      <p>
+        <time datetime="{{ page.date | datumISO }}">{{ page.date | datumLang }}</time>
+      </p>
+      {% if stelle %}<p class="rubrik">{{ stelle }}</p>{% endif %}
+    </div>
 
-  <footer class="andacht__fuss">
-    <a class="zurueck" href="/archiv/">← Alle Andachten</a>
-  </footer>
-</article>
+    <div class="andacht__spalte">
+      <h1 class="andacht__titel">{{ titel }}</h1>
+
+      {% if losung %}
+        <p class="andacht__losung">
+          {{ losung }}
+          {% if stelle %}<span class="andacht__stelle">{{ stelle }}</span>{% endif %}
+        </p>
+      {% endif %}
+
+      <div class="andacht__text">
+        {{ content | safe }}
+      </div>
+
+      {% if frage %}
+        <aside class="frage">
+          <p class="rubrik frage__rubrik">Frage für heute</p>
+          <p class="frage__text">{{ frage }}</p>
+        </aside>
+      {% endif %}
+
+      {% if schlagwoerter %}
+        <ul class="schlagwoerter">
+          {% for wort in schlagwoerter %}
+            <li><span class="schlagwort">{{ wort }}</span></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <footer class="andacht__fuss">
+        <div class="nachbarn">
+          {% if naechste %}
+            <a class="nachbar" href="{{ naechste.url }}">
+              <span class="nachbar__label">← Vorige</span>
+              <span class="nachbar__titel">{{ naechste.data.titel }}</span>
+            </a>
+          {% endif %}
+          {% if vorige %}
+            <a class="nachbar nachbar--naechste" href="{{ vorige.url }}">
+              <span class="nachbar__label">Nächste →</span>
+              <span class="nachbar__titel">{{ vorige.data.titel }}</span>
+            </a>
+          {% endif %}
+        </div>
+      </footer>
+    </div>
+  </article>
+</div>
