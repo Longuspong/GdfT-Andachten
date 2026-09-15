@@ -192,13 +192,20 @@ unzuverlässig.)
 ### Benachrichtigung per Telegram
 
 Neue Andachten können automatisch in einen Telegram-Kanal gepostet werden. Leser
-abonnieren einfach den Kanal. Die Nachricht wird als **Bild mit Bildunterschrift**
-verschickt (`sendPhoto`): oben das Vorschaubild der Andacht (`og:image`, standard­
-mäßig [`og-bild.jpg`](src/assets/)), darunter **Titel** und **Link**. So erscheint
-das Bild **immer zuverlässig** – unabhängig davon, ob Telegram für den Link gerade
-eine Vorschaukarte erzeugen kann. Klappt der Foto-Versand ausnahmsweise nicht,
-fällt der Code automatisch auf eine reine **Textnachricht** (Titel + Link mit
-Link-Vorschau) zurück, damit nie ganz eine Meldung ausbleibt.
+abonnieren einfach den Kanal. Die Nachricht wird als **Textnachricht mit
+Link-Vorschaukarte** verschickt: **Titel** und **Link**, darunter baut Telegram
+selbst die Vorschaukarte mit **Kanalname, Titel, Kurztext** (`beschreibung` /
+`og:description`) und **Vorschaubild** (`og:image`, standardmäßig
+[`og-bild.jpg`](src/assets/)). Das ist der gewünschte Look – die Meldung enthält
+so **immer den Kurztext**.
+
+Diese Vorschaukarte baut Telegram aber nur, wenn die Andachts-Seite beim Versand
+schon **online** ist. Deshalb wird **erst gemeldet, wenn die Seite erreichbar ist**
+(siehe „Erst melden, wenn die Seite online ist" unten). Für den Ausnahmefall, dass
+die Seite im Zeitbudget nicht online wird (Build dauert länger), fällt der Code auf
+ein **Bild mit Bildunterschrift** (`sendPhoto`) zurück: oben das Vorschaubild,
+darunter **Titel, Kurztext und Link**. So kommen Bild und Kurztext auch dann
+garantiert an – **nie nur ein nackter Link**.
 
 Grundregel: **Jede Andacht wird genau einmal gemeldet.** Die Andacht ist an ihrem
 Tag ab 4 Uhr online, die Meldung folgt ab 6 Uhr. Konkret:
@@ -212,15 +219,17 @@ Tag ab 4 Uhr online, die Meldung folgt ab 6 Uhr. Konkret:
   nächsten Morgen. So doppelt sie sich nicht mit der am nächsten Tag geplanten
   Andacht.
 
-**Kurz warten, aber nie blockieren:** Vor dem Melden wartet der Code kurz (bis zu
-~20 Sek.), bis die frisch gebaute Andachts-Seite mit HTTP 200 antwortet – damit
-der Link gleich funktioniert. Dieses Warten ist aber nur „best effort": Lässt sich
-die Seite im Zeitbudget nicht bestätigen, wird **trotzdem gemeldet** (der Link
-greift dann wenige Minuten später, sobald Vercel fertig gebaut hat). Das Bild
-selbst hängt **nicht** mehr an diesem Timing, weil es direkt als Foto mitgeschickt
-wird (siehe oben) – anders als früher, als das Bild von der Telegram-Link-Vorschau
-abhing und deshalb ausbleiben konnte, wenn die Seite beim Versand noch nicht online
-war.
+**Erst melden, wenn die Seite online ist:** Vor dem Melden wartet der Code, bis die
+frisch gebaute Andachts-Seite mit HTTP 200 antwortet (Budget bis zu ~40 Sek., klar
+unter dem Vercel-Zeitlimit von 60 Sek.), und legt danach noch eine kurze
+Zusatzpause ein – damit auch Telegrams Vorschau-Crawler die fertige Seite mit allen
+OG-Tags erreicht und die **Vorschaukarte zuverlässig entsteht** (statt eines nackten
+Links). Wird die Seite im Budget ausnahmsweise nicht erreichbar (Build dauert
+länger), wird **trotzdem gemeldet**, dann aber als **Foto mit Kurztext-Bild­
+unterschrift** (siehe oben) – so kommen Bild und Kurztext in jedem Fall an. Der
+tägliche Lauf wird morgens ohnehin mehrfach angestoßen (externer Pinger); ist eine
+Seite bei einem Aufruf noch nicht online, greift die schöne Vorschaukarte beim
+nächsten Anlauf.
 
 **Einrichtung:**
 
