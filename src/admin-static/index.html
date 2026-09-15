@@ -351,8 +351,7 @@
   .telegram-test .status { white-space: pre-line; }
 
   /* --- Wiederherstellen-Hinweis (Auto-Speichern) --- */
-  .wiederherstellen,
-  .datum-warnung {
+  .wiederherstellen {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -366,7 +365,6 @@
     font-size: 0.9rem;
   }
   .wiederherstellen { margin: 0.9rem 0 0.2rem; }
-  .datum-warnung { margin: 0.5rem 0 0.2rem; }
   .wiederherstellen .aktionen { display: flex; gap: 0.5rem; flex-shrink: 0; }
   .autospeicher-status { font-size: 0.78rem; color: var(--text-leise); margin-top: 0.5rem; min-height: 1em; }
   .aktionen-hinweis { font-size: 0.82rem; color: var(--text-leise); margin: 0.4rem 0 0; }
@@ -531,12 +529,6 @@
         <label for="feld-datum">Datum <span class="hinweis">(ein zukünftiges Datum = erscheint erst an diesem Tag, morgens um 6 Uhr)</span></label>
         <input type="date" id="feld-datum" required />
 
-        <!-- Hinweis, wenn für den gewählten Tag schon eine Andacht/ein Entwurf existiert -->
-        <div id="datum-warnung" class="datum-warnung versteckt">
-          <span id="datum-warnung-text"></span>
-          <button type="button" class="sekundaer" id="datum-warnung-btn">Öffnen</button>
-        </div>
-
         <!-- Mini-Kalender: belegte Tage sind markiert; ein Klick öffnet die
              vorhandene Andacht bzw. beginnt für einen leeren Tag eine neue. -->
         <div class="kalender" id="kalender">
@@ -664,9 +656,6 @@
   var aktionenHinweis = document.getElementById("aktionen-hinweis");
   var meldenStatus = document.getElementById("melden-status");
 
-  var datumWarnung = document.getElementById("datum-warnung");
-  var datumWarnungText = document.getElementById("datum-warnung-text");
-  var datumWarnungBtn = document.getElementById("datum-warnung-btn");
   var kalMonatLabel = document.getElementById("kal-monat");
   var kalGitter = document.getElementById("kal-gitter");
 
@@ -734,15 +723,29 @@
   document.getElementById("login-formular").addEventListener("submit", async function (ev) {
     ev.preventDefault();
     var status = document.getElementById("login-status");
-    status.textContent = "";
-    var passwort = document.getElementById("passwort-feld").value;
+    var feld = document.getElementById("passwort-feld");
+    var knopf = this.querySelector("button[type=submit]");
+    // Sofort sichtbar machen, dass die Anmeldung läuft – und das Formular
+    // sperren, damit es nicht doppelt abgeschickt wird.
+    status.className = "status";
+    status.textContent = "Anmeldung läuft …";
+    feld.disabled = true;
+    knopf.disabled = true;
     try {
-      await api("/api/login", { method: "POST", body: JSON.stringify({ passwort: passwort }) });
-      document.getElementById("passwort-feld").value = "";
+      await api("/api/login", { method: "POST", body: JSON.stringify({ passwort: feld.value }) });
+      feld.value = "";
+      status.textContent = "";
       abmeldenBtn.classList.remove("versteckt");
+      // Login-Formular sofort ausblenden und den Ladehinweis der Liste zeigen,
+      // statt das (nun leere) Passwortfeld während des Ladens stehen zu lassen.
+      zeigeNur(listenAnsicht);
       await ladeListe();
     } catch (e) {
+      status.className = "status fehler";
       status.textContent = e.message;
+    } finally {
+      feld.disabled = false;
+      knopf.disabled = false;
     }
   });
 
@@ -1101,39 +1104,18 @@
     kalGitter.innerHTML = html;
   }
 
-  // Warnung anzeigen, wenn für das gewählte Datum schon (andere) Andachten existieren.
-  function pruefeDatumBelegt() {
-    var iso = feldDatum.value;
-    var info = belegtMap()[iso];
-    var andere = info ? info.eintraege.filter(function (e) {
-      return !(aktuellerEintrag && e.datei === aktuellerEintrag.datei);
-    }) : [];
-    if (!andere.length) { datumWarnung.classList.add("versteckt"); return; }
-    var erste = andere[0];
-    var art = erste.entwurf ? "einen Entwurf" : "eine veröffentlichte Andacht";
-    var mehr = andere.length > 1 ? " (und " + (andere.length - 1) + " weitere)" : "";
-    datumWarnungText.textContent = "Achtung: Für den " + formatiereDatum(iso) +
-      " gibt es bereits " + art + ": „" + erste.titel + "“" + mehr + ".";
-    datumWarnungBtn.textContent = erste.entwurf ? "Entwurf ansehen" : "Andacht ansehen";
-    datumWarnungBtn.onclick = function () {
-      if (!darfVerlassen()) return;
-      oeffneEditor(erste.datei);
-    };
-    datumWarnung.classList.remove("versteckt");
-  }
-
-  // Kalender + Warnung an das aktuell gewählte Datum angleichen.
+  // Kalender an das aktuell gewählte Datum angleichen.
   function aktualisiereDatumsansicht() {
     kalenderMonat = monatAusDatum(feldDatum.value);
     renderKalender();
-    pruefeDatumBelegt();
   }
 
-  // Native Datumsauswahl -> Kalender/Warnung nachziehen.
+  // Native Datumsauswahl -> Kalender nachziehen.
   feldDatum.addEventListener("change", aktualisiereDatumsansicht);
 
   // Klick auf einen Tag im Kalender.
-  //  - Belegter Tag (andere Andacht) -> diese Andacht öffnen.
+  //  - Belegter Tag (andere Andacht) -> diese Andacht öffnen (auch wenn es
+  //    der bereits gewählte Tag ist, z. B. der voreingestellte heutige).
   //  - Leerer Tag, während eine gespeicherte Andacht bearbeitet wird
   //    -> eine NEUE, leere Andacht für diesen Tag beginnen (nichts wird
   //       aus der vorherigen Andacht übernommen).
@@ -1143,18 +1125,21 @@
     var knopf = ev.target.closest("button[data-datum]");
     if (!knopf) return;
     var iso = knopf.getAttribute("data-datum");
-    if (iso === feldDatum.value) return;
 
     var info = belegtMap()[iso];
     var fremd = info ? info.eintraege.filter(function (e) {
       return !(aktuellerEintrag && e.datei === aktuellerEintrag.datei);
     }) : [];
 
+    // Belegter Tag: vorhandene Andacht direkt öffnen.
     if (fremd.length) {
       if (!darfVerlassen()) return;
       oeffneEditor(fremd[0].datei);
       return;
     }
+
+    // Ab hier ein leerer Tag: erneuter Klick auf den schon gewählten Tag -> nichts tun.
+    if (iso === feldDatum.value) return;
 
     if (aktuellerEintrag) {
       // Beim Bearbeiten einer gespeicherten Andacht: für den leeren Tag neu beginnen.
@@ -1163,10 +1148,9 @@
       return;
     }
 
-    // Neue, noch nicht gespeicherte Andacht: nur das Datum wählen.
+    // Neue, noch nicht gespeicherte Andacht: nur das Datum übernehmen.
     feldDatum.value = iso;
     renderKalender();
-    pruefeDatumBelegt();
     planeSpeichern();
   });
 
