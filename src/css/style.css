@@ -215,6 +215,13 @@ img { max-width: 100%; height: auto; }
 /* Abo-Knopf und Designschalter sitzen rechts im Kopf. */
 .abo, .thema-schalter { flex: none; }
 
+/* Auf der Leseseite ("Andacht lesen") mobil die zweite Kopfzeile
+   (Navigation) weglassen – mehr Platz zum Lesen. Am Desktop steht die
+   Navigation ohnehin in einer Zeile und bleibt sichtbar. */
+@media (max-width: 47.99rem) {
+  .kopf--lesen .nav { display: none; }
+}
+
 .abo__knopf {
   display: inline-flex; align-items: center; gap: 0.35rem;
   padding: 0.5rem 0.8rem;
@@ -526,7 +533,7 @@ main#inhalt { flex: 1 0 auto; }
    Einzelne Andacht – die Leseseite
    ========================================================================= */
 
-.andacht { display: grid; gap: 0.75rem; }
+.andacht { display: grid; gap: 0.75rem; position: relative; }
 
 @media (min-width: 48rem) {
   .andacht { grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0; }
@@ -537,6 +544,30 @@ main#inhalt { flex: 1 0 auto; }
     max-width: var(--mass);
   }
 }
+
+/* Teilen-Knopf: mobil rechtsbündig über dem Titel, am Desktop rechts neben
+   der Lesespalte (in der freien Fläche). */
+.andacht__aktion { display: flex; justify-content: flex-end; margin: 0 0 0.6rem; }
+@media (min-width: 48rem) {
+  .andacht__aktion { position: absolute; top: 0.4rem; right: 0; margin: 0; }
+}
+.teilen {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font: 600 0.72rem/1 var(--ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-leise);
+  background: transparent;
+  border: 1px solid var(--linie-stark);
+  border-radius: 2px;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+}
+.teilen:hover { color: var(--text); border-color: var(--gold-dunkel); }
+.teilen.teilen--ok { color: var(--gold-dunkel); border-color: var(--gold-dunkel); }
+.teilen__icon { width: 15px; height: 15px; flex: none; }
 
 .andacht__rand p {
   margin: 0 0 0.9rem;
