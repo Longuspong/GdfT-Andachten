@@ -47,14 +47,16 @@ function slugAusDateiname(name) {
 // "schon gemeldet"-Merker, daher gibt es keine Doppelmeldung.
 // Bricht das Speichern NIE ab: Die Datei ist bereits committet; schlägt der
 // Versand fehl, holt der tägliche Lauf die Meldung im 3-Tage-Fenster nach.
-async function meldeWennFaellig({ datei, datum, titel, entwurf, alterName }) {
+async function meldeWennFaellig({ datei, datum, titel, beschreibung, entwurf, alterName }) {
   if (entwurf || !telegramAktiv()) return null;
   try {
     return await meldeAndachtFallsFaellig({
       datei,
       datum,
       slug: slugAusDateiname(datei),
-      felder: { titel, entwurf: false },
+      // beschreibung = Kurztext: wird für den Foto-Rückfall gebraucht, falls die
+      // Seite beim Versand noch nicht online ist (og:description der Seite).
+      felder: { titel, beschreibung, entwurf: false },
       alterName,
     });
   } catch (e) {
@@ -257,7 +259,7 @@ module.exports = async (req, res) => {
       const inhaltDatei = baueDatei({ titel, losung, stelle, beschreibung, schlagwoerter, inhalt, entwurf });
       const nachricht = entwurf ? `Entwurf gespeichert: ${titel}` : `Andacht veröffentlicht: ${titel}`;
       await putFile(`${ORDNER}/${dateiname}`, inhaltDatei, nachricht);
-      await imHintergrund(benachrichtige({ datei: dateiname, datum, titel, entwurf }));
+      await imHintergrund(benachrichtige({ datei: dateiname, datum, titel, beschreibung, entwurf }));
       res.status(200).json({ ok: true, datei: dateiname, entwurf });
       return;
     }
@@ -290,7 +292,7 @@ module.exports = async (req, res) => {
 
       if (neuerName === alterName) {
         await putFile(`${ORDNER}/${alterName}`, inhaltDatei, nachricht, sha);
-        await imHintergrund(benachrichtige({ datei: alterName, datum, titel, entwurf }));
+        await imHintergrund(benachrichtige({ datei: alterName, datum, titel, beschreibung, entwurf }));
         res.status(200).json({ ok: true, datei: alterName, entwurf });
       } else {
         // Datum oder Titel haben sich geändert -> neuer Dateiname nötig:
@@ -299,7 +301,7 @@ module.exports = async (req, res) => {
         await deleteFile(`${ORDNER}/${alterName}`, `Alte Datei nach Umbenennung entfernt: ${alterName}`, sha);
         // alterName mitgeben: war die Andacht schon gemeldet/gemailt, zieht der
         // Merker auf den neuen Dateinamen um (keine erneute Meldung über den Cron).
-        await imHintergrund(benachrichtige({ datei: neuerName, datum, titel, entwurf, alterName }));
+        await imHintergrund(benachrichtige({ datei: neuerName, datum, titel, beschreibung, entwurf, alterName }));
         res.status(200).json({ ok: true, datei: neuerName, entwurf });
       }
       return;

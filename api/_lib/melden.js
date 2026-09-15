@@ -85,17 +85,28 @@ function andachtUrl(datum, slug) {
   return `${basisUrl()}/andachten/${datum}/${slug}/`;
 }
 
-// --- Vor dem Melden kurz auf die Seite warten (nur „best effort") -----------
-// Damit der Telegram-Link möglichst gleich eine Vorschau zeigt, warten wir kurz,
-// bis die (evtl. neu gebaute) Andachtsseite mit HTTP 200 antwortet. WICHTIG: Der
-// Versand wird dadurch NICHT blockiert. Lässt sich die Seite aus der
-// Serverless-Funktion heraus nicht bestätigen (z. B. Selbst-Abruf blockiert oder
-// Build noch nicht fertig), wird trotzdem gemeldet – der Link funktioniert dann
-// wenige Minuten später. So bleibt eine Meldung nie ganz aus (früher der Fehler:
-// war die Seite im Zeitbudget nicht erreichbar, kam gar nichts an).
-const ERREICHBAR_MAX_WARTE_MS = 20000; // kurzes Wartebudget (klar unter dem Vercel-Funktions-Zeitlimit)
+// --- Vor dem Melden warten, bis die Seite ONLINE ist ------------------------
+// Der gewünschte Look ist die Link-Vorschaukarte (Titel, Kurztext, Bild). Die
+// baut Telegram nur, wenn die Andachtsseite beim Versand schon öffentlich
+// erreichbar ist. Deshalb warten wir hier, bis die (evtl. neu gebaute) Seite mit
+// HTTP 200 antwortet, und melden ERST DANN – so entsteht zuverlässig die schöne
+// Vorschau statt eines nackten Links.
+//
+// Ist die Seite im Wartebudget nicht erreichbar (Build dauert ausnahmsweise
+// länger als das Zeitlimit der Serverless-Funktion), wird trotzdem gemeldet –
+// dann aber bewusst als Foto mit Kurztext-Bildunterschrift (siehe
+// sendeTelegramAndacht), damit Bild + Kurztext garantiert ankommen. So bleibt
+// eine Meldung nie ganz aus und ist nie nur ein nackter Link.
+//
+// Das Budget bleibt klar unter dem Vercel-Funktions-Zeitlimit (maxDuration 60 s,
+// siehe vercel.json), damit nach dem Warten noch genug Zeit zum Senden bleibt.
+const ERREICHBAR_MAX_WARTE_MS = 40000; // Wartebudget, bis die Seite online ist
 const ERREICHBAR_ABSTAND_MS = 3000; // Pause zwischen zwei Versuchen
 const ERREICHBAR_ANFRAGE_TIMEOUT_MS = 6000; // Zeitlimit je Einzel-Abruf
+// Kurze Zusatzpause, nachdem die Seite erstmals mit 200 antwortet: gibt der
+// Auslieferung (CDN/Deployment) einen Moment, damit auch Telegrams Vorschau-
+// Crawler die fertige Seite mit allen OG-Tags sieht.
+const NACH_ONLINE_WARTE_MS = 3000;
 
 // Einzelner Abruf: true bei HTTP 200–299. Netzwerkfehler/Timeout ergeben false.
 async function istErreichbar(url, timeoutMs = ERREICHBAR_ANFRAGE_TIMEOUT_MS) {
@@ -128,26 +139,54 @@ async function istErreichbar(url, timeoutMs = ERREICHBAR_ANFRAGE_TIMEOUT_MS) {
 // zurück; sonst false nach Ablauf des Wartebudgets. Ist die Adresse nicht absolut
 // (kein http/https – etwa weil site.url fehlt), lässt sie sich nicht prüfen; dann
 // wird true angenommen, um das Melden nicht dauerhaft zu blockieren.
+//
+// Sobald die Seite erstmals mit 200 antwortet, wird noch eine kurze Zusatzpause
+// (NACH_ONLINE_WARTE_MS) eingelegt, bevor true zurückkommt – damit auch Telegrams
+// Vorschau-Crawler die frisch ausgelieferte Seite zuverlässig erreicht.
 async function warteBisErreichbar(
   url,
-  { maxWarteMs = ERREICHBAR_MAX_WARTE_MS, abstandMs = ERREICHBAR_ABSTAND_MS } = {}
+  {
+    maxWarteMs = ERREICHBAR_MAX_WARTE_MS,
+    abstandMs = ERREICHBAR_ABSTAND_MS,
+    nachOnlineMs = NACH_ONLINE_WARTE_MS,
+  } = {}
 ) {
   if (!/^https?:\/\//i.test(String(url))) return true;
   const bis = Date.now() + maxWarteMs;
   for (;;) {
-    if (await istErreichbar(url)) return true;
+    if (await istErreichbar(url)) {
+      if (nachOnlineMs > 0) await new Promise((r) => setTimeout(r, nachOnlineMs));
+      return true;
+    }
     if (Date.now() + abstandMs >= bis) return false;
     await new Promise((r) => setTimeout(r, abstandMs));
   }
 }
 
-// Telegram-Nachricht für eine Andacht bauen: nur der Titel, darunter der Link.
-// Als Foto-Bildunterschrift (sendPhoto) steht der Link unter dem Bild; als
-// reine Textnachricht (Rückfall) zeigt Telegram darüber automatisch eine
-// Vorschaukarte der Seite.
+// Kurztext (Beschreibung) einer Andacht – identisch zu og:description der Seite
+// (siehe src/_includes/base.njk): das Feld „beschreibung", sonst die allgemeine
+// Seitenbeschreibung. So enthält die Meldung IMMER einen Kurztext.
+function kurztext(felder) {
+  return String((felder && felder.beschreibung) || SITE.beschreibung || "").trim();
+}
+
+// Textnachricht für eine Andacht: nur der Titel, darunter der Link. Ist die Seite
+// online, zeigt Telegram darüber automatisch die Vorschaukarte (Kanalname, Titel,
+// Kurztext und Bild aus den OG-Tags der Seite) – der gewünschte Look.
 function baueNachricht({ datum, slug, felder }) {
   const titel = (felder && felder.titel) || slug;
   return `${titel}\n${andachtUrl(datum, slug)}`;
+}
+
+// Bildunterschrift für den Foto-Rückfall (wenn die Seite noch nicht online ist und
+// deshalb keine Vorschaukarte entstehen könnte): Titel, KURZTEXT und Link – so
+// kommen Bild + Kurztext auch dann garantiert an. Fehlt ein Kurztext, bleibt es
+// bei Titel + Link.
+function baueFotoCaption({ datum, slug, felder }) {
+  const titel = (felder && felder.titel) || slug;
+  const text = kurztext(felder);
+  const url = andachtUrl(datum, slug);
+  return text ? `${titel}\n\n${text}\n\n${url}` : `${titel}\n${url}`;
 }
 
 // Absolute Adresse des Vorschaubildes einer Andacht – passend zum og:image der
@@ -293,11 +332,12 @@ async function meldeFaelligeAndachten() {
     // Entwürfe werden nicht gemeldet (und nicht als gesendet vermerkt, damit sie
     // nach dem Veröffentlichen noch gemeldet werden können).
     if (felder.entwurf === true) continue;
-    // Best effort: kurz warten, bis die Seite online ist (schöne Vorschau) –
-    // aber den Versand nicht davon abhängig machen. Bewusst VOR dem Beanspruchen,
-    // damit das (bis zu 20 s lange) Warten nicht in das Zeitfenster zwischen
-    // "beansprucht" und "gesendet" fällt.
-    await warteBisErreichbar(andachtUrl(a.datum, a.slug));
+    // Warten, bis die Seite online ist (dann baut Telegram die schöne Vorschau-
+    // karte). Wird sie im Budget nicht erreichbar, meldet sendeTelegramAndacht als
+    // Foto mit Kurztext (nie nur ein nackter Link). Bewusst VOR dem Beanspruchen,
+    // damit das Warten nicht in das Zeitfenster zwischen "beansprucht" und
+    // "gesendet" fällt.
+    const seiteOnline = await warteBisErreichbar(andachtUrl(a.datum, a.slug));
     // WICHTIG: Erst ATOMAR beanspruchen, dann senden. So kann bei zwei
     // gleichzeitigen Läufen nur einer diese Andacht melden – der andere sieht den
     // Anspruch und überspringt (kein Doppel-Post).
@@ -309,8 +349,10 @@ async function meldeFaelligeAndachten() {
     if (!zuschlag) continue; // anderer Lauf meldet diese Andacht bereits
     try {
       await sendeTelegramAndacht({
-        text: baueNachricht({ datum: a.datum, slug: a.slug, felder }),
+        textNachricht: baueNachricht({ datum: a.datum, slug: a.slug, felder }),
+        fotoCaption: baueFotoCaption({ datum: a.datum, slug: a.slug, felder }),
         bildUrl: bildUrl(felder),
+        seiteOnline,
       });
       gemeldet.push(a.datei);
     } catch (e) {
@@ -391,10 +433,13 @@ async function meldeManuell({ datei }) {
     throw e;
   }
 
-  // 3. Senden.
+  // 3. Senden. Die Seite ist oben bereits als online (HTTP 200) bestätigt, also
+  //    die Textnachricht mit Vorschaukarte (Titel, Kurztext, Bild aus der Seite).
   await sendeTelegramAndacht({
-    text: baueNachricht({ datum, slug, felder }),
+    textNachricht: baueNachricht({ datum, slug, felder }),
+    fotoCaption: baueFotoCaption({ datum, slug, felder }),
     bildUrl: bildUrl(felder),
+    seiteOnline: true,
   });
 
   // 4. Merker pflegen, damit der tägliche Lauf nicht zusätzlich meldet.
@@ -470,11 +515,12 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
     return { uebersprungen: true, grund: "noch-nicht-faellig" };
   }
 
-  // Best effort: kurz warten, bis die neu gebaute Seite online ist (schöne
-  // Vorschau) – den Versand aber nicht blockieren. Ist die Seite noch nicht
-  // erreichbar, wird trotzdem gemeldet; der Link funktioniert dann wenige Minuten
-  // später (nach Abschluss des Vercel-Builds).
-  await warteBisErreichbar(andachtUrl(datum, slug));
+  // Warten, bis die neu gebaute Seite online ist – dann baut Telegram die schöne
+  // Vorschaukarte (Titel, Kurztext, Bild). Wird sie im Budget nicht erreichbar
+  // (Build dauert ausnahmsweise länger), meldet sendeTelegramAndacht als Foto mit
+  // Kurztext-Bildunterschrift, damit Bild + Kurztext trotzdem ankommen – nie nur
+  // ein nackter Link.
+  const seiteOnline = await warteBisErreichbar(andachtUrl(datum, slug));
 
   // Erst ATOMAR beanspruchen, dann senden: verhindert eine Doppelmeldung, falls
   // der tägliche Lauf dieselbe Andacht zeitgleich meldet. Sieht ein anderer Lauf
@@ -485,8 +531,10 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
   }
   try {
     await sendeTelegramAndacht({
-      text: baueNachricht({ datum, slug, felder }),
+      textNachricht: baueNachricht({ datum, slug, felder }),
+      fotoCaption: baueFotoCaption({ datum, slug, felder }),
       bildUrl: bildUrl(felder),
+      seiteOnline,
     });
   } catch (e) {
     await gibFrei(STATUS_DATEI, datei, `Telegram-Anspruch zurückgenommen (${datei})`);
@@ -509,6 +557,8 @@ module.exports = {
   istErreichbar,
   warteBisErreichbar,
   baueNachricht,
+  baueFotoCaption,
+  kurztext,
   bildUrl,
   frontMatterFelder,
   listeAndachten,

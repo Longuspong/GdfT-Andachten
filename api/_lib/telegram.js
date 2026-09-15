@@ -56,20 +56,39 @@ async function sendeTelegramFoto(fotoUrl, bildunterschrift) {
   return res.json();
 }
 
-// Eine Andacht melden – bevorzugt als Foto (Bild oben, Titel + Link darunter),
-// damit das Vorschaubild sicher erscheint. Fehlt eine Bild-URL oder schlägt der
-// Foto-Versand fehl (z. B. Bild für Telegram nicht abrufbar), wird als Rückfall
-// die einfache Textnachricht mit Link-Vorschau gesendet. So kommt immer eine
-// Meldung an – bevorzugt mit, notfalls ohne garantiertes Bild.
-async function sendeTelegramAndacht({ text, bildUrl }) {
+// Eine Andacht melden. Der gewünschte Look ist die Textnachricht mit
+// Link-VORSCHAUKARTE: Telegram holt sich Kanalname, Titel, KURZTEXT und Bild aus
+// den OG-Tags der Andachtsseite. Das klappt aber nur, wenn die Seite beim Versand
+// bereits ONLINE ist – sonst käme nur ein nackter Link an.
+//
+// Deshalb entscheidet der Aufrufer über `seiteOnline`:
+//   seiteOnline = true  -> Textnachricht mit Vorschaukarte senden (der schöne
+//                          Look mit Titel, Kurztext und Bild aus der Seite).
+//   seiteOnline = false -> Die Seite ist (noch) nicht erreichbar, eine
+//                          Vorschaukarte würde also FEHLEN. Als Rückfall das Bild
+//                          direkt als Foto mitsenden und den KURZTEXT in die
+//                          Bildunterschrift schreiben. So kommen Bild + Kurztext
+//                          garantiert an – nie nur ein nackter Link.
+//
+//   textNachricht  kurze Textnachricht (Titel + Link) für die Vorschaukarte
+//   fotoCaption    ausführliche Bildunterschrift (Titel + Kurztext + Link) für den Foto-Rückfall
+//   bildUrl        absolute Bild-Adresse für den Foto-Rückfall (z. B. og-Bild)
+async function sendeTelegramAndacht({ textNachricht, fotoCaption, bildUrl, seiteOnline }) {
+  if (seiteOnline) {
+    // Seite ist online -> Telegram baut die Vorschaukarte selbst aus der Seite.
+    return sendeTelegram(textNachricht);
+  }
+  // Seite (noch) nicht erreichbar -> Bild direkt mitsenden, Kurztext in die
+  // Bildunterschrift. Fehlt eine Bild-URL oder klappt der Foto-Versand nicht,
+  // bleibt als letzter Ausweg die einfache Textnachricht.
   if (bildUrl) {
     try {
-      return await sendeTelegramFoto(bildUrl, text);
+      return await sendeTelegramFoto(bildUrl, fotoCaption);
     } catch {
       // Foto-Versand nicht möglich -> unten auf Textnachricht zurückfallen.
     }
   }
-  return sendeTelegram(text);
+  return sendeTelegram(fotoCaption || textNachricht);
 }
 
 module.exports = {
