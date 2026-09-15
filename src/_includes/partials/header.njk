@@ -1,51 +1,8 @@
-<header class="kopf">
+<header class="kopf{% if (page.url or '').startsWith('/andachten/') %} kopf--lesen{% endif %}">
   <div class="kopf__innen">
 
-    {# Dezentes Abo-Menü (oben links, Gegenstück zum Design-Schalter oben rechts).
-       Als <details> gebaut, damit es AUCH OHNE JavaScript auf- und zuklappt.
-       JavaScript (js/abo.js) verbessert es nur (Schließen bei Klick außerhalb /
-       Escape). Hier sammeln sich die Möglichkeiten, die Andachten zu abonnieren. #}
-    <details class="abo">
-      <summary class="abo__knopf" title="Andachten abonnieren" aria-label="Andachten abonnieren">
-        <svg class="abo__zeichen" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
-          <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
-        </svg>
-        <span class="abo__text">Abonnieren</span>
-      </summary>
-      <div class="abo__menue">
-        <p class="abo__titel">Andachten abonnieren</p>
-
-        {# E-Mail-Anmeldung – nur wenn der Newsletter (Brevo) eingerichtet ist.
-           Funktioniert ohne JavaScript (normaler POST, Endpunkt antwortet mit
-           einer Seite); js/abo.js macht daraus eine Anmeldung ohne Seitenwechsel. #}
-        {% if features.newsletter %}
-          <form class="abo__mail" method="post" action="/api/abonnieren">
-            <label class="abo__option-name" for="abo-mail-feld">Per E-Mail</label>
-            <span class="abo__option-info">Jede neue Andacht in dein Postfach.</span>
-            <div class="abo__mail-zeile">
-              <input class="abo__mail-feld" type="email" id="abo-mail-feld" name="email"
-                     required placeholder="deine@e-mail.de" autocomplete="email"
-                     inputmode="email" spellcheck="false" />
-              <button class="abo__mail-knopf" type="submit">Anmelden</button>
-            </div>
-            <p class="abo__mail-status" id="abo-mail-status" role="status" aria-live="polite"></p>
-            <p class="abo__mail-hinweis">Du bekommst eine Bestätigungsmail. Abmeldung jederzeit über den Link in jeder Mail.</p>
-          </form>
-          <hr class="abo__trenner" />
-        {% endif %}
-
-        {% if site.telegram %}
-          <a class="abo__option" href="{{ site.telegram }}" rel="noopener">
-            <span class="abo__option-name">Telegram-Kanal</span>
-            <span class="abo__option-info">Jede neue Andacht direkt aufs Handy.</span>
-          </a>
-        {% endif %}
-      </div>
-    </details>
-
     <a class="marke" href="/">
-      <img class="marke__logo" src="/assets/logo-rund.png" width="64" height="64"
+      <img class="marke__logo" src="/assets/logo-rund.png" width="32" height="32"
            alt="Logo: Gerüstet für den Tag" />
       <span class="marke__text">
         <span class="marke__name">{{ site.name }}</span>
@@ -60,10 +17,42 @@
       <a href="/ueber/"{% if (page.url or "").startsWith("/ueber") %} aria-current="page"{% endif %}>Über</a>
     </nav>
 
-    {# Schieberegler für den Dunkelmodus (oben rechts). Er zeigt bei hellem
-       Design eine Sonne, bei dunklem einen Mond. Ohne JavaScript bleibt er
-       ausgeblendet, weil er dann keine Funktion hätte – die Seite folgt in
-       diesem Fall automatisch der Systemeinstellung. #}
+    {# Abo-Menü: rechts im Kopf, weiterhin als <details> (funktioniert ohne JS). #}
+    <details class="abo">
+      <summary class="abo__knopf" title="Andachten abonnieren" aria-label="Andachten abonnieren">
+        <svg class="abo__zeichen" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+          <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+        <span class="abo__text">Abo</span>
+      </summary>
+      <div class="abo__menue">
+        <p class="abo__titel">Andachten abonnieren</p>
+
+        {% if features.newsletter %}
+          <form class="abo__mail" method="post" action="/api/abonnieren">
+            <label class="abo__option-name" for="abo-mail-feld">Per E-Mail</label>
+            <span class="abo__option-info">Jede neue Andacht in dein Postfach.</span>
+            <div class="abo__mail-zeile">
+              <input class="abo__mail-feld" type="email" id="abo-mail-feld" name="email"
+                     required placeholder="deine@e-mail.de" autocomplete="email"
+                     inputmode="email" spellcheck="false" />
+              <button class="abo__mail-knopf" type="submit">Anmelden</button>
+            </div>
+            <p class="abo__mail-status" id="abo-mail-status" role="status" aria-live="polite"></p>
+            <p class="abo__mail-hinweis">Du bekommst eine Bestätigungsmail. Abmeldung jederzeit über den Link in jeder Mail.</p>
+          </form>
+        {% endif %}
+
+        {% if site.telegram %}
+          <a class="abo__option" href="{{ site.telegram }}" rel="noopener">
+            <span class="abo__option-name">Telegram-Kanal</span>
+            <span class="abo__option-info">Jede neue Andacht direkt aufs Handy.</span>
+          </a>
+        {% endif %}
+      </div>
+    </details>
+
     <button
       type="button"
       class="thema-schalter"

@@ -5,26 +5,43 @@ beschreibung: Über „Gerüstet für den Tag“ – tägliche Andachten auf der
 permalink: /ueber/index.html
 ---
 <section class="seite-kopf">
-  <h1 class="seite-kopf__titel">Über „Gerüstet für den Tag“</h1>
+  <div class="seite-kopf__innen">
+    <p class="rubrik" style="color:var(--gold)">Über</p>
+    <h1 class="seite-kopf__titel">Gerüstet für den Tag</h1>
+    <p class="seite-kopf__text">Tägliche Andachten auf der Grundlage der Bibel.</p>
+  </div>
 </section>
 
-<div class="fliesstext">
-  <p>
-    Wie der Name sagt: <strong>tägliche Andachten</strong> – kurze geistliche Impulse,
-    Tag für Tag, allein auf der Grundlage der Bibel.
-  </p>
-  <p>
-    Unser Fundament sind die fünf reformatorischen Grundsätze, die „fünf Soli“:
-    allen voran <em>sola scriptura</em> – allein die Schrift; dazu
-    <em>sola gratia</em> (allein die Gnade), <em>sola fide</em> (allein der Glaube),
-    <em>solus Christus</em> (allein Christus) und <em>soli Deo gloria</em>
-    (allein Gott die Ehre). Diese fünf spiegeln sich auch im Logo wider – in der
-    aufgeschlagenen Bibel, dem Kreuz, der Taube und den Ähren.
-  </p>
-  {% if site.telegram %}
+<div class="inhalt">
+  <div class="fliesstext">
     <p>
-      Diese Andachten erscheinen auch auf Telegram:
-      <a href="{{ site.telegram }}" rel="noopener">{{ site.telegram | replace("https://", "") }}</a>
+      Wie der Name sagt: <strong>tägliche Andachten</strong> – kurze geistliche Impulse,
+      Tag für Tag, allein auf der Grundlage der Bibel.
     </p>
-  {% endif %}
+    <p>
+      Unser Fundament sind die fünf reformatorischen Grundsätze, die „fünf Soli“:
+      allen voran <em>sola scriptura</em> – allein die Schrift; dazu
+      <em>sola gratia</em> (allein die Gnade), <em>sola fide</em> (allein der Glaube),
+      <em>solus Christus</em> (allein Christus) und <em>soli Deo gloria</em>
+      (allein Gott die Ehre). Diese fünf spiegeln sich auch im Logo wider – in der
+      aufgeschlagenen Bibel, dem Kreuz, der Taube und den Ähren.
+    </p>
+    {% if site.telegram %}
+      <p>
+        Diese Andachten erscheinen auch auf Telegram:
+        <a href="{{ site.telegram }}" rel="noopener">{{ site.telegram | replace("https://", "") }}</a>
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="kasten" style="margin-top:2rem;max-width:34em">
+    <p class="rubrik">Die fünf Soli</p>
+    <ul style="list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.55rem">
+      <li><strong style="font-family:var(--display);font-size:1.15rem;font-weight:500">Sola scriptura</strong><span style="color:var(--text-leise);font-size:.85rem"> · allein die Schrift</span></li>
+      <li><strong style="font-family:var(--display);font-size:1.15rem;font-weight:500">Sola gratia</strong><span style="color:var(--text-leise);font-size:.85rem"> · allein die Gnade</span></li>
+      <li><strong style="font-family:var(--display);font-size:1.15rem;font-weight:500">Sola fide</strong><span style="color:var(--text-leise);font-size:.85rem"> · allein der Glaube</span></li>
+      <li><strong style="font-family:var(--display);font-size:1.15rem;font-weight:500">Solus Christus</strong><span style="color:var(--text-leise);font-size:.85rem"> · allein Christus</span></li>
+      <li><strong style="font-family:var(--display);font-size:1.15rem;font-weight:500">Soli Deo gloria</strong><span style="color:var(--text-leise);font-size:.85rem"> · allein Gott die Ehre</span></li>
+    </ul>
+  </div>
 </div>

@@ -4,73 +4,89 @@ titel: Heute
 ---
 {% set neueste = collections.andachten[0] %}
 
-<section class="start-hero">
-  <img class="start-hero__logo" src="/assets/logo-rund.png" width="160" height="160"
-       alt="Logo: Gerüstet für den Tag – Bibel, Kreuz, Taube und Ähren" />
-  <p class="start-hero__kicker">Sola Scriptura · Allein die Schrift</p>
-  {% if site.leitvers %}
-    <blockquote class="start-hero__vers">
-      <p>„{{ site.leitvers }}“</p>
-      {% if site.leitvers_stelle %}
-        <cite class="start-hero__stelle">{{ site.leitvers_stelle }}</cite>
+{# --- Bühne: die Andacht des Tages, volle Breite, dunkles Navy --- #}
+<section class="buehne" aria-labelledby="heute-titel">
+  <div class="buehne__innen">
+    <div class="heute">
+      {% if neueste %}
+        <div class="heute__datum">
+          <p class="heute__tag">{{ neueste.date | datumTag }}</p>
+          <p class="heute__monat">
+            <time datetime="{{ neueste.date | datumISO }}">{{ neueste.date | datumMonatJahr }}</time>
+          </p>
+        </div>
+        <div class="heute__inhalt">
+          <p class="rubrik heute__rubrik">Andacht des Tages{% if neueste.data.stelle %} · {{ neueste.data.stelle }}{% endif %}</p>
+          <h1 class="heute__titel" id="heute-titel">
+            <a href="{{ neueste.url }}">{{ neueste.data.titel }}</a>
+          </h1>
+          {% if neueste.data.losung %}
+            <p class="heute__losung">
+              „{{ neueste.data.losung }}“
+              {% if neueste.data.stelle %}<span class="heute__stelle">{{ neueste.data.stelle }}</span>{% endif %}
+            </p>
+          {% endif %}
+          <a class="knopf" href="{{ neueste.url }}">Andacht lesen →</a>
+        </div>
+      {% else %}
+        <div class="heute__inhalt">
+          <p class="rubrik heute__rubrik">Willkommen</p>
+          <h1 class="heute__titel" id="heute-titel">Gerüstet für den Tag</h1>
+          <p class="heute__losung">Hier erscheint bald die erste Andacht.</p>
+        </div>
       {% endif %}
-    </blockquote>
-  {% endif %}
+    </div>
+  </div>
 </section>
 
-<section class="hero" aria-labelledby="hero-titel">
-  <p class="hero__gruss">Andacht des Tages</p>
-  {% if neueste %}
-    <p class="hero__datum">
-      <time datetime="{{ neueste.date | datumISO }}">{{ neueste.date | datumVoll }}</time>
-    </p>
-    <h1 class="hero__titel" id="hero-titel">
-      <a href="{{ neueste.url }}">{{ neueste.data.titel }}</a>
-    </h1>
-    {% if neueste.data.losung %}
-      <p class="hero__losung">
-        {{ neueste.data.losung }}
-        {% if neueste.data.stelle %}<span class="hero__stelle">({{ neueste.data.stelle }})</span>{% endif %}
-      </p>
-    {% endif %}
-    <p class="hero__aktion">
-      <a class="knopf" href="{{ neueste.url }}">Andacht lesen →</a>
-    </p>
-  {% else %}
-    <h1 class="hero__titel" id="hero-titel">Willkommen</h1>
-    <p class="hero__losung">Hier erscheint bald die erste Andacht.</p>
-  {% endif %}
-</section>
+<div class="inhalt">
+  <div class="start-raster">
+    <div>
+      {% if collections.andachten.length > 1 %}
+        <section class="liste-block">
+          <div class="block__kopf"><h2 class="block__titel">Zuletzt erschienen</h2></div>
+          <ul class="andacht-liste">
+            {% for andacht in collections.andachten.slice(1, 7) %}
+              <li>
+                <a class="andacht-liste__link" href="{{ andacht.url }}">
+                  <span class="andacht-liste__titel">{{ andacht.data.titel }}</span>
+                  <span class="andacht-liste__datum">
+                    <time datetime="{{ andacht.date | datumISO }}">{{ andacht.date | datumLang }}</time>
+                  </span>
+                  {% if andacht.data.stelle %}
+                    <span class="andacht-liste__stelle">{{ andacht.data.stelle }}</span>
+                  {% endif %}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+          <p class="liste-block__mehr"><a href="/archiv/">Alle Andachten im Archiv →</a></p>
+        </section>
+      {% endif %}
+    </div>
 
-<aside class="solas" aria-label="Die fünf reformatorischen Grundsätze – die fünf „Soli“">
-  <p class="solas__haupt">Sola Scriptura</p>
-  <p class="solas__unter">Allein die Schrift – das Fundament jeder Andacht</p>
-  <ul class="solas__reihe">
-    <li><span class="solas__lat">Sola Gratia</span><span class="solas__de">allein die Gnade</span></li>
-    <li><span class="solas__lat">Sola Fide</span><span class="solas__de">allein der Glaube</span></li>
-    <li><span class="solas__lat">Solus Christus</span><span class="solas__de">allein Christus</span></li>
-    <li><span class="solas__lat">Soli Deo Gloria</span><span class="solas__de">allein Gott die Ehre</span></li>
-  </ul>
-</aside>
+    <aside>
+      {% if site.leitvers %}
+        <div class="kasten">
+          <p class="rubrik">Leitvers</p>
+          <p class="kasten__vers">{{ site.leitvers }}</p>
+          {% if site.leitvers_stelle %}
+            <p class="kasten__quelle">{{ site.leitvers_stelle }} · Sola Scriptura</p>
+          {% endif %}
+        </div>
+      {% endif %}
 
-{% if collections.andachten.length > 1 %}
-  <section class="liste-block">
-    <h2 class="liste-block__titel">Zuletzt erschienen</h2>
-    <ul class="andacht-liste">
-      {% for andacht in collections.andachten.slice(1, 7) %}
-        <li class="andacht-liste__eintrag">
-          <a class="andacht-liste__link" href="{{ andacht.url }}">
-            <span class="andacht-liste__datum">
-              <time datetime="{{ andacht.date | datumISO }}">{{ andacht.date | datumLang }}</time>
-            </span>
-            <span class="andacht-liste__titel">{{ andacht.data.titel }}</span>
-            {% if andacht.data.stelle %}
-              <span class="andacht-liste__stelle">{{ andacht.data.stelle }}</span>
-            {% endif %}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-    <p class="liste-block__mehr"><a href="/archiv/">Alle Andachten im Archiv →</a></p>
-  </section>
-{% endif %}
+      {% if features.newsletter %}
+        <div class="kasten kasten--rahmen">
+          <p class="rubrik">Jeden Morgen</p>
+          <p class="kasten__text">Die Andacht per E-Mail – Abmeldung jederzeit.</p>
+          <form class="abo__mail" method="post" action="/api/abonnieren">
+            <input class="abo__mail-feld" type="email" name="email" required
+                   placeholder="deine@e-mail.de" autocomplete="email" style="width:100%" />
+            <button class="abo__mail-knopf" type="submit" style="width:100%;margin-top:.5rem">Anmelden</button>
+          </form>
+        </div>
+      {% endif %}
+    </aside>
+  </div>
+</div>

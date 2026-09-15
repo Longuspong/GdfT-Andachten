@@ -2,22 +2,76 @@
 layout: base.njk
 ogTyp: article
 ---
-<article class="andacht">
-  <header class="andacht__kopf">
-    <p class="andacht__datum">
-      <time datetime="{{ page.date | datumISO }}">{{ page.date | datumVoll }}</time>
-    </p>
-    <h1 class="andacht__titel">{{ titel }}</h1>
-    {% if losung %}
-      <p class="andacht__losung">{{ losung }}{% if stelle %} <span class="andacht__stelle">({{ stelle }})</span>{% endif %}</p>
-    {% endif %}
-  </header>
+{% set vorige = collections.andachten | getPreviousCollectionItem %}
+{% set naechste = collections.andachten | getNextCollectionItem %}
 
-  <div class="andacht__text">
-    {{ content | safe }}
-  </div>
+<div class="inhalt">
+  <article class="andacht">
+    <div class="andacht__rand">
+      <p>
+        <time datetime="{{ page.date | datumISO }}">{{ page.date | datumLang }}</time>
+      </p>
+      {% if stelle %}<p class="rubrik">{{ stelle }}</p>{% endif %}
+    </div>
 
-  <footer class="andacht__fuss">
-    <a class="zurueck" href="/archiv/">← Alle Andachten</a>
-  </footer>
-</article>
+    <div class="andacht__spalte">
+      <div class="andacht__aktion">
+        <button type="button" class="teilen" data-teilen data-titel="{{ titel }}">
+          <svg class="teilen__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="18" cy="5" r="2.6" fill="currentColor" />
+            <circle cx="6" cy="12" r="2.6" fill="currentColor" />
+            <circle cx="18" cy="19" r="2.6" fill="currentColor" />
+            <line x1="8.1" y1="10.8" x2="15.9" y2="6.2" stroke="currentColor" stroke-width="1.8" />
+            <line x1="8.1" y1="13.2" x2="15.9" y2="17.8" stroke="currentColor" stroke-width="1.8" />
+          </svg>
+          <span class="teilen__text">Teilen</span>
+        </button>
+      </div>
+
+      <h1 class="andacht__titel">{{ titel }}</h1>
+
+      {% if losung %}
+        <p class="andacht__losung">
+          {{ losung }}
+          {% if stelle %}<span class="andacht__stelle">{{ stelle }}</span>{% endif %}
+        </p>
+      {% endif %}
+
+      <div class="andacht__text">
+        {{ content | safe }}
+      </div>
+
+      {% if frage %}
+        <aside class="frage">
+          <p class="rubrik frage__rubrik">Frage für heute</p>
+          <p class="frage__text">{{ frage }}</p>
+        </aside>
+      {% endif %}
+
+      {% if schlagwoerter %}
+        <ul class="schlagwoerter">
+          {% for wort in schlagwoerter %}
+            <li><span class="schlagwort">{{ wort }}</span></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <footer class="andacht__fuss">
+        <div class="nachbarn">
+          {% if naechste %}
+            <a class="nachbar" href="{{ naechste.url }}">
+              <span class="nachbar__label">← Vorige</span>
+              <span class="nachbar__titel">{{ naechste.data.titel }}</span>
+            </a>
+          {% endif %}
+          {% if vorige %}
+            <a class="nachbar nachbar--naechste" href="{{ vorige.url }}">
+              <span class="nachbar__label">Nächste →</span>
+              <span class="nachbar__titel">{{ vorige.data.titel }}</span>
+            </a>
+          {% endif %}
+        </div>
+      </footer>
+    </div>
+  </article>
+</div>

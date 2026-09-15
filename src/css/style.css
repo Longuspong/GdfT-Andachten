@@ -1,1247 +1,919 @@
 /* =========================================================================
-   GdfT Andachten – Design
+   Gerüstet für den Tag – Design „Tafel“ (Variante 1b)
    -------------------------------------------------------------------------
-   Alle Farben und Schriften sind hier oben als Variablen gebündelt.
-   Sobald das Logo vorliegt, müssen nur diese Werte angepasst werden,
-   um die ganze Seite umzufärben.
+   Ersetzt src/css/style.css. Aufbau mobile first.
 
-   Aufbau „mobile first“: Die Grundregeln gelten für kleine Bildschirme
-   (Smartphone). Größere Bildschirme werden über `@media (min-width: …)`
-   schrittweise erweitert – nicht umgekehrt.
+   Idee: „Heute“ steht auf einer dunklen Navy-Bühne (voller Breite, mit
+   Datumsspalte), der Andachtstext liegt darunter auf ruhiger Creme-Fläche.
+   Gold ist reine Auszeichnungsfarbe (Rubriken, Knopf, Hairlines) – es wird
+   nie mehr für Überschriften mit Kontur benutzt.
    ========================================================================= */
 
 :root {
-  /* --- Farben (abgeleitet aus dem Logo: Navy · Stahlblau · Gold · Pergament) --- */
-  --farbe-grund: #f6f1e7;          /* Seitenhintergrund (warmes Pergament wie im Logo) */
-  --farbe-flaeche: #fffdf8;        /* Karten / abgesetzte Flächen */
-  --farbe-text: #29303a;           /* Fließtext */
-  --farbe-text-leise: #6a6f78;     /* Nebentext, Datumsangaben */
-  --farbe-primaer: #1f3550;        /* Hauptfarbe (tiefes Navy aus dem Logo-Ring) */
-  --farbe-primaer-hell: #3c5f80;   /* Stahlblau (Emblem-Hintergrund) */
-  --farbe-akzent: #c39a45;         /* Akzent (Gold von Kreuz und Ähren) */
-  --farbe-akzent-dunkel: #a67f34;  /* Gold für Hover */
-  --farbe-titel-gold: #c8981f;     /* kräftigeres Gold für die großen Überschriften */
-  --farbe-titel-kontur: #1c1305;   /* dunkle Kontur, damit das Gold gut lesbar bleibt */
-  --farbe-linie: #e6ddca;          /* feine Trennlinien */
+  /* Flächen */
+  --grund: #fbf8f1;          /* Lesefläche / Seitengrund */
+  --flaeche: #f2ecdf;        /* abgesetzte Kästen, Tags */
+  --buehne: #0f1b2d;         /* Navy: Kopf, Hero, Zitatkästen */
+  --buehne-tief: #0b131f;
 
-  /* --- „Andacht des Tages“-Karte (hebt die heutige Andacht deutlich hervor) --- */
-  --hero-grund: linear-gradient(158deg, #24395a 0%, #1d3049 55%, #172740 100%);
-  --hero-text: #eef1ea;            /* heller Text auf dem dunklen Navy */
-  --hero-text-leise: #b6c3d6;      /* Datum / Bibelstelle, gedämpft aber lesbar */
-  --hero-rahmen: rgba(200, 154, 69, 0.55); /* zarter goldener Rahmen */
-  --hero-schatten: 0 14px 34px rgba(20, 30, 55, 0.24), 0 3px 8px rgba(20, 30, 55, 0.14);
+  /* Text */
+  --text: #20232b;
+  --text-lese: #2f3129;      /* Andachtstext (Lora) */
+  --text-leise: #6f6858;     /* Rubriken, Nebentext – kontraststark genug */
+  --text-zart: #78705f;      /* Datum, Bibelstelle in Listen */
+  --auf-buehne: #fbf8f1;
+  --auf-buehne-leise: #9fb0c8;
 
-  /* --- Schriften --- */
-  --schrift-titel: "Lora", Georgia, "Times New Roman", serif;
-  --schrift-text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --schrift-zier: "Cormorant Garamond", "Lora", Georgia, serif; /* elegant, für die Soli */
+  /* Akzent */
+  --gold: #e2c785;           /* nur auf dunklem Grund */
+  --gold-dunkel: #8a6f2c;    /* Rubriken/Links auf hellem Grund (AA) */
 
-  /* --- Maße --- */
-  --breite-max: 44rem;             /* maximale Lesebreite */
-  --breite-max-weit: 60rem;        /* für breitere Bereiche (Kopf/Fuß) */
-  --radius: 12px;
-  --schatten: 0 1px 2px rgba(20, 20, 40, 0.04), 0 8px 24px rgba(20, 20, 40, 0.06);
+  --linie: #e8e1d2;
+  --linie-stark: #d8d0bd;
+
+  /* Schriften */
+  --display: "Cormorant Garamond", Georgia, serif;   /* Titel */
+  --lese: "Lora", Georgia, serif;                    /* Andachtstext, Losung */
+  --ui: "Inter", system-ui, -apple-system, sans-serif; /* Navigation, Rubriken */
+
+  --mass: 34em;              /* Lesemaß */
+  --rand: 1.25rem;           /* Seitenrand mobil */
+  --radius: 3px;
 }
 
-/* Dunkelmodus-Farben.
-   -------------------------------------------------------------------------
-   Damit der Schalter (oben rechts) und die automatische Systemerkennung
-   zusammenspielen, werden dieselben dunklen Werte an zwei Stellen angewandt:
+@media (min-width: 48rem) {
+  :root { --rand: 2.5rem; }
+}
 
-   1. Das Gerät wünscht den Dunkelmodus UND der Nutzer hat nicht ausdrücklich
-      „hell“ gewählt  ->  :root:not([data-theme="light"]) in der @media-Regel.
-   2. Der Nutzer hat über den Schalter ausdrücklich „dunkel“ gewählt
-      ->  :root[data-theme="dark"], unabhängig von der Systemeinstellung.
-
-   Die beiden Werteblöcke sind bewusst identisch – wird eine Farbe geändert,
-   muss sie an beiden Stellen angepasst werden. */
+/* --- Dunkelmodus ---------------------------------------------------------
+   Zwei identische Wertblöcke: Systemvorgabe (ohne ausdrückliche Hell-Wahl)
+   und ausdrückliche Dunkel-Wahl über den Schalter. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --farbe-grund: #141a22;
-    --farbe-flaeche: #1c2530;
-    --farbe-text: #e8e5dc;
-    --farbe-text-leise: #a3a9b3;
-    --farbe-primaer: #b7cae0;
-    --farbe-primaer-hell: #d3e0ee;
-    --farbe-akzent: #d8b264;
-    --farbe-akzent-dunkel: #e6c583;
-    --farbe-titel-gold: #e6c164;     /* helleres Gold für dunklen Grund */
-    --farbe-titel-kontur: #100b02;   /* dunkle Kontur, hält das Gold klar lesbar */
-    --farbe-linie: #2c3644;
-    --schatten: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
-
-    /* Karte im Dunkelmodus etwas aufgehellt, damit sie sich vom fast schwarzen
-       Seitengrund als erhabene Fläche abhebt; Rahmen und Schatten kräftiger. */
-    --hero-grund: linear-gradient(158deg, #2b415f 0%, #243953 55%, #1e3049 100%);
-    --hero-text: #eef1ea;
-    --hero-text-leise: #bcc8d9;
-    --hero-rahmen: rgba(216, 178, 100, 0.6);
-    --hero-schatten: 0 16px 38px rgba(0, 0, 0, 0.5), 0 3px 10px rgba(0, 0, 0, 0.4);
+    --grund: #141a22;
+    --flaeche: #1c2530;
+    --buehne: #0b131f;
+    --buehne-tief: #080e17;
+    --text: #e8e5dc;
+    --text-lese: #e4e1d7;
+    --text-leise: #a8a297;
+    --text-zart: #9b968a;
+    --gold-dunkel: #d8b264;
+    --linie: #2c3644;
+    --linie-stark: #384456;
   }
 }
 
 :root[data-theme="dark"] {
-  --farbe-grund: #141a22;
-  --farbe-flaeche: #1c2530;
-  --farbe-text: #e8e5dc;
-  --farbe-text-leise: #a3a9b3;
-  --farbe-primaer: #b7cae0;
-  --farbe-primaer-hell: #d3e0ee;
-  --farbe-akzent: #d8b264;
-  --farbe-akzent-dunkel: #e6c583;
-  --farbe-titel-gold: #e6c164;
-  --farbe-titel-kontur: #100b02;
-  --farbe-linie: #2c3644;
-  --schatten: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
-
-  --hero-grund: linear-gradient(158deg, #2b415f 0%, #243953 55%, #1e3049 100%);
-  --hero-text: #eef1ea;
-  --hero-text-leise: #bcc8d9;
-  --hero-rahmen: rgba(216, 178, 100, 0.6);
-  --hero-schatten: 0 16px 38px rgba(0, 0, 0, 0.5), 0 3px 10px rgba(0, 0, 0, 0.4);
+  --grund: #141a22;
+  --flaeche: #1c2530;
+  --buehne: #0b131f;
+  --buehne-tief: #080e17;
+  --text: #e8e5dc;
+  --text-lese: #e4e1d7;
+  --text-leise: #a8a297;
+  --text-zart: #9b968a;
+  --gold-dunkel: #d8b264;
+  --linie: #2c3644;
+  --linie-stark: #384456;
 }
 
-/* --- Grundlagen --- */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--farbe-grund);
-  color: var(--farbe-text);
-  font-family: var(--schrift-text);
-  font-size: 1.0625rem;
-  line-height: 1.7;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  background: var(--grund);
+  color: var(--text);
+  font-family: var(--ui);
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--schrift-titel);
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--farbe-primaer);
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text);
 }
 
-/* --- Goldene Überschriften mit dunkler Kontur ---------------------------
-   Die großen Überschriften (Andacht-Titel und Seitentitel) werden golden
-   gesetzt. Damit das helle Gold auf dem hellen Pergament-Grund gut lesbar
-   bleibt, bekommt es eine dünne dunkle Kontur. `paint-order: stroke fill`
-   legt die Kontur HINTER die Füllung, sodass die Buchstaben nicht dünner
-   wirken. Der zarte Schatten gibt zusätzlich Halt (und dient älteren
-   Browsern ohne text-stroke als Rückfall). Der kleine Kicker
-   „Andacht des Tages“ ist bei seiner eigenen Regel (.hero__gruss) gestylt. */
-.hero__titel,
-.andacht__titel,
-.seite-kopf__titel {
-  color: var(--farbe-titel-gold);
-  -webkit-text-stroke: 1px var(--farbe-titel-kontur);
-  paint-order: stroke fill;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-}
+a { color: var(--text); text-decoration-color: var(--gold-dunkel); text-underline-offset: 3px; }
+a:hover { color: var(--gold-dunkel); }
+img { max-width: 100%; height: auto; }
 
-a {
-  color: var(--farbe-primaer);
-  text-decoration-color: var(--farbe-akzent);
-  text-underline-offset: 3px;
-}
+:focus-visible { outline: 2px solid var(--gold-dunkel); outline-offset: 2px; border-radius: 2px; }
 
-a:hover {
-  color: var(--farbe-akzent-dunkel);
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Sprunglink für Tastatur-/Screenreader-Nutzung */
 .skip-link {
-  position: absolute;
-  left: -999px;
-  top: 0;
-  background: var(--farbe-primaer);
-  color: #fff;
+  position: absolute; left: -999px; top: 0; z-index: 20;
+  background: var(--buehne); color: var(--auf-buehne);
   padding: 0.6rem 1rem;
-  border-radius: 0 0 var(--radius) 0;
-  z-index: 10;
 }
-.skip-link:focus {
-  left: 0;
+.skip-link:focus { left: 0; }
+
+/* Rubrik: das wiederkehrende kleine Großbuchstaben-Label. */
+.rubrik {
+  font-family: var(--ui);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dunkel);
+  margin: 0;
 }
 
-:focus-visible {
-  outline: 3px solid var(--farbe-akzent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* --- Kopfbereich --- */
+/* =========================================================================
+   Kopf – liegt auf der Bühne, deshalb immer dunkel
+   ========================================================================= */
 
 .kopf {
-  position: relative; /* Anker für den Design-Schalter (mobil oben rechts) */
-  border-bottom: 1px solid var(--farbe-linie);
-  background: var(--farbe-flaeche);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--buehne);
 }
 
-/* Mobile-first: Marke oben, Navigation darunter – beides zentriert.
-   Ab 40rem nebeneinander (Marke links, Navigation rechts). */
 .kopf__innen {
-  max-width: var(--breite-max-weit);
+  max-width: 64rem;
   margin: 0 auto;
-  padding: 1rem 1.15rem;
+  padding: 0.9rem var(--rand);
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  text-align: center;
-  gap: 0.9rem;
+  gap: 0.75rem;
 }
 
-@media (min-width: 40rem) {
-  .kopf__innen {
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: left;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-  }
-}
-
-/* Mobile-first: Logo über dem Namen, zentriert (kein Überlauf bei langem
-   Namen). Ab 40rem Logo links neben dem Namen. */
 .marke {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  max-width: 100%;
+  gap: 0.65rem;
+  margin-right: auto;
   text-decoration: none;
-  color: var(--farbe-primaer);
+  color: var(--auf-buehne);
 }
 
-@media (min-width: 40rem) {
-  .marke {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.85rem;
-    /* Schiebt Navigation und Design-Schalter gemeinsam an den rechten Rand. */
-    margin-right: auto;
-  }
-}
-
-/* Logo: rund freigestellt (eigener bläulicher Hintergrund), mit dezentem
-   Schatten als „Münz“-Effekt. Mobil etwas größer als am Desktop. */
 .marke__logo {
-  width: 64px;
-  height: 64px;
+  width: 32px; height: 32px;
   border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: var(--schatten);
+  flex: none;
+  box-shadow: 0 0 0 1px rgba(226, 199, 133, 0.45);
 }
 
-@media (min-width: 40rem) {
-  .marke__logo {
-    width: 52px;
-    height: 52px;
-  }
-}
-
-.marke__zeichen {
-  display: inline-grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--farbe-primaer);
-  color: var(--farbe-akzent);
-  font-size: 1.3rem;
-}
-
-.marke__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
+.marke__text { display: flex; flex-direction: column; }
 
 .marke__name {
-  font-family: var(--schrift-titel);
-  font-weight: 600;
-  font-size: 1.2rem;
+  font-family: var(--ui);
+  font-size: 0.63rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 
 .marke__zusatz {
-  font-size: 0.8rem;
-  color: var(--farbe-text-leise);
+  font-size: 0.72rem;
+  color: var(--auf-buehne-leise);
   letter-spacing: 0.02em;
 }
 
-/* Mobile-first: alle vier Links nebeneinander als gleich breite „Chips“
-   (Pillen). Die Spalten teilen sich den Platz prozentual (1fr = je 25 %),
-   der Block ist zentriert. Jeder Link ist ein klar erkennbares Kästchen. */
+/* Navigation: mobil unter dem Markenblock als eigene Zeile. */
 .nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.4rem;
-  width: 100%;
-  max-width: 30rem;
-  margin: 0 auto;
-  font-size: 0.95rem;
+  order: 3;
+  flex-basis: 100%;
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(226, 199, 133, 0.2);
 }
 
 .nav a {
-  display: block;
+  flex: 1;
   text-align: center;
+  padding: 0.55rem 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 500;
   text-decoration: none;
-  color: var(--farbe-primaer);
-  background: var(--farbe-flaeche);
-  border: 1.5px solid var(--farbe-primaer-hell);
-  border-radius: 999px;
-  padding: 0.55rem 0.35rem;
-  font-weight: 600;
-  line-height: 1.2;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  color: var(--auf-buehne-leise);
+  border-radius: 2px;
 }
+.nav a:hover { color: var(--auf-buehne); background: rgba(255, 255, 255, 0.06); }
+.nav a[aria-current="page"] { color: var(--auf-buehne); box-shadow: inset 0 -2px 0 var(--gold); }
 
-.nav a:hover {
-  border-color: var(--farbe-akzent);
-  background: var(--farbe-flaeche);
-  color: var(--farbe-primaer);
-}
-
-/* Aktuelle Seite: gefüllte Pille – zeigt deutlich, wo man gerade ist.
-   Textfarbe = Seitengrund, damit der Kontrast in hell und dunkel stimmt. */
-.nav a[aria-current="page"] {
-  background: var(--farbe-primaer);
-  border-color: var(--farbe-primaer);
-  color: var(--farbe-grund);
-}
-
-.nav a[aria-current="page"]:hover {
-  background: var(--farbe-primaer);
-  border-color: var(--farbe-primaer);
-  color: var(--farbe-grund);
-}
-
-/* Ab Tablet: kompakte, inhaltsbreite Pillen rechts neben der Marke. */
-@media (min-width: 40rem) {
+@media (min-width: 48rem) {
   .nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    width: auto;
-    max-width: none;
-    margin: 0;
-    gap: 0.4rem;
-    font-size: 0.95rem;
+    order: 0; flex-basis: auto; gap: 1.25rem;
+    margin: 0; padding: 0; border: 0;
   }
-  .nav a {
-    padding: 0.4rem 0.85rem;
-  }
+  .nav a { flex: none; padding: 0.35rem 0; font-size: 0.8rem; }
+  .marke__name { font-size: 0.68rem; }
 }
 
-/* --- Design-Schalter (hell/dunkel) --------------------------------------
-   Ein Schieberegler mit Sonne (hell) und Mond (dunkel). Der runde Knopf
-   gleitet nach rechts und der Mond blendet ein, sobald das dunkle Design
-   aktiv ist. Ohne JavaScript bleibt der Schalter ausgeblendet (siehe .js). */
+/* Abo-Knopf und Designschalter sitzen rechts im Kopf. */
+.abo, .thema-schalter { flex: none; }
 
-.thema-schalter {
-  display: none; /* wird erst mit JavaScript sichtbar */
-  appearance: none;
-  -webkit-appearance: none;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  line-height: 0;
-
-  /* Mobil: fest oben rechts in der Kopfecke. */
-  position: absolute;
-  top: 1rem;
-  right: max(1.15rem, env(safe-area-inset-right));
-  z-index: 5;
+/* Auf der Leseseite ("Andacht lesen") mobil die zweite Kopfzeile
+   (Navigation) weglassen – mehr Platz zum Lesen. Am Desktop steht die
+   Navigation ohnehin in einer Zeile und bleibt sichtbar. */
+@media (max-width: 47.99rem) {
+  .kopf--lesen .nav { display: none; }
 }
 
-/* Erst einblenden, wenn JavaScript den Schalter auch bedienbar macht. */
-.js .thema-schalter {
-  display: inline-flex;
-  align-items: center;
-}
-
-.thema-schalter__spur {
-  position: relative;
-  display: inline-block;
-  width: 3.4rem;
-  height: 1.85rem;
-  border-radius: 999px;
-  background: var(--farbe-grund);
-  border: 1.5px solid var(--farbe-primaer-hell);
-  box-shadow: inset 0 1px 3px rgba(20, 20, 40, 0.15);
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.thema-schalter:hover .thema-schalter__spur {
-  border-color: var(--farbe-akzent);
-}
-
-.thema-schalter__knopf {
-  position: absolute;
-  top: 50%;
-  left: 3px;
-  transform: translateY(-50%);
-  display: grid;
-  place-items: center;
-  width: 1.45rem;
-  height: 1.45rem;
-  border-radius: 50%;
-  background: var(--farbe-primaer);
-  color: var(--farbe-akzent);
-  box-shadow: 0 1px 3px rgba(20, 20, 40, 0.35);
-  transition: left 0.24s ease, transform 0.24s ease,
-    background 0.2s ease, color 0.2s ease;
-}
-
-/* Sonne und Mond liegen übereinander; sichtbar ist immer nur eines. */
-.thema-schalter__icon {
-  grid-area: 1 / 1;
-  width: 0.95rem;
-  height: 0.95rem;
-  transition: opacity 0.2s ease, transform 0.24s ease;
-}
-
-/* Heller Standard: Sonne sichtbar, Mond ausgeblendet. */
-.thema-schalter__icon--sonne {
-  opacity: 1;
-  transform: none;
-}
-.thema-schalter__icon--mond {
-  opacity: 0;
-  transform: rotate(-60deg) scale(0.5);
-}
-
-/* Dunkler Zustand: Knopf gleitet nach rechts, der Mond erscheint.
-   Gleiche Regeln für Systemvorgabe (ohne ausdrückliche Hell-Wahl) und für die
-   ausdrückliche Dunkel-Wahl über den Schalter. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .thema-schalter__knopf {
-    left: calc(100% - 3px);
-    transform: translate(-100%, -50%);
-  }
-  :root:not([data-theme="light"]) .thema-schalter__icon--sonne {
-    opacity: 0;
-    transform: rotate(60deg) scale(0.5);
-  }
-  :root:not([data-theme="light"]) .thema-schalter__icon--mond {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-:root[data-theme="dark"] .thema-schalter__knopf {
-  left: calc(100% - 3px);
-  transform: translate(-100%, -50%);
-}
-:root[data-theme="dark"] .thema-schalter__icon--sonne {
-  opacity: 0;
-  transform: rotate(60deg) scale(0.5);
-}
-:root[data-theme="dark"] .thema-schalter__icon--mond {
-  opacity: 1;
-  transform: none;
-}
-
-/* Ab Tablet läuft der Schalter im normalen Fluss rechts neben der Navigation. */
-@media (min-width: 40rem) {
-  .thema-schalter {
-    position: static;
-  }
-}
-
-/* Wer weniger Bewegung wünscht, bekommt sofortige Umschaltung ohne Gleiten. */
-@media (prefers-reduced-motion: reduce) {
-  .thema-schalter__spur,
-  .thema-schalter__knopf,
-  .thema-schalter__icon {
-    transition: none;
-  }
-}
-
-/* --- Abo-Menü (oben links) ----------------------------------------------
-   Dezenter „+ Abonnieren“-Knopf, der ein kleines Menü aufklappt (E-Mail,
-   Telegram). Als <details>/<summary> gebaut: klappt auch ohne JavaScript auf und
-   zu. Gegenstück zum Design-Schalter oben rechts.
-   Mobil: fest in der linken oberen Ecke (wie der Schalter rechts). Ab 40rem
-   läuft der Knopf im normalen Fluss ganz links vor der Marke. */
-
-.abo {
-  position: absolute;
-  top: 1rem;
-  left: max(1.15rem, env(safe-area-inset-left));
-  z-index: 6;
-}
-
-@media (min-width: 40rem) {
-  .abo {
-    position: relative; /* im Fluss, aber Anker für das Menü */
-    top: auto;
-    left: auto;
-  }
-}
-
-/* Der Knopf selbst (die <summary>). Standard-Dreieck der <details> ausblenden. */
 .abo__knopf {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.7rem 0.4rem 0.55rem;
-  border: 1.5px solid var(--farbe-primaer-hell);
-  border-radius: 999px;
-  background: var(--farbe-flaeche);
-  color: var(--farbe-primaer);
-  font-family: var(--schrift-text);
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.2;
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(226, 199, 133, 0.5);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--gold);
+  font: 500 0.66rem/1 var(--ui);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   cursor: pointer;
   list-style: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 .abo__knopf::-webkit-details-marker { display: none; }
-.abo__knopf::marker { content: ""; }
-.abo__knopf:hover { border-color: var(--farbe-akzent); }
-.abo__knopf:focus-visible {
-  outline: 2px solid var(--farbe-akzent);
-  outline-offset: 2px;
-}
+.abo__knopf:hover { background: rgba(226, 199, 133, 0.12); }
+.abo__zeichen { width: 14px; height: 14px; }
+.abo { position: relative; }
 
-.abo__zeichen {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-/* Beim Öffnen dreht sich das „+“ leicht zu einem „×“-Gefühl. */
-.abo[open] .abo__zeichen { transform: rotate(45deg); }
-.abo[open] .abo__knopf { border-color: var(--farbe-akzent); }
-
-/* Auf sehr schmalen Geräten nur das Zeichen zeigen (spart Platz in der Ecke);
-   der aria-label/title bleibt für die Bedeutung erhalten. */
-.abo__text { display: none; }
-@media (min-width: 22.5rem) {
-  .abo__text { display: inline; }
-}
-
-/* Das aufgeklappte Menü – eine kleine Karte unter dem Knopf. */
 .abo__menue {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  left: 0;
-  z-index: 40;
+  position: absolute; top: calc(100% + 0.5rem); right: 0; z-index: 40;
   width: min(19rem, calc(100vw - 2rem));
-  background: var(--farbe-flaeche);
-  border: 1px solid var(--farbe-linie);
+  background: var(--grund);
+  border: 1px solid var(--linie-stark);
   border-radius: var(--radius);
-  box-shadow: var(--schatten);
-  padding: 0.5rem;
+  box-shadow: 0 12px 30px rgba(11, 19, 31, 0.25);
+  padding: 1rem;
   text-align: left;
 }
-
 .abo__titel {
-  margin: 0.25rem 0.5rem 0.5rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--farbe-text-leise);
+  margin: 0 0 0.75rem;
+  font: 500 0.66rem/1 var(--ui);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold-dunkel);
 }
-
 .abo__option {
-  display: block;
-  padding: 0.5rem 0.6rem;
-  border-radius: var(--radius);
-  text-decoration: none;
-  color: var(--farbe-text);
-  transition: background 0.15s ease;
+  display: block; padding: 0.6rem 0; text-decoration: none; color: var(--text);
+  border-top: 1px solid var(--linie);
 }
-.abo__option + .abo__option { margin-top: 0.15rem; }
-.abo__option:hover { background: var(--farbe-grund); }
-.abo__option:focus-visible {
-  outline: 2px solid var(--farbe-akzent);
-  outline-offset: -2px;
-}
+.abo__option-name { display: block; font-weight: 600; font-size: 0.9rem; }
+.abo__option-info { display: block; font-size: 0.8rem; color: var(--text-leise); }
 
-.abo__option-name {
-  display: block;
-  font-weight: 600;
-  color: var(--farbe-primaer);
+.abo__mail-zeile { display: flex; gap: 0.4rem; margin-top: 0.6rem; }
+.abo__mail-feld, .abo__mail-knopf {
+  font: 400 0.9rem/1.2 var(--ui);
+  padding: 0.6rem 0.7rem;
+  border-radius: 2px;
 }
-.abo__option-info {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--farbe-text-leise);
-  margin-top: 0.1rem;
-}
-
-/* --- E-Mail-Anmeldung im Abo-Menü --- */
-.abo__mail { padding: 0.5rem 0.6rem 0.3rem; }
-.abo__mail-zeile { display: flex; gap: 0.4rem; margin-top: 0.5rem; }
 .abo__mail-feld {
-  flex: 1 1 auto;
-  min-width: 0;
-  padding: 0.5rem 0.6rem;
-  border: 1.5px solid var(--farbe-primaer-hell);
-  border-radius: 9px;
-  background: var(--farbe-flaeche);
-  color: var(--farbe-text);
-  font-family: inherit;
-  font-size: 0.95rem;
-}
-.abo__mail-feld:focus-visible {
-  outline: 2px solid var(--farbe-akzent);
-  outline-offset: 1px;
-  border-color: var(--farbe-akzent);
+  flex: 1 1 auto; min-width: 0;
+  border: 1px solid var(--linie-stark);
+  background: var(--grund); color: var(--text);
 }
 .abo__mail-knopf {
-  flex: 0 0 auto;
-  padding: 0.5rem 0.9rem;
-  border: none;
-  border-radius: 9px;
-  background: var(--farbe-primaer);
-  color: var(--farbe-grund);
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.15s ease;
+  flex: none; border: 0; cursor: pointer;
+  background: var(--buehne); color: var(--auf-buehne); font-weight: 600;
 }
-.abo__mail-knopf:hover { background: var(--farbe-primaer-hell); }
-.abo__mail-knopf:disabled { opacity: 0.6; cursor: default; }
-.abo__mail-status {
-  margin: 0.5rem 0 0;
-  font-size: 0.82rem;
-  line-height: 1.45;
-  min-height: 0;
-}
+.abo__mail-knopf:hover { background: #1d3049; }
+.abo__mail-hinweis { margin: 0.6rem 0 0; font-size: 0.72rem; color: var(--text-leise); }
+.abo__mail-status { margin: 0.5rem 0 0; font-size: 0.82rem; }
 .abo__mail-status:empty { display: none; }
-.abo__mail-status.erfolg { color: var(--farbe-akzent-dunkel); }
-.abo__mail-status.fehler { color: #b3261e; }
-.abo__mail-hinweis {
-  margin: 0.5rem 0 0;
-  font-size: 0.72rem;
-  line-height: 1.45;
-  color: var(--farbe-text-leise);
+.abo__mail-status.erfolg { color: var(--gold-dunkel); }
+.abo__mail-status.fehler { color: #c0392b; }
+.abo__trenner { border: 0; border-top: 1px solid var(--linie); margin: 0.75rem 0; }
+
+.thema-schalter { display: none; border: 0; background: none; padding: 0; cursor: pointer; }
+.js .thema-schalter { display: inline-flex; align-items: center; }
+.thema-schalter__spur {
+  position: relative; display: inline-block;
+  width: 2.9rem; height: 1.6rem; border-radius: 999px;
+  border: 1px solid rgba(226, 199, 133, 0.45);
 }
-.abo__trenner {
-  border: none;
-  border-top: 1px solid var(--farbe-linie);
-  margin: 0.5rem 0.3rem;
+.thema-schalter__knopf {
+  position: absolute; top: 50%; left: 2px; transform: translateY(-50%);
+  display: grid; place-items: center;
+  width: 1.25rem; height: 1.25rem; border-radius: 50%;
+  background: var(--gold); color: var(--buehne);
+  transition: left 0.22s ease, transform 0.22s ease;
+}
+.thema-schalter__icon { grid-area: 1 / 1; width: 0.8rem; height: 0.8rem; transition: opacity 0.2s ease; }
+.thema-schalter__icon--mond { opacity: 0; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .thema-schalter__knopf { left: calc(100% - 2px); transform: translate(-100%, -50%); }
+  :root:not([data-theme="light"]) .thema-schalter__icon--sonne { opacity: 0; }
+  :root:not([data-theme="light"]) .thema-schalter__icon--mond { opacity: 1; }
+}
+:root[data-theme="dark"] .thema-schalter__knopf { left: calc(100% - 2px); transform: translate(-100%, -50%); }
+:root[data-theme="dark"] .thema-schalter__icon--sonne { opacity: 0; }
+:root[data-theme="dark"] .thema-schalter__icon--mond { opacity: 1; }
+
+/* =========================================================================
+   Bühne: „Andacht des Tages“ (Startseite) und Seitenköpfe
+   ========================================================================= */
+
+.buehne {
+  background: var(--buehne);
+  color: var(--auf-buehne);
+  padding: 2rem 0 2.75rem;
 }
 
-/* --- Hauptinhalt --- */
-
-.inhalt {
-  flex: 1 0 auto;
-  width: 100%;
-  max-width: var(--breite-max);
-  margin: 0 auto;
-  padding: 2rem 1.15rem 3rem; /* mobil: etwas kompakter */
+.buehne__innen {
+  max-width: 64rem; margin: 0 auto; padding: 0 var(--rand);
 }
 
-@media (min-width: 40rem) {
-  .inhalt {
-    padding: 2.5rem 1.25rem 3.5rem;
+/* Datumsspalte: mobil eine Zeile über dem Titel, ab Tablet eine Spalte
+   links mit goldener Trennlinie. */
+.heute { display: grid; gap: 1rem; }
+
+@media (min-width: 48rem) {
+  .heute { grid-template-columns: 5.5rem 1fr; gap: 0; }
+  .heute__datum {
+    border-right: 1px solid rgba(226, 199, 133, 0.28);
+    padding-right: 1.1rem;
   }
+  .heute__inhalt { padding-left: 1.75rem; }
 }
 
-/* --- Startseite: Willkommens-Hero (Logo + Leitvers, „Sola Scriptura“) --- */
-
-.start-hero {
-  text-align: center;
-  padding: 1rem 0 2.25rem;
-  margin-bottom: 2.5rem;
-  border-bottom: 1px solid var(--farbe-linie);
+.heute__tag {
+  font-family: var(--display);
+  font-size: 2.5rem; line-height: 1; margin: 0;
+  color: var(--gold);
+}
+.heute__monat {
+  margin: 0.35rem 0 0;
+  font: 500 0.66rem/1.5 var(--ui);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--auf-buehne-leise);
 }
 
-.start-hero__logo {
-  display: block;
-  width: clamp(128px, 36vw, 172px);
-  height: auto;
-  margin: 0 auto 1.25rem;
-  border-radius: 50%;
-  box-shadow: var(--schatten);
+@media (max-width: 47.99rem) {
+  .heute__datum { display: flex; align-items: baseline; gap: 0.6rem; }
+  .heute__tag { font-size: 1.6rem; }
+  .heute__monat { margin: 0; }
 }
 
-.start-hero__kicker {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--farbe-akzent-dunkel);
-  margin: 0 0 1rem;
-}
+.heute__rubrik { color: var(--gold); }
 
-.start-hero__vers {
-  max-width: 32rem;
-  margin: 0 auto;
-  padding: 0;
-  border: 0;
+.heute__titel {
+  font-size: clamp(2.1rem, 7vw, 3.4rem);
+  margin: 0.7rem 0 0;
+  color: var(--auf-buehne);
+  text-wrap: pretty;
 }
+.heute__titel a { color: inherit; text-decoration: none; }
 
-.start-hero__vers p {
-  font-family: var(--schrift-zier);
+.heute__losung {
+  font-family: var(--lese);
   font-style: italic;
-  font-size: clamp(1.4rem, 4.8vw, 2rem);
-  line-height: 1.35;
-  color: var(--farbe-primaer);
-  margin: 0 0 0.6rem;
+  font-size: clamp(1rem, 2.4vw, 1.13rem);
+  line-height: 1.65;
+  color: #c7d3e2;
+  max-width: 30em;
+  margin: 1.1rem 0 0;
+  text-wrap: pretty;
 }
-
-.start-hero__stelle {
+.heute__stelle {
   display: block;
+  margin-top: 0.8rem;
+  font: 500 0.66rem/1 var(--ui);
   font-style: normal;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  color: var(--farbe-text-leise);
-}
-
-/* --- Startseite: Andacht des Tages -------------------------------------
-   Die heutige Andacht ist das Herzstück der Startseite und wird darum als
-   eigene, deutlich abgesetzte Karte auf dunklem Navy-Grund gezeigt. So hebt
-   sie sich klar vom hellen Pergament der übrigen Seite ab und der Blick
-   landet sofort auf ihr – statt im einheitlichen Farbbrei zu verschwimmen. */
-
-.hero {
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  background: var(--hero-grund);
-  border: 1px solid var(--hero-rahmen);
-  border-radius: 20px;
-  box-shadow: var(--hero-schatten);
-  padding: 2.5rem 1.5rem 2.75rem;
-  margin-bottom: 2.75rem;
-}
-
-@media (min-width: 40rem) {
-  .hero {
-    padding: 3rem 2.5rem 3.25rem;
-  }
-}
-
-/* Feiner goldener Lichtstreifen am oberen Rand als Blickfang. */
-.hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--farbe-akzent) 25%,
-    var(--farbe-akzent) 75%,
-    transparent
-  );
-}
-
-/* „Andacht des Tages“ als goldenes Etikett – klar als Label erkennbar. */
-.hero__gruss {
-  display: inline-block;
-  text-transform: uppercase;
-  letter-spacing: 0.13em;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #1c2a40;
-  background: linear-gradient(180deg, #e7c169, #c8981f);
-  padding: 0.35rem 0.95rem;
-  border-radius: 999px;
-  margin: 0 0 1.1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
-  -webkit-text-stroke: 0;
-}
-
-.hero__datum,
-.andacht__datum {
-  color: var(--farbe-text-leise);
-  font-size: 0.92rem;
-  margin: 0 0 0.5rem;
-}
-
-/* Auf der dunklen Karte brauchen Datum und Bibelstelle einen helleren Ton. */
-.hero .hero__datum,
-.hero .hero__stelle {
-  color: var(--hero-text-leise);
-}
-
-.hero__titel {
-  font-size: clamp(2rem, 5.4vw, 2.9rem);
-  margin: 0.35rem 0 1.1rem;
-  /* Auf dunklem Grund ist das Gold von sich aus gut lesbar – die dunkle
-     Kontur entfällt, ein weicher Schatten gibt stattdessen Tiefe. */
-  -webkit-text-stroke: 0;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-}
-
-.hero__titel a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.hero__losung,
-.andacht__losung {
-  font-family: var(--schrift-titel);
-  font-style: italic;
-  font-size: 1.2rem;
-  color: var(--farbe-text);
-  max-width: 34rem;
-  margin: 0 auto 1.5rem;
-}
-
-.hero .hero__losung {
-  color: var(--hero-text);
-}
-
-.hero__stelle,
-.andacht__stelle {
-  font-style: normal;
-  color: var(--farbe-text-leise);
-  font-size: 0.9em;
-  white-space: nowrap;
-}
-
-.hero__aktion {
-  margin: 0;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--auf-buehne-leise);
 }
 
 .knopf {
   display: inline-block;
-  background: var(--farbe-primaer);
-  color: #fff;
+  margin-top: 1.6rem;
+  padding: 0.9rem 1.4rem;
+  border-radius: 2px;
+  background: var(--gold);
+  color: var(--buehne);
+  font: 600 0.85rem/1 var(--ui);
   text-decoration: none;
-  padding: 0.7rem 1.4rem;
-  border-radius: 999px;
-  font-weight: 500;
-  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.knopf:hover { background: #f0d9a2; color: var(--buehne); }
+
+@media (max-width: 29.99rem) {
+  .knopf { display: block; text-align: center; }
 }
 
-.knopf:hover {
-  background: var(--farbe-primaer-hell);
-  color: #fff;
+/* Seitenkopf (Archiv, Bibel, Über) – dieselbe Bühne, kleiner. */
+.seite-kopf {
+  background: var(--buehne);
+  color: var(--auf-buehne);
+  padding: 1.5rem 0 2rem;
 }
-
-/* Auf der Navy-Karte wird der Knopf golden – damit er als klarer
-   Handlungsaufruf aus der Fläche heraussticht. */
-.hero .knopf {
-  background: linear-gradient(180deg, #e7c169, #c8981f);
-  color: #1c2a40;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+.seite-kopf__innen {
+  max-width: 64rem; margin: 0 auto; padding: 0 var(--rand);
+  border-top: 1px solid rgba(226, 199, 133, 0.22);
+  padding-top: 1.4rem;
 }
-
-.hero .knopf:hover {
-  background: linear-gradient(180deg, #f0d180, #d8a72e);
-  color: #14203a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.32);
-}
-
-/* --- Die fünf „Soli“ (Leitspruch im Hero) --- */
-
-/* Eigener, ruhiger Abschnitt unter der Andachts-Karte. Als dezente Grundlage
-   gedacht – darum bewusst zurückhaltender als die hervorgehobene Andacht. */
-.solas {
-  margin: 0 0 2.5rem;
-  padding-top: 0.5rem;
-  text-align: center;
-}
-
-.solas__haupt {
-  font-family: var(--schrift-zier);
-  font-weight: 600;
-  font-size: clamp(1.7rem, 5.5vw, 2.4rem);
-  line-height: 1.1;
-  color: var(--farbe-primaer);
-  letter-spacing: 0.01em;
-  margin: 0;
-}
-
-.solas__unter {
-  font-family: var(--schrift-zier);
-  font-style: italic;
-  font-size: clamp(1.05rem, 3vw, 1.3rem);
-  color: var(--farbe-akzent-dunkel);
-  margin: 0.35rem 0 0;
-}
-
-/* zarte goldene Trennlinie mit Raute */
-.solas__reihe {
-  list-style: none;
-  margin: 1.5rem 0 0;
-  padding: 1.4rem 0 0;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem 1.6rem;
-}
-
-.solas__reihe::before {
-  content: "✦";
-  position: absolute;
-  top: -0.05rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--farbe-akzent);
-  font-size: 0.85rem;
-  background: var(--farbe-grund);
-  padding: 0 0.6rem;
-}
-
-.solas__reihe::after {
-  content: "";
-  position: absolute;
-  top: 0.55rem;
-  left: 15%;
-  right: 15%;
-  height: 1px;
-  background: var(--farbe-linie);
-  z-index: -1;
-}
-
-.solas__reihe li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.2;
-}
-
-.solas__lat {
-  font-family: var(--schrift-zier);
-  font-weight: 600;
-  font-size: 1.2rem;
-  color: var(--farbe-primaer);
-}
-
-.solas__de {
-  font-size: 0.72rem;
-  color: var(--farbe-text-leise);
-  letter-spacing: 0.02em;
-}
-
-/* --- Einzelne Andacht --- */
-
-.andacht__kopf {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.andacht__titel {
-  font-size: clamp(1.7rem, 4.5vw, 2.3rem);
-  margin: 0.25rem 0 1rem;
-}
-
-.andacht__text {
-  font-size: 1.08rem;
-}
-
-.andacht__text p {
-  margin: 0 0 1.2rem;
-}
-
-.andacht__text strong {
-  color: var(--farbe-primaer);
-}
-
-.andacht__fuss {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--farbe-linie);
-}
-
-.zurueck {
-  text-decoration: none;
-  font-weight: 500;
-}
-
-/* --- Listen von Andachten --- */
-
-.liste-block {
-  margin-top: 1rem;
-}
-
-.liste-block__titel,
 .seite-kopf__titel {
-  font-size: 1.4rem;
-  margin: 0 0 1.25rem;
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  margin: 0.6rem 0 0;
+  color: var(--auf-buehne);
+}
+.seite-kopf__text {
+  margin: 0.6rem 0 0;
+  max-width: 34em;
+  font-size: 0.88rem;
+  color: var(--auf-buehne-leise);
 }
 
-.andacht-liste {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.75rem;
+/* =========================================================================
+   Inhalt
+   ========================================================================= */
+
+main#inhalt { flex: 1 0 auto; }
+
+.inhalt {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2rem var(--rand) 3rem;
 }
+
+/* Zweispaltiger Unterbau der Startseite (Liste + Seitenspalte). */
+.start-raster { display: grid; gap: 2rem; }
+
+@media (min-width: 56rem) {
+  .start-raster { grid-template-columns: 1fr 14rem; gap: 2.75rem; }
+}
+
+/* Abschnittsüberschrift mit Hairline. */
+.block__kopf {
+  display: flex; align-items: baseline; gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.block__kopf::after {
+  content: ""; flex: 1; height: 1px; background: var(--linie);
+}
+.block__titel {
+  font-family: var(--ui);
+  font-size: 0.66rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-leise);
+  margin: 0;
+}
+
+/* Andachtsliste: Zeilen, keine Karten. */
+.andacht-liste { list-style: none; margin: 0; padding: 0; }
 
 .andacht-liste__link {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.15rem;
-  text-decoration: none;
-  color: inherit;
-  background: var(--farbe-flaeche);
-  border: 1px solid var(--farbe-linie);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  display: grid; gap: 0.15rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--linie);
+  text-decoration: none; color: inherit;
 }
-
-.andacht-liste__link:hover {
-  border-color: var(--farbe-akzent);
-  box-shadow: var(--schatten);
-}
-
-.andacht-liste__datum {
-  font-size: 0.82rem;
-  color: var(--farbe-text-leise);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
+.andacht-liste__link:hover { border-bottom-color: var(--gold-dunkel); }
+.andacht-liste__link:hover .andacht-liste__titel { color: var(--gold-dunkel); }
 
 .andacht-liste__titel {
-  font-family: var(--schrift-titel);
-  font-size: 1.2rem;
-  color: var(--farbe-primaer);
-}
-
-.andacht-liste__stelle {
-  font-size: 0.9rem;
-  color: var(--farbe-text-leise);
-  font-style: italic;
-}
-
-.liste-block__mehr {
-  margin-top: 1.5rem;
-}
-
-.liste-block__mehr a {
-  text-decoration: none;
+  font-family: var(--lese);
   font-weight: 500;
+  font-size: 1.02rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+.andacht-liste__datum, .andacht-liste__stelle {
+  font-size: 0.72rem;
+  color: var(--text-zart);
+  font-style: normal;
 }
 
-/* --- Seite „Nach Bibelstelle“ --- */
-
-.buch-index {
-  margin-bottom: 2.5rem;
-}
-
-.buch-gruppe {
-  margin-bottom: 1.75rem;
-}
-
-.buch-gruppe__titel {
-  font-size: 1.15rem;
-  margin: 0 0 0.85rem;
-}
-
-/* Kachelraster der Bücher – mobil zwei Spalten, ab Tablet mehr */
-.buch-raster {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-}
-
-@media (min-width: 30rem) {
-  .buch-raster {
-    grid-template-columns: repeat(3, 1fr);
+@media (min-width: 40rem) {
+  .andacht-liste__link {
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 0.75rem;
   }
+  .andacht-liste__datum { order: 2; white-space: nowrap; }
+  .andacht-liste__stelle { order: 3; grid-column: 2; text-align: right; }
+  .andacht-liste__titel { grid-row: 1; }
 }
+
+.liste-block__mehr { margin: 1.25rem 0 0; }
+.liste-block__mehr a {
+  font: 500 0.8rem/1 var(--ui);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold-dunkel);
+  padding-bottom: 4px;
+}
+
+/* Seitenspalte: Leitvers + Abo. */
+.kasten {
+  background: var(--flaeche);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.1rem;
+}
+.kasten + .kasten { margin-top: 0.85rem; }
+.kasten--rahmen { background: transparent; border: 1px solid var(--linie); }
+
+.kasten__vers {
+  font-family: var(--lese);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-lese);
+  margin: 0.7rem 0 0;
+}
+.kasten__quelle {
+  margin: 0.7rem 0 0;
+  font: 500 0.66rem/1 var(--ui);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-leise);
+}
+.kasten__text { margin: 0.5rem 0 0.8rem; font-size: 0.85rem; color: var(--text-leise); }
+
+/* =========================================================================
+   Einzelne Andacht – die Leseseite
+   ========================================================================= */
+
+.andacht { display: grid; gap: 0.75rem; position: relative; }
 
 @media (min-width: 48rem) {
-  .buch-raster {
-    grid-template-columns: repeat(4, 1fr);
+  .andacht { grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0; }
+  .andacht__rand { padding-top: 0.4rem; }
+  .andacht__spalte {
+    border-left: 1px solid var(--linie);
+    padding-left: 1.75rem;
+    max-width: var(--mass);
   }
 }
 
-.buch-chip {
-  display: flex;
+/* Teilen-Knopf: mobil rechtsbündig über dem Titel, am Desktop rechts neben
+   der Lesespalte (in der freien Fläche). */
+.andacht__aktion { display: flex; justify-content: flex-end; margin: 0 0 0.6rem; }
+@media (min-width: 48rem) {
+  .andacht__aktion { position: absolute; top: 0.4rem; right: 0; margin: 0; }
+}
+.teilen {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.4rem;
-  padding: 0.55rem 0.8rem;
-  border-radius: 999px;
-  border: 1px solid var(--farbe-linie);
-  font-size: 0.95rem;
-  line-height: 1.2;
-}
-
-/* Bücher mit Andachten: anklickbar, hervorgehoben */
-a.buch-chip--aktiv {
-  background: var(--farbe-flaeche);
-  color: var(--farbe-primaer);
-  text-decoration: none;
-  font-weight: 500;
-  border-color: var(--farbe-akzent);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
-}
-
-a.buch-chip--aktiv:hover {
-  box-shadow: var(--schatten);
-  transform: translateY(-1px);
-}
-
-/* Bücher ohne Andachten: dezent, nicht anklickbar */
-.buch-chip--leer {
-  color: var(--farbe-text-leise);
+  gap: 0.45rem;
+  font: 600 0.72rem/1 var(--ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-leise);
   background: transparent;
-  opacity: 0.6;
-  justify-content: center;
+  border: 1px solid var(--linie-stark);
+  border-radius: 2px;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
 }
+.teilen:hover { color: var(--text); border-color: var(--gold-dunkel); }
+.teilen.teilen--ok { color: var(--gold-dunkel); border-color: var(--gold-dunkel); }
+.teilen__icon { width: 15px; height: 15px; flex: none; }
 
-.buch-chip__zahl {
-  flex-shrink: 0;
-  min-width: 1.5rem;
-  text-align: center;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #fff;
-  background: var(--farbe-primaer);
-  border-radius: 999px;
-  padding: 0.05rem 0.4rem;
+.andacht__rand p {
+  margin: 0 0 0.9rem;
+  font: 500 0.66rem/1.6 var(--ui);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-zart);
 }
+.andacht__rand p.rubrik { color: var(--gold-dunkel); }
 
-/* Detail-Abschnitte je Buch */
-.buch-abschnitt {
-  margin-top: 2.5rem;
-  scroll-margin-top: 1rem;
-}
-
-.buch-abschnitt__titel {
-  font-size: 1.5rem;
-  margin: 0 0 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--farbe-linie);
-}
-
-.kapitel-block {
-  margin-bottom: 1.75rem;
-}
-
-.kapitel-block__titel {
-  font-size: 1.05rem;
-  color: var(--farbe-akzent-dunkel);
-  margin: 0 0 0.75rem;
-}
-
-/* --- Einfache Seiten (Archiv, Über) --- */
-
-.seite-kopf {
-  margin-bottom: 2rem;
-}
-
-.seite-kopf__titel {
-  font-size: clamp(1.8rem, 4.5vw, 2.3rem);
-  margin: 0 0 0.5rem;
-}
-
-.seite-kopf__text {
-  color: var(--farbe-text-leise);
+.andacht__titel {
+  font-size: clamp(1.9rem, 6vw, 2.9rem);
   margin: 0;
+  color: var(--text);
+  text-wrap: pretty;
 }
 
-.fliesstext p {
-  margin: 0 0 1.2rem;
+.andacht__losung {
+  font-family: var(--lese);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: var(--text-leise);
+  margin: 1.2rem 0 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--linie);
+  text-wrap: pretty;
+}
+.andacht__stelle {
+  display: block;
+  margin-top: 0.7rem;
+  font: 500 0.66rem/1 var(--ui);
+  font-style: normal;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-leise);
 }
 
-/* Längere Fließtexte / Rechtstexte (Impressum, Datenschutz) */
+/* Der Andachtstext selbst: Lora, großzügige Zeilenhöhe, ruhiges Maß. */
+.andacht__text {
+  font-family: var(--lese);
+  font-size: 1.13rem;
+  line-height: 1.8;
+  color: var(--text-lese);
+  margin-top: 1.9rem;
+}
+.andacht__text p { margin: 0 0 1.35em; text-wrap: pretty; }
+.andacht__text strong { font-weight: 600; color: var(--text); }
+.andacht__text em { font-style: italic; }
+
+/* Ein Absatz, der nur aus einem hervorgehobenen Satz besteht, wird zum
+   freigestellten Zitat (kein Markup nötig, wenn man <blockquote> nutzt). */
+.andacht__text blockquote {
+  margin: 1.6em 0;
+  padding: 1.4em 0;
+  border-top: 1px solid var(--linie);
+  border-bottom: 1px solid var(--linie);
+  font-family: var(--display);
+  font-size: 1.45rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+.andacht__text blockquote p:last-child { margin: 0; }
+
+/* Frage zum Mitnehmen */
+.frage {
+  margin: 2rem 0 0;
+  background: var(--buehne);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+}
+.frage__rubrik { color: var(--gold); }
+.frage__text {
+  font-family: var(--lese);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--auf-buehne);
+  margin: 0.7rem 0 0;
+  text-wrap: pretty;
+}
+
+.schlagwoerter { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.schlagwort {
+  font: 500 0.72rem/1 var(--ui);
+  color: var(--text-leise);
+  background: var(--flaeche);
+  border-radius: 2px;
+  padding: 0.45rem 0.7rem;
+  text-decoration: none;
+}
+.schlagwort:hover { color: var(--text); }
+
+/* Vorige / Nächste */
+.andacht__fuss { margin-top: 2.5rem; }
+
+.nachbarn { display: grid; gap: 0.6rem; }
+@media (min-width: 40rem) { .nachbarn { grid-template-columns: 1fr 1fr; } }
+
+.nachbar {
+  display: block;
+  background: var(--flaeche);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+.nachbar:hover { background: var(--linie); }
+.nachbar--naechste { text-align: right; }
+.nachbar__label {
+  display: block; margin-bottom: 0.4rem;
+  font: 500 0.63rem/1 var(--ui);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold-dunkel);
+}
+.nachbar__titel { font-family: var(--lese); font-weight: 500; font-size: 0.98rem; line-height: 1.35; color: var(--text); }
+
+/* =========================================================================
+   Archiv
+   ========================================================================= */
+
+.archiv-suche { display: flex; gap: 0.5rem; margin-bottom: 0.9rem; }
+.archiv-suche__feld {
+  flex: 1; min-width: 0;
+  border: 1px solid var(--linie-stark);
+  border-radius: 2px;
+  background: var(--grund);
+  color: var(--text);
+  font: 400 0.95rem/1.2 var(--ui);
+  padding: 0.75rem 0.85rem;
+}
+
+.filter { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.filter a {
+  display: inline-block;
+  font: 500 0.72rem/1 var(--ui);
+  color: var(--text-leise);
+  background: var(--flaeche);
+  border-radius: 2px;
+  padding: 0.45rem 0.7rem;
+  text-decoration: none;
+}
+.filter a[aria-current] { background: var(--gold); color: var(--buehne); }
+
+/* Monatsgruppe: Monat als Marginalie links. */
+.monat { display: grid; gap: 0.4rem; margin-top: 1.75rem; }
+
+@media (min-width: 48rem) {
+  .monat { grid-template-columns: 7.5rem 1fr; gap: 0; }
+  .monat__kopf { padding-top: 0.9rem; }
+  .monat__liste { border-left: 1px solid var(--linie); padding-left: 1.5rem; }
+}
+
+.monat__name {
+  margin: 0;
+  font: 500 0.66rem/1.5 var(--ui);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold-dunkel);
+}
+.monat__anzahl { margin: 0.25rem 0 0; font-size: 0.72rem; color: var(--text-zart); }
+
+.monat__liste { list-style: none; margin: 0; padding: 0; }
+
+.monat__link {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--linie);
+  text-decoration: none; color: inherit;
+}
+.monat__link:hover { border-bottom-color: var(--gold-dunkel); }
+.monat__tag { font-family: var(--display); font-size: 1.25rem; color: var(--gold-dunkel); }
+.monat__titel { font-family: var(--lese); font-weight: 500; font-size: 1.02rem; line-height: 1.35; }
+.monat__stelle { font-size: 0.72rem; color: var(--text-zart); grid-column: 2; }
+
+@media (min-width: 40rem) {
+  .monat__link { grid-template-columns: 2rem 1fr auto; }
+  .monat__stelle { grid-column: 3; white-space: nowrap; }
+}
+
+/* =========================================================================
+   Nach Bibelstelle
+   ========================================================================= */
+
+.buch-raster {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0 0 2rem;
+}
+@media (min-width: 34rem) { .buch-raster { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 48rem) { .buch-raster { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.buch-chip {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
+  border: 1px solid var(--linie);
+  border-radius: 2px;
+  padding: 0.6rem 0.75rem;
+  font: 500 0.82rem/1.2 var(--ui);
+  color: var(--text-zart);
+}
+a.buch-chip--aktiv { color: var(--text); text-decoration: none; border-color: var(--linie-stark); }
+a.buch-chip--aktiv:hover { border-color: var(--gold-dunkel); }
+.buch-chip__zahl { font: 600 0.66rem/1 var(--ui); color: var(--gold-dunkel); }
+.buch-chip--leer { opacity: 0.75; }
+
+/* Hervorhebung des Buches, in dem gerade gelesen wird. */
+.buch-fokus {
+  background: var(--buehne);
+  color: var(--auf-buehne);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.6rem;
+  margin: 0 0 1.75rem;
+}
+.buch-fokus__rubrik { color: var(--gold); }
+.buch-fokus__vers {
+  font-family: var(--display);
+  font-size: 1.5rem; line-height: 1.35;
+  margin: 0.7rem 0 0;
+}
+.buch-fokus__balken { display: flex; gap: 4px; margin: 1.2rem 0 0; }
+.buch-fokus__balken span { height: 5px; border-radius: 3px; background: rgba(226, 199, 133, 0.45); }
+.buch-fokus__balken span[data-voll] { background: var(--gold); }
+.buch-fokus__balken span[data-rest] { background: rgba(159, 176, 200, 0.22); }
+.buch-fokus__info { margin: 0.6rem 0 0; font-size: 0.78rem; color: var(--auf-buehne-leise); }
+
+.kapitel-liste { list-style: none; margin: 0; padding: 0; }
+.kapitel-link {
+  display: grid; gap: 0.2rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--linie);
+  text-decoration: none; color: inherit;
+}
+.kapitel-link:hover { border-bottom-color: var(--gold-dunkel); }
+.kapitel-nr { font-family: var(--display); font-size: 1.15rem; color: var(--text); }
+.kapitel-info { font-size: 0.85rem; color: var(--text-leise); }
+.kapitel-anzahl { font: 500 0.7rem/1 var(--ui); letter-spacing: 0.06em; color: var(--gold-dunkel); }
+
+@media (min-width: 40rem) {
+  .kapitel-link { grid-template-columns: 7rem 1fr auto; align-items: baseline; gap: 1rem; }
+  .kapitel-anzahl { white-space: nowrap; }
+}
+
+/* =========================================================================
+   Fließtext (Über) und Fuß
+   ========================================================================= */
+
+.fliesstext { max-width: var(--mass); font-family: var(--lese); font-size: 1.08rem; line-height: 1.8; color: var(--text-lese); }
+.fliesstext p { margin: 0 0 1.3em; text-wrap: pretty; }
+
+.fuss {
+  flex-shrink: 0;
+  margin-top: auto;
+  border-top: 1px solid var(--linie);
+}
+.fuss__innen {
+  max-width: 64rem; margin: 0 auto;
+  padding: 1.1rem var(--rand);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.6rem 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-leise);
+}
+.fuss__zeile { margin: 0; }
+.fuss__nav { display: flex; flex-wrap: wrap; gap: 1.1rem; }
+.fuss__nav a { color: inherit; text-decoration: none; }
+.fuss__nav a:hover { color: var(--gold-dunkel); }
+
+@supports (padding: max(0px)) {
+  .kopf__innen, .fuss__innen, .inhalt, .buehne__innen, .seite-kopf__innen {
+    padding-left: max(var(--rand), env(safe-area-inset-left));
+    padding-right: max(var(--rand), env(safe-area-inset-right));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================================
+   Langform-Text (Datenschutz, Über): Überschriften & Listen im Fließtext
+   ========================================================================= */
 .fliesstext h2 {
-  font-size: 1.25rem;
-  margin: 2rem 0 0.6rem;
+  font-size: 1.5rem;
+  margin: 1.9em 0 0.4em;
 }
-
-.fliesstext h2:first-child {
-  margin-top: 0;
+.fliesstext h3 {
+  font-size: 1.2rem;
+  margin: 1.5em 0 0.35em;
 }
+.fliesstext h2:first-child,
+.fliesstext h3:first-child { margin-top: 0; }
+.fliesstext ul { margin: 0 0 1.3em; padding-left: 1.2em; }
+.fliesstext li { margin: 0 0 0.4em; }
+.fliesstext a { color: var(--gold-dunkel); }
 
-.fliesstext ul {
-  margin: 0 0 1.2rem;
-  padding-left: 1.3rem;
-}
-
-.fliesstext li {
-  margin: 0 0 0.4rem;
-}
-
-.rechtstext-stand {
-  color: var(--farbe-text-leise);
-  font-size: 0.9rem;
-  margin-top: 2rem;
-}
-
-/* --- Kontaktformular --- */
-
+/* =========================================================================
+   Kontaktformular (im „Tafel“-Design)
+   ========================================================================= */
 .kontakt {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  max-width: 34rem;
+  max-width: var(--mass);
 }
-
 .kontakt__feld {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
-
 .kontakt__label {
+  font-family: var(--ui);
   font-weight: 600;
-  color: var(--farbe-primaer);
+  font-size: 0.9rem;
+  color: var(--text);
 }
-
 .kontakt input,
 .kontakt textarea {
   width: 100%;
   box-sizing: border-box;
-  font: inherit;
-  color: var(--farbe-text);
-  background: var(--farbe-flaeche);
-  border: 1px solid var(--farbe-linie);
-  border-radius: var(--radius);
+  font: 400 0.95rem/1.4 var(--ui);
+  color: var(--text);
+  background: var(--grund);
+  border: 1px solid var(--linie-stark);
+  border-radius: 2px;
   padding: 0.7rem 0.85rem;
 }
-
 .kontakt textarea {
   resize: vertical;
   min-height: 8rem;
 }
-
 .kontakt input:focus,
 .kontakt textarea:focus {
-  outline: 2px solid var(--farbe-akzent);
+  outline: 2px solid var(--gold-dunkel);
   outline-offset: 1px;
-  border-color: var(--farbe-akzent);
+  border-color: var(--gold-dunkel);
 }
-
 .kontakt__hinweis {
-  font-size: 0.85rem;
-  color: var(--farbe-text-leise);
+  font-size: 0.8rem;
+  color: var(--text-leise);
 }
-
-/* Honigtopf: für Menschen unsichtbar, aber für Bots im DOM vorhanden. */
+/* Honigtopf: für Menschen unsichtbar, für Bots im DOM vorhanden. */
 .kontakt__hp {
   position: absolute;
   left: -9999px;
@@ -1249,124 +921,19 @@ a.buch-chip--aktiv:hover {
   height: 1px;
   overflow: hidden;
 }
-
 .kontakt__knopf {
   align-self: flex-start;
-  font: inherit;
-  font-weight: 700;
+  font: 600 0.85rem/1 var(--ui);
   cursor: pointer;
-  color: #fff;
-  background: var(--farbe-primaer);
+  color: var(--auf-buehne);
+  background: var(--buehne);
   border: 0;
-  border-radius: var(--radius);
-  padding: 0.75rem 1.4rem;
+  border-radius: 2px;
+  padding: 0.85rem 1.4rem;
 }
-
-.kontakt__knopf:hover {
-  background: var(--farbe-primaer-hell);
-}
-
+.kontakt__knopf:hover { background: #1d3049; }
 .kontakt__datenschutz {
-  font-size: 0.85rem;
-  color: var(--farbe-text-leise);
+  font-size: 0.8rem;
+  color: var(--text-leise);
   margin: 0;
-}
-
-/* --- Fußbereich --- */
-
-.fuss {
-  flex-shrink: 0;
-  border-top: 1px solid var(--farbe-linie);
-  background: var(--farbe-flaeche);
-  margin-top: auto;
-}
-
-.fuss__innen {
-  max-width: var(--breite-max-weit);
-  margin: 0 auto;
-  padding: 1.5rem 1.15rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 0.85rem;
-  color: var(--farbe-text-leise);
-  font-size: 0.9rem;
-}
-
-@media (min-width: 40rem) {
-  .fuss__innen {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1.5rem 1.25rem;
-  }
-}
-
-.fuss__zeile {
-  margin: 0;
-}
-
-/* Fuß-Navigation: mobil zentriert, Links deutlich unterstrichen (klar
-   als anklickbar erkennbar). */
-.fuss__nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.25rem 1.1rem;
-}
-
-.fuss__nav a {
-  color: var(--farbe-primaer);
-  text-decoration: underline;
-  text-decoration-color: var(--farbe-akzent);
-  text-underline-offset: 3px;
-  padding: 0.35rem 0.25rem;
-}
-
-.fuss__nav a:hover {
-  color: var(--farbe-akzent-dunkel);
-}
-
-@media (min-width: 40rem) {
-  .fuss__nav {
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-  .fuss__nav a {
-    padding: 0;
-  }
-}
-
-/* --- Sichere Bereiche auf Geräten mit Aussparung (Notch) --- */
-/* Da der Viewport mit „viewport-fit=cover“ bis an die Kanten reicht, sorgen
-   diese Regeln dafür, dass Inhalte im Quer- wie Hochformat nicht unter der
-   Aussparung verschwinden. Der Design-Innenabstand bleibt Mindestmaß. */
-@supports (padding: max(0px)) {
-  .kopf__innen,
-  .fuss__innen,
-  .inhalt {
-    padding-left: max(1.15rem, env(safe-area-inset-left));
-    padding-right: max(1.15rem, env(safe-area-inset-right));
-  }
-}
-
-/* --- Weniger Bewegung (Barrierefreiheit) --------------------------------
-   Wer im Betriebssystem „Bewegung reduzieren“ eingestellt hat (z. B. wegen
-   Schwindel/Migräne bei Animationen), bekommt alle Übergänge und Animationen
-   praktisch abgeschaltet – überall auf der Seite, nicht nur beim Schalter.
-   Der kleine Wert (0.01ms) statt 0 lässt evtl. gebundene „transitionend“-
-   Ereignisse weiterhin auslösen. */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }

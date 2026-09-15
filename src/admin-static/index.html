@@ -346,6 +346,34 @@
   .status.erfolg { color: var(--gruen); }
   .versteckt { display: none !important; }
 
+  /* --- Lade-Hinweis (oben, gegen Doppelklicks) --- */
+  .lade-anzeige {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.55rem 1rem;
+    padding-top: calc(0.55rem + env(safe-area-inset-top, 0px));
+    background: var(--primaer);
+    color: var(--auf-primaer);
+    font: 600 0.85rem/1 var(--schrift-text);
+    box-shadow: var(--schatten);
+  }
+  .lade-anzeige__punkt {
+    width: 0.7rem; height: 0.7rem;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    animation: lade-dreh 0.7s linear infinite;
+  }
+  @keyframes lade-dreh { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .lade-anzeige__punkt { animation: none; }
+  }
+
   /* Telegram-Diagnose am Ende der Liste (dezent abgesetzt). */
   .telegram-test { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--rand); }
   .telegram-test .status { white-space: pre-line; }
@@ -444,6 +472,13 @@
 </style>
 </head>
 <body>
+
+<!-- Lade-Hinweis: erscheint oben, während etwas geladen/gespeichert wird,
+     damit man nicht doppelt klickt. -->
+<div id="lade-anzeige" class="lade-anzeige versteckt" role="status" aria-live="polite">
+  <span class="lade-anzeige__punkt" aria-hidden="true"></span>
+  <span class="lade-anzeige__text">Lädt …</span>
+</div>
 
 <header class="kopf">
   <h1>Gerüstet für den Tag — Verwaltung</h1>
@@ -665,6 +700,17 @@
   var speicherTimer = null;
   var alleAndachten = [];      // zuletzt geladene Liste (für Kalender & Doppel-Warnung)
   var kalenderMonat = null;    // im Kalender angezeigter Monat (erster Tag, lokales Date)
+  var ladeGerade = false;      // verhindert doppeltes Öffnen während des Ladens
+  var speichertGerade = false; // verhindert doppeltes Speichern/Veröffentlichen
+
+  // Lade-Hinweis oben ein-/ausblenden. Ein Tiefenzähler erlaubt verschachtelte
+  // Vorgänge (z. B. Öffnen -> Liste laden), ohne zu früh auszublenden.
+  var ladeAnzeigeEl = document.getElementById("lade-anzeige");
+  var ladeTiefe = 0;
+  function ladeAnzeige(an) {
+    ladeTiefe = Math.max(0, ladeTiefe + (an ? 1 : -1));
+    if (ladeAnzeigeEl) ladeAnzeigeEl.classList.toggle("versteckt", ladeTiefe === 0);
+  }
 
   function zeigeNur(el) {
     [loginAnsicht, listenAnsicht, editorAnsicht].forEach(function (e) {
@@ -847,6 +893,7 @@
     var liste = document.getElementById("liste");
     liste.innerHTML = "";
     status.textContent = "Lade …";
+    ladeAnzeige(true);
     try {
       var daten = await api("/api/andachten");
       alleAndachten = daten.eintraege || [];
@@ -909,6 +956,8 @@
         status.textContent = e.message;
         zeigeNur(listenAnsicht);
       }
+    } finally {
+      ladeAnzeige(false);
     }
   }
 
@@ -1113,45 +1162,34 @@
   // Native Datumsauswahl -> Kalender nachziehen.
   feldDatum.addEventListener("change", aktualisiereDatumsansicht);
 
-  // Klick auf einen Tag im Kalender.
-  //  - Belegter Tag (andere Andacht) -> diese Andacht öffnen (auch wenn es
-  //    der bereits gewählte Tag ist, z. B. der voreingestellte heutige).
-  //  - Leerer Tag, während eine gespeicherte Andacht bearbeitet wird
-  //    -> eine NEUE, leere Andacht für diesen Tag beginnen (nichts wird
-  //       aus der vorherigen Andacht übernommen).
-  //  - Leerer Tag bei einer noch neuen (nicht gespeicherten) Andacht
-  //    -> nur das Datum übernehmen, das Geschriebene bleibt erhalten.
+  // Klick auf einen Tag im Kalender = zeig, was an diesem Tag liegt:
+  //  - veröffentlichte Andacht (hat Vorrang) -> diese öffnen
+  //  - nur ein Entwurf -> diesen öffnen
+  //  - weder noch -> ein leerer Editor für einen neuen Beitrag an diesem Tag
+  //    (bewusst LEER; es wird nichts aus einer vorherigen Andacht übernommen).
+  // Vor dem Wechsel wird bei ungespeicherten Änderungen wie üblich nachgefragt.
   kalGitter.addEventListener("click", function (ev) {
     var knopf = ev.target.closest("button[data-datum]");
     if (!knopf) return;
     var iso = knopf.getAttribute("data-datum");
 
-    var info = belegtMap()[iso];
-    var fremd = info ? info.eintraege.filter(function (e) {
-      return !(aktuellerEintrag && e.datei === aktuellerEintrag.datei);
-    }) : [];
+    var eintraege = (belegtMap()[iso] || {}).eintraege || [];
+    var ziel = null;
+    for (var i = 0; i < eintraege.length; i++) {
+      if (!eintraege[i].entwurf) { ziel = eintraege[i]; break; } // veröffentlichte zuerst
+    }
+    if (!ziel && eintraege.length) ziel = eintraege[0]; // sonst der Entwurf
 
-    // Belegter Tag: vorhandene Andacht direkt öffnen.
-    if (fremd.length) {
-      if (!darfVerlassen()) return;
-      oeffneEditor(fremd[0].datei);
+    // Ist das Ziel (bzw. der leere Tag) bereits offen? Dann nichts tun.
+    if (ziel) {
+      if (aktuellerEintrag && ziel.datei === aktuellerEintrag.datei) return;
+    } else if (!aktuellerEintrag && iso === feldDatum.value && !hatInhalt(sammleFormular())) {
       return;
     }
 
-    // Ab hier ein leerer Tag: erneuter Klick auf den schon gewählten Tag -> nichts tun.
-    if (iso === feldDatum.value) return;
-
-    if (aktuellerEintrag) {
-      // Beim Bearbeiten einer gespeicherten Andacht: für den leeren Tag neu beginnen.
-      if (!darfVerlassen()) return;
-      oeffneEditor(null, iso);
-      return;
-    }
-
-    // Neue, noch nicht gespeicherte Andacht: nur das Datum übernehmen.
-    feldDatum.value = iso;
-    renderKalender();
-    planeSpeichern();
+    if (!darfVerlassen()) return;
+    if (ziel) oeffneEditor(ziel.datei);
+    else oeffneEditor(null, iso); // leerer Tag -> leer beginnen
   });
 
   document.getElementById("kal-zurueck").addEventListener("click", function () {
@@ -1302,6 +1340,9 @@
   // autoWiederherstellen: gesicherten Stand sofort anwenden (ohne Nachfrage) –
   //   für die Wiederherstellung nach einem mobilen Tab-Reload.
   async function oeffneEditor(datei, vorgabeDatum, autoWiederherstellen) {
+    if (ladeGerade) return;      // Doppelklicks während des Ladens ignorieren
+    ladeGerade = true;
+    try {
     var status = document.getElementById("editor-status");
     status.textContent = "";
     status.className = "status";
@@ -1336,6 +1377,7 @@
       return;
     }
 
+    ladeAnzeige(true);
     try {
       var e = await api("/api/andachten?datei=" + encodeURIComponent(datei));
       aktuellerEintrag = { datei: e.datei, sha: e.sha, entwurf: e.entwurf === true, datum: e.datum || "" };
@@ -1372,6 +1414,11 @@
       // dann bleibt der Editor zu und es wird die Liste gezeigt.
       if (autoWiederherstellen) { vergissSitzung(); return; }
       alert(err.message);
+    } finally {
+      ladeAnzeige(false);
+    }
+    } finally {
+      ladeGerade = false;
     }
   }
 
@@ -1454,6 +1501,10 @@
   function aktualisiereAktionen() {
     meldenStatus.textContent = "";
     meldenStatus.className = "status";
+    // Speicher-Knöpfe beim Öffnen immer aktiv (nach einem Speichern bleiben sie
+    // bis zum nächsten Öffnen gesperrt).
+    veroeffentlichenBtn.disabled = false;
+    entwurfBtn.disabled = false;
 
     var veroeffentlicht = Boolean(aktuellerEintrag && !aktuellerEintrag.entwurf);
 
@@ -1534,10 +1585,16 @@
     // Korrektur (kein erneutes Melden) – für die passende Erfolgsmeldung.
     var warVeroeffentlicht = Boolean(aktuellerEintrag && !aktuellerEintrag.entwurf);
 
+    if (speichertGerade) return; // Doppel-Speichern verhindern
+    speichertGerade = true;
+    veroeffentlichenBtn.disabled = true;
+    entwurfBtn.disabled = true;
+    ladeAnzeige(true);
     status.textContent = "Speichere …";
     status.className = "status";
 
     var alterSchluessel = autospeicherSchluessel();
+    var erfolg = false;
     try {
       if (aktuellerEintrag) {
         daten.datei = aktuellerEintrag.datei;
@@ -1546,6 +1603,7 @@
       } else {
         await api("/api/andachten", { method: "POST", body: JSON.stringify(daten) });
       }
+      erfolg = true;
       // Auto-Speicher-Stände aufräumen; die Sitzung ist abgeschlossen.
       loescheLokal(alterSchluessel);
       loescheLokal("gdft:auto:neu");
@@ -1565,6 +1623,15 @@
     } catch (err) {
       status.textContent = err.message;
       status.className = "status fehler";
+    } finally {
+      ladeAnzeige(false);
+      speichertGerade = false;
+      // Bei Erfolg bleiben die Knöpfe gesperrt, bis die Ansicht wechselt bzw.
+      // der Editor erneut geöffnet wird; bei einem Fehler wieder freigeben.
+      if (!erfolg) {
+        veroeffentlichenBtn.disabled = false;
+        entwurfBtn.disabled = false;
+      }
     }
   }
 

@@ -41,6 +41,20 @@ module.exports = function (eleventyConfig) {
     }).format(d);
   });
 
+  // z. B. "14" – zweistelliger Tag für die Datumsspalte der Bühne
+  eleventyConfig.addFilter("datumTag", (value) => {
+    const d = toDate(value);
+    if (!d) return "";
+    return new Intl.DateTimeFormat("de-DE", { day: "2-digit" }).format(d);
+  });
+
+  // z. B. "September 2026" – Rubrik auf der Bühne und Gruppierung im Archiv
+  eleventyConfig.addFilter("datumMonatJahr", (value) => {
+    const d = toDate(value);
+    if (!d) return "";
+    return new Intl.DateTimeFormat("de-DE", { month: "long", year: "numeric" }).format(d);
+  });
+
   // Maschinenlesbar für <time datetime="...">, z. B. "2026-09-04"
   eleventyConfig.addFilter("datumISO", (value) => {
     const d = toDate(value);
