@@ -90,13 +90,13 @@ function andachtUrl(datum, slug) {
 // baut Telegram nur, wenn die Andachtsseite beim Versand schon öffentlich
 // erreichbar ist. Deshalb warten wir hier, bis die (evtl. neu gebaute) Seite mit
 // HTTP 200 antwortet, und melden ERST DANN – so entsteht zuverlässig die schöne
-// Vorschau statt eines nackten Links.
+// Vorschaukarte unter der Nachricht.
 //
 // Ist die Seite im Wartebudget nicht erreichbar (Build dauert ausnahmsweise
 // länger als das Zeitlimit der Serverless-Funktion), wird trotzdem gemeldet –
-// dann aber bewusst als Foto mit Kurztext-Bildunterschrift (siehe
-// sendeTelegramAndacht), damit Bild + Kurztext garantiert ankommen. So bleibt
-// eine Meldung nie ganz aus und ist nie nur ein nackter Link.
+// dann ohne Vorschaukarte, aber die Nachricht selbst (fetter Titel, Kurztext und
+// verlinktes „mehr lesen...") kommt vollständig an. So bleibt eine Meldung nie
+// ganz aus und ist nie nur ein nackter Link.
 //
 // Das Budget bleibt klar unter dem Vercel-Funktions-Zeitlimit (maxDuration 60 s,
 // siehe vercel.json), damit nach dem Warten noch genug Zeit zum Senden bleibt.
@@ -170,38 +170,28 @@ function kurztext(felder) {
   return String((felder && felder.beschreibung) || SITE.beschreibung || "").trim();
 }
 
-// Textnachricht für eine Andacht: nur der Titel, darunter der Link. Ist die Seite
-// online, zeigt Telegram darüber automatisch die Vorschaukarte (Kanalname, Titel,
-// Kurztext und Bild aus den OG-Tags der Seite) – der gewünschte Look.
+// HTML-Sonderzeichen maskieren, damit ein Titel/Kurztext mit <, > oder & die
+// Telegram-HTML-Formatierung (parse_mode "HTML") nicht durcheinanderbringt.
+function htmlEscape(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+// Nachricht für eine Andacht als HTML (parse_mode "HTML"):
+//   • Titel in FETTER Schrift
+//   • darunter der normale Kurztext (Teaser), falls vorhanden
+//   • ein blau verlinktes „mehr lesen..." statt eines nackten Links
+// Ist die Seite beim Versand schon online, baut Telegram darunter zusätzlich die
+// Link-Vorschaukarte (Titel, Kurztext, Bild) aus den OG-Tags der Seite.
 function baueNachricht({ datum, slug, felder }) {
-  const titel = (felder && felder.titel) || slug;
-  return `${titel}\n${andachtUrl(datum, slug)}`;
-}
-
-// Bildunterschrift für den Foto-Rückfall (wenn die Seite noch nicht online ist und
-// deshalb keine Vorschaukarte entstehen könnte): Titel, KURZTEXT und Link – so
-// kommen Bild + Kurztext auch dann garantiert an. Fehlt ein Kurztext, bleibt es
-// bei Titel + Link.
-function baueFotoCaption({ datum, slug, felder }) {
-  const titel = (felder && felder.titel) || slug;
-  const text = kurztext(felder);
-  const url = andachtUrl(datum, slug);
-  return text ? `${titel}\n\n${text}\n\n${url}` : `${titel}\n${url}`;
-}
-
-// Absolute Adresse des Vorschaubildes einer Andacht – passend zum og:image der
-// Seite (siehe src/_includes/base.njk): das (optionale) Feld „bild" der Andacht,
-// sonst das Standard-Vorschaubild der Seite (site.vorschaubild). Wird für den
-// direkten Foto-Versand (sendPhoto) gebraucht, damit das Bild sicher erscheint –
-// unabhängig davon, ob Telegram eine Link-Vorschau erzeugen kann. Ohne absolute
-// Basis-Adresse (site.url fehlt) wird "" geliefert -> dann greift der Text-Rückfall.
-function bildUrl(felder) {
-  const roh = String((felder && felder.bild) || SITE.vorschaubild || "").trim();
-  if (!roh) return "";
-  if (/^https?:\/\//i.test(roh)) return roh;
-  const basis = basisUrl();
-  if (!/^https?:\/\//i.test(basis)) return "";
-  return `${basis}${roh.startsWith("/") ? "" : "/"}${roh}`;
+  const titel = htmlEscape((felder && felder.titel) || slug);
+  const text = htmlEscape(kurztext(felder));
+  // URL fürs href-Attribut absichern (& über htmlEscape, zusätzlich ").
+  const url = htmlEscape(andachtUrl(datum, slug)).replace(/"/g, "&quot;");
+  const link = `<a href="${url}">mehr lesen...</a>`;
+  return text ? `<b>${titel}</b>\n\n${text}\n\n${link}` : `<b>${titel}</b>\n\n${link}`;
 }
 
 // Nur die benötigten Front-Matter-Felder lesen (titel, entwurf …). Bewusst
@@ -333,10 +323,10 @@ async function meldeFaelligeAndachten() {
     // nach dem Veröffentlichen noch gemeldet werden können).
     if (felder.entwurf === true) continue;
     // Warten, bis die Seite online ist (dann baut Telegram die schöne Vorschau-
-    // karte). Wird sie im Budget nicht erreichbar, meldet sendeTelegramAndacht als
-    // Foto mit Kurztext (nie nur ein nackter Link). Bewusst VOR dem Beanspruchen,
-    // damit das Warten nicht in das Zeitfenster zwischen "beansprucht" und
-    // "gesendet" fällt.
+    // karte). Wird sie im Budget nicht erreichbar, geht die Meldung ohne Karte
+    // raus – Titel, Kurztext und Link kommen trotzdem an (nie nur ein nackter
+    // Link). Bewusst VOR dem Beanspruchen, damit das Warten nicht in das
+    // Zeitfenster zwischen "beansprucht" und "gesendet" fällt.
     const seiteOnline = await warteBisErreichbar(andachtUrl(a.datum, a.slug));
     // WICHTIG: Erst ATOMAR beanspruchen, dann senden. So kann bei zwei
     // gleichzeitigen Läufen nur einer diese Andacht melden – der andere sieht den
@@ -349,9 +339,7 @@ async function meldeFaelligeAndachten() {
     if (!zuschlag) continue; // anderer Lauf meldet diese Andacht bereits
     try {
       await sendeTelegramAndacht({
-        textNachricht: baueNachricht({ datum: a.datum, slug: a.slug, felder }),
-        fotoCaption: baueFotoCaption({ datum: a.datum, slug: a.slug, felder }),
-        bildUrl: bildUrl(felder),
+        nachricht: baueNachricht({ datum: a.datum, slug: a.slug, felder }),
         seiteOnline,
       });
       gemeldet.push(a.datei);
@@ -434,11 +422,10 @@ async function meldeManuell({ datei }) {
   }
 
   // 3. Senden. Die Seite ist oben bereits als online (HTTP 200) bestätigt, also
-  //    die Textnachricht mit Vorschaukarte (Titel, Kurztext, Bild aus der Seite).
+  //    kommt die Nachricht (fetter Titel, Kurztext, „mehr lesen...") mit der
+  //    Link-Vorschaukarte (Bild aus der Seite) an.
   await sendeTelegramAndacht({
-    textNachricht: baueNachricht({ datum, slug, felder }),
-    fotoCaption: baueFotoCaption({ datum, slug, felder }),
-    bildUrl: bildUrl(felder),
+    nachricht: baueNachricht({ datum, slug, felder }),
     seiteOnline: true,
   });
 
@@ -517,9 +504,9 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
 
   // Warten, bis die neu gebaute Seite online ist – dann baut Telegram die schöne
   // Vorschaukarte (Titel, Kurztext, Bild). Wird sie im Budget nicht erreichbar
-  // (Build dauert ausnahmsweise länger), meldet sendeTelegramAndacht als Foto mit
-  // Kurztext-Bildunterschrift, damit Bild + Kurztext trotzdem ankommen – nie nur
-  // ein nackter Link.
+  // (Build dauert ausnahmsweise länger), geht die Meldung ohne Karte raus –
+  // Titel, Kurztext und „mehr lesen..."-Link kommen trotzdem an, nie nur ein
+  // nackter Link.
   const seiteOnline = await warteBisErreichbar(andachtUrl(datum, slug));
 
   // Erst ATOMAR beanspruchen, dann senden: verhindert eine Doppelmeldung, falls
@@ -531,9 +518,7 @@ async function meldeAndachtFallsFaellig({ datei, datum, slug, felder, alterName 
   }
   try {
     await sendeTelegramAndacht({
-      textNachricht: baueNachricht({ datum, slug, felder }),
-      fotoCaption: baueFotoCaption({ datum, slug, felder }),
-      bildUrl: bildUrl(felder),
+      nachricht: baueNachricht({ datum, slug, felder }),
       seiteOnline,
     });
   } catch (e) {
@@ -557,9 +542,7 @@ module.exports = {
   istErreichbar,
   warteBisErreichbar,
   baueNachricht,
-  baueFotoCaption,
   kurztext,
-  bildUrl,
   frontMatterFelder,
   listeAndachten,
   neubauNoetig,
