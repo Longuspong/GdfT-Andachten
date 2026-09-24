@@ -717,6 +717,10 @@
       if (e === el) e.classList.remove("versteckt");
       else e.classList.add("versteckt");
     });
+    // Wird der Editor gerade erst sichtbar, waren die auto-wachsenden Felder
+    // (Losung, Kurzbeschreibung, Andachtstext) beim Befüllen noch ausgeblendet
+    // (scrollHeight ist dann 0) – Höhen jetzt, da sichtbar, neu berechnen.
+    if (el === editorAnsicht) aktualisiereAutoHoehen();
   }
 
   function heute() {
