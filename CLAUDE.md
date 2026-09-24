@@ -41,8 +41,9 @@ Wohlfühlchristentum, aber auch kein kalter Dogmatismus.
 - Ausrufezeichen sparsam einsetzen.
 - Bibelverse ausgeschrieben zitieren (nicht nur referenzieren), gern
   zusätzliche Querverweise – ohne den Haupttext zu überladen.
-- Bibelübersetzung: an bisherigen Andachten in `src/andachten/` orientieren
-  (im Zweifel nachfragen, welche Übersetzung gerade verwendet wird).
+- Bibelübersetzung: **Schlachter 2000** oder **Elberfelder CSV Hückeswagen**
+  – beide sind zulässig, aber innerhalb einer Andacht durchgängig dieselbe
+  Übersetzung verwenden.
 
 ### Formale Struktur
 Ergebnis als fertige Markdown-Datei mit Frontmatter, exakt in diesem Aufbau

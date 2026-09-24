@@ -45,8 +45,9 @@ Dogmatismus – der Ton bleibt seelsorgerlich und persönlich, nicht akademisch.
 - Bibelverse werden ausgeschrieben zitiert (nicht nur referenziert), gern
   auch mehrere Querverweise zur Vertiefung – aber ohne den Haupttext zu
   überladen.
-- Bibelübersetzung: [TRAGE HIER EIN, z. B. Elberfelder / Schlachter 2000 –
-  bitte einheitlich für alle Zitate verwenden].
+- Bibelübersetzung: Schlachter 2000 oder Elberfelder CSV Hückeswagen – beide
+  sind zulässig, aber innerhalb einer Andacht durchgängig dieselbe
+  Übersetzung verwenden.
 
 ## Formale Struktur
 Liefere das Ergebnis als fertige Markdown-Datei mit Frontmatter, exakt in
@@ -91,6 +92,11 @@ aus deiner Nachricht übernommen – bei „Roger Libby“ bin ich mir relativ
 sicher, dass **Roger Liebi** gemeint ist, und habe das oben entsprechend
 geschrieben. Wenn eine der anderen Schreibweisen nicht stimmt, sag kurz
 Bescheid, dann korrigiere ich die Datei.
+
+## Bibelübersetzung
+
+Festgelegt: **Schlachter 2000** oder **Elberfelder CSV Hückeswagen**, beide
+gleichwertig zulässig, aber pro Andacht einheitlich.
 
 ## Herkunft der Struktur-Vorgaben
 
