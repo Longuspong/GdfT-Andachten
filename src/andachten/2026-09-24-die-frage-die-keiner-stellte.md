@@ -4,6 +4,7 @@ losung: "Und in diesem Augenblick kamen seine Jünger, und sie wunderten sich, d
 stelle: "Johannes 4,27"
 beschreibung: "Die Jünger wundern sich über Jesu Gespräch mit der Samariterin – und fragen trotzdem nicht nach. Über Vertrauen, wo wir Gottes Wege nicht sofort verstehen."
 schlagwoerter: ["Nachfolge", "Vertrauen", "Vorurteile", "Demut"]
+entwurf: true
 ---
 
 Die Jünger kommen vom Einkaufen zurück und finden eine Szene vor, die sie überrascht: Jesus, ihr Rabbi, sitzt am Brunnen und redet mit einer fremden Frau – noch dazu einer Samariterin. Johannes beschreibt ihre Reaktion knapp, aber treffend: „Und in diesem Augenblick kamen seine Jünger, und sie wunderten sich, dass er mit einer Frau redete; dennoch sagte keiner: Was willst du? oder: Was redest du mit ihr?"
