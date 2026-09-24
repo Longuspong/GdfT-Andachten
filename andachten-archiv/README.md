@@ -29,10 +29,27 @@ umgezogen ist.
 ## Aktueller Inhalt
 
 Bereits eingefügt ist eine fortlaufende Andachtsreihe durch das
-**Johannes-Evangelium** (bisher Kapitel 1–4, Einträge von Januar bis August 2026).
-Das Rohmaterial liegt wortgetreu im Ordner [`johannes/`](johannes/), aufgeteilt
-nach Bibel-Kapiteln. Ein vollständiges Verzeichnis (Datum → Bibelstelle) sowie
-eine Liste offener Punkte (z. B. Datums-Tippfehler) steht in
+**Johannes-Evangelium** (Kapitel 1–4 und 15, Einträge ab Januar 2026 bzw. aus
+2023). Das Rohmaterial liegt im Ordner [`johannes/`](johannes/), aufgeteilt
+nach Bibel-Kapiteln.
+
+Dazu kommt ein größerer, im September 2026 nachgelieferter Bestand an
+Andachten zu weiteren Bibelbüchern (Psalmen, Bergpredigt-Briefe, Propheten
+u. a., Einträge aus den Jahren 2022–2024), nach Buch in eigenen Unterordnern
+bzw. Einzeldateien abgelegt (`roemer/`, `psalmen/`, `offenbarung/`,
+`philipper/`, `jakobus/`, `1-mose/` sowie einzelne Dateien wie
+`hiob-vogelflug.md`, `amos-vogelflug.md`, `judas.md`, `titus-1.md`,
+`prediger-1.md`, `einzelnes-zum-gebet.md` usw.). Anders als beim
+Johannes-Rohmaterial wurde dieser Bestand vor der Ablage bereits **korrigiert**
+(Rechtschreibung/Tippfehler bereinigt, Telegram-Exportreste entfernt,
+Datumszeilen zu Überschriften gemacht) – Inhalt, Formulierungen und
+Reihenfolge blieben dabei unverändert. Zwei im Rohexport enthaltene Dateien
+wurden bewusst **nicht** übernommen, weil sie bereits vorhandenes Material
+1:1 doppelten (eine vollständig, eine teilweise) – Details dazu in
+[`UEBERSICHT.md`](UEBERSICHT.md).
+
+Ein vollständiges Verzeichnis aller Dateien (Buch → Datei → Zeitraum) sowie
+eine Liste offener Punkte (z. B. Datums-Tippfehler im Original) steht in
 [`UEBERSICHT.md`](UEBERSICHT.md).
 
 ---
