@@ -598,3 +598,654 @@ An dem Tag, "an welchem die Himmel sich in Glut auflösen und die Elemente vor H
 Offenbarung 21,1 und 2. Petrus 3,12
 
 ---
+
+## 09.06.2023 — Amos 4,1
+
+Bibellese: 2. Mose 24,1-18
+
+Amos 4,1 "Hört dieses Wort, ihr Kühe von Baschan auf dem Berg von Samaria, die ihr die Geringen bedrückt und die Armen mißhandelt und zu euren Herren sagt: Schaffe herbei, damit wir trinken können!"
+
+Kurz zusammengefasst geht es in Amos 1-3 um die Sünden der Nachbarvölker, der Stammesverwandten und des Volkes Gottes selbst. Ausführlich wird beschrieben, was das Vergehen und was die Strafe dafür ist. Nun im Kapitel 4 folgt eine der Bußpredigten in Amos.
+
+Die Kühe von Baschan, oder in anderen Übersetzungen auch "Basan", ist wieder ein starkes Bild aus der Natur. Das Bild bedient sich den Kühen, die auf dem Baschan-Plateau grasen und weiden. Das üppige Gebiet war und ist wieder ein Traum für jedes Weidetier.
+Die Stiere sind die Anführer, und die Kühe sind ihre Frauen.
+Wie auch schon in den vorherigen Versen macht Gott hier durch Amos klar, wer hier im Volk Israel die Sünder sind. Es sind die Frauen der Oberschicht, die im Hedonismus ertrinken und sich nur um sich selbst drehen. Wir sehen auch hier sofort Parallelen in unserer Zeit. Es geht nur noch um Alkohol, Genuss, Drogen, Selbstverherrlichung, Macht, Luxus und Lust. Seligkeit wird zur Dummheit degradiert. Aufrichtiger Verzicht wird verhöhnt. Ein vernünftiger Lebensstil wird als "spießig" verpönt.
+
+Mir ist vor allem in letzter Zeit aufgefallen, dass man alles Mögliche feiert. Überall macht man mit, jede Geburtstagsfeier wird riesig aufgezogen, jeder Anlass mit einer Party versehen. Und um was geht es dann am Ende? Um Gott, darum, dass wir ihm dankbar sind für das, was er uns schenkt? Oder geht es darum, dass wir eine schöne Zeit haben? Versteht mich nicht falsch, natürlich soll man seinen Geburtstag feiern, und natürlich ist es okay, Spaß mit Freunden und Familie zu haben, aber was steht dabei wirklich im Zentrum. Ich habe Bekannte, die wegen Corona leider keinen Junggesellenabschied feiern konnten. Klar, ist blöd gelaufen, aber muss man wirklich alles mitmachen als Christ? Offenbar gibt es welche, die es müssen, denn nach 2 Jahren und einer bereits geschlossenen Ehe wurde der Junggesellenabschied nachgeholt. Nachgeholt. Ein Junggesellenabschied.
+Ich meine, es ist nicht an sich Sünde, und ich will über niemanden urteilen, der sowas als wichtig empfindet, es nachzuholen, aber mal im Ernst... Muss das sein? Leben wir nüchtern? Können wir ein nüchternes Leben überhaupt noch ertragen? Brauchen wir nicht ein bisschen Skandal und ein bisschen Tamtam? Wie stark lassen wir uns von der Welt beeinflussen, die kein höheres Glück kennt als eine Sauf- und Fressorgie in Dauerschleife?
+
+Im evangelikalen Kontext ist das übrigens nicht anders. Wer besucht noch einen Gottesdienst ohne "Worship Service"? Wer kommt auch, wenn mal keiner das Klavier zum Begleiten des Gemeindegesangs spielen kann? Wer kommt noch am Sonntag in die Gemeinde für eine Auslegungspredigt? Wer kann einfach mal "nur" Bibel lesen ohne einen Kommentar oder ein Andachtsbuch?
+Klar, das ist nicht alles schlecht, was ich gerade aufgezählt habe, aber was gehört zu welcher Priorität? Was steht im Mittelpunkt?
+
+---
+
+## 10.06.2023 — Amos 4,4
+
+Bibellese: 2. Mose 25,1-20
+
+Amos 4,4 "Geht nur nach Bethel und sündigt, und in Gilgal sündigt noch mehr! Bringt nur jeden Morgen eure Opfer und am dritten Tag eure Zehnten!"
+
+Jemand hat mal zu mir gesagt: "Im Alten Testament war gottgefällig leben doch viel einfacher, man musste es eben einfach nur in den Terminplaner einspeichern. Die paar Opfer und die wenigen Abgaben... In anderen Völkern verlangten die Götzen teilweise mehr von ihren Anbetern als nur den zehnten Teil und ein Sühnungsopfer."
+
+Der Gedanke beruht auf einer leider sehr verbreiteten Irrlehre. Diese sagt aus, dass das Gesetz, was das Volk Israel bekommen hat, tatsächlich dazu bestimmt ist, diejenigen, die es einhalten, mit dem Leben zu belohnen. Das ist allerdings nicht der Fall. Das Gesetz kann nämlich von keinem Menschen (außer von Jesus) eingehalten werden. Und das wiederum würde bedeuten, dass es im Alten Testament nur um tote Buchstaben, um Aktionismus, um blinden Gehorsam geht. Das Gesetz soll die Menschen darauf aufmerksam machen, dass sie ohne Gott, ohne einen Retter, einen Messias, keine Chance haben. Diese Erkenntnis und das damit verbundene An-Gott-Wenden ist der eigentliche Sinn des Gesetzes. Die Formen und Rituale des alten Bundes waren dabei nur eine Unterstützung und ein äußerliches Zeichen dafür, was innerlich passiert.
+
+Die Israeliten dachten genauso, sie dachten, dass wenn sie immer fein ihre Opfer bringen und alle Feste feiern, dann wird Gott sie schon selig machen. Aber ein Opfer ohne die richtige Herzenshaltung ist nutzlos. Das lesen wir sehr deutlich im Propheten Micha und auch hier. Gott fordert die Menschen ironisch dazu auf, noch mehr zu sündigen, sich noch mehr von ihm abzuwenden.
+"Bringt nur jeden Morgen eure Opfer und am dritten Tag eure Zehnten"... dann wird schon alles gut werden. Wen kümmern schon ein paar unterdrückte arme Menschen, was soll schon dabei sein, ein bisschen unzüchtig zu leben? Was soll passieren, wenn wir gierig und wollüstig sind? Wir können doch am nächsten Morgen unsere Opfer treu und fromm zu Gott bringen. Hosea 6,6 "Denn an Liebe habe ich Wohlgefallen und nicht am Opfer, an der Gotteserkenntnis mehr als an Brandopfern."
+
+---
+
+## 11.06.2023 — Amos 4,7
+
+Bibellese: 2. Mose 25,21-40
+
+Amos 4,7 "Dafür habe ich euch auch blanke Zähne gegeben in allen euren Städten und Mangel an Brot an allen euren Orten; und dennoch seid ihr nicht zu mir umgekehrt! spricht der Herr."
+
+Wir haben es erst vor wenigen Tagen in 2. Mose 16 gelesen, was in 5. Mose 8,3 erklärt wird: "Und er demütigte dich und ließ dich hungern und speiste dich mit dem Manna, das weder du noch deine Väter gekannt hatten, um dich erkennen zu lassen, daß der Mensch nicht vom Brot allein lebt, sondern daß er von all dem lebt, was aus dem Mund des Herrn hervorgeht."
+
+Die Israeliten haben vor nicht allzu langer Zeit in einer großen Hungersnot gesteckt. Der Krieg und die dauernde Bedrohung des assyrischen Reiches hatten verhindert, dass gesät werden konnte. Gott schenkte ihnen also "blanke Zähne". Klar, wer nichts isst, macht seine Zähne auch nicht dreckig. Aber was passierte noch bei den Vätern der Israeliten? So schnell konnte Mose gar nicht gucken, da haben die Israeliten gemurrt, dass sie hungrig und durstig sind. Und nachdem sie von Gott versorgt wurden mit Manna, haben sie an ihn geglaubt und ihn angebetet. Dieses Schreien zu Gott, diese verzweifelte Hinwendung fehlt hier in Amos komplett. Die Israeliten sind völlig im Tunnelblick. Dass dieses Gericht, was sie vor der aktuellen Wohlstandsperiode erlebt haben, von Gott kommen könnte, daran dachte niemand. Also schickte Gott eine Wohlstandsperiode, aber nicht als Segen, sondern als Fluch (siehe Amos 2,13, der überladene Karren). Tut das Volk Buße? Weit gefehlt.
+
+Aber wir wollen nicht schlecht über das Volk Israel sprechen. Wir wollen lernen, was das über uns aussagt und über geistliche Prinzipien. Ich denke, es ist durchaus nachvollziehbar, dass wir heute auch von Gott versorgt werden. Er gibt uns nicht nur unser tägliches Brot, sondern er versorgt uns auch mit Predigten, und er hat uns sein geschriebenes Wort gegeben. Gott will, dass wir in der Bibel lesen und dass wir Predigten hören, die das verkünden, was wir aus der Bibel lesen und folgern können. Aber... essen wir auch genug? Im Bilde gesprochen natürlich. Hören wir Predigten noch aufrichtig? Sprechen wir noch das Gebet "Herr, sprich, dein Knecht hört"? Lesen wir jeden Tag die Bibel?
+Frühstücken wir genauso ausgiebig, wie wir in der Bibel lesen? Und wenn wir kaum Nahrhaftes auf unserem Teller haben, schreien wir dann zu Gott? Oder resignieren wir mit der "ist eben Endzeit"-Ausrede? Sind unsere Prediger immer mehr zu fadem Tofu geworden? Oder haben wir sie vielleicht auch dazu gemacht, indem wir mit dem Zeitgeist gegangen sind? Oder fordern wir noch gesundes Schwarzbrot, wo man auch mal fest zubeißen muss und etwas mehr Zeit zum Verdauen braucht? Wie sehen unsere Zähne aus? Sind sie blitzeblank?
+
+Ich habe mal einen älteren Bruder sagen hören: "man kann auch zu viel Bibelwissen anhäufen, und wenn man zwar viel im Kopf hat, aber nichts im Herzen, nützt das auch nichts". Das stimmt, die Bibel ist viel mehr als ein Sachbuch, was man auswendig lernen soll, die Bibel ist lebendiges und heiliges Wort Gottes. Man ist nie "fertig" mit Bibellesen. Aber ich glaube nicht, dass das in unseren Breitengraden ein Problem ist. Ich glaube, wir lesen nicht zu viel, eher im Gegenteil. Im Bilde gesprochen denke ich, dass wir eher an Magersucht leiden als an Adipositas.
+
+Wie ist das bei dir? Hast du geistlichen Hunger? Wirst du satt, oder merkst du, dass etwas fehlt?
+Ruf zu Gott, bitte um die rechten Augen, er wird dir dein tägliches Brot geben.
+
+---
+
+## 12.06.2023 — Amos 4,12
+
+Bibellese: 2. Mose 26,1-18
+
+Amos 4,12 "Darum will ich so mit dir verfahren, Israel! Weil ich denn so mit dir verfahren will, so mache dich bereit, deinem Gott zu begegnen, Israel!"
+
+Also, wenn ihr euch aus Amos nur einen einzigen Vers merken wollt, dann diesen. Es ist die Zusammenfassung und die Absicht Gottes mit der Prophetie im Buch Amos.
+
+Gott lässt seinem Volk sagen, dass sie viele Chancen hatten umzukehren. Diese werden im Kapitel 4 alle benannt, und es hatte noch mehr gegeben. Aber Israel ist nicht umgekehrt, und wenn, dann immer nur für eine kleine Zeit. Spätestens nach einer Generation war der Götzendienst wieder gang und gäbe. Aber Gott wird das letzte Wort haben.
+
+Nun stellt sich für uns auch die Frage: Wie bereiten wir uns denn darauf vor, unserem Gott zu begegnen? Wie können wir Gott, vor dem wir als arme Sünder stehen, und ohne dessen Gnade wir vor seinem Angesicht vergehen würden, wie können wir ihm begegnen? Mehr dazu morgen.
+
+---
+
+## 13.06.2023 — Amos 4,13
+
+Bibellese: 2. Mose 26,19-36
+
+Amos 4,13 "Denn siehe, der die Berge bildet und den Wind schafft und den Menschen wissen läßt, was seine Gedanken sind, der das Morgenrot und das Dunkel macht und einherschreitet über die Höhen der Erde – Herr, Gott der Heerscharen ist sein Name."
+
+Was ist das nur für ein kraftvoller Vers. Der die Berge bildet und den Wind schafft...
+In der Grundschule hat mal eine Lehrerin im Sachkundeunterricht gefragt, ob die Kinder denken, dass Menschen Wolken herstellen können. Ich sagte als einziger in meiner Klasse, dass das nur Gott kann. Alle anderen Kinder und auch die Lehrerin waren überzeugt, dass Menschen das können. Mit der Kraft der Wissenschaft. Die Lehrerin holte dann einen Wasserkocher und erklärte, dass Wolken im Prinzip Wasserdampf sind. Als Kind konnte ich natürlich noch nicht erklären, dass eine Wolke ja etwas anderes ist und dass Gott den Wasserkreislauf geschaffen hat. Aber eins konnte ich sagen, nämlich, dass, wenn das eine Wolke sein soll, unsere Fähigkeiten, Wolken zu erschaffen, ja lächerlich sind.
+
+Ich glaube, diese kleine Geschichte bringt es gut auf den Punkt:
+Wie macht man sich bereit, Gott zu begegnen? Man muss erkennen, dass man vor Gott winzig klein ist. Nichtig. Winzig. Gott hat alles geschaffen, und ihm ist nichts unmöglich. Das macht uns demütig.
+
+Gott, der die "Menschen wissen läßt, was seine Gedanken sind", will, dass wir erkennen, was ihm gefällt. Wir sollen nach seinem Willen leben und seinen Willen erkennen. Wie viele Prediger habe ich schon sagen hören: "manchmal können wir Gottes Willen gar nicht oder erst zu spät erkennen...".
+Das ist einfach nicht biblisch. Hier steht es schwarz auf weiß. Gott will den Menschen seinen Willen offenbaren!
+Ich höre jetzt schon einige sagen "ja, bla blubb, das war doch Altes Testament..."
+Okay, mal abgesehen davon, dass wir schon in den ersten zwei Versen gesehen haben, dass diese Prophetie nicht nur für Israel gilt, können wir diese "These" ganz einfach widerlegen.
+2. Timotheus 3,16 "Alle Schrift ist von Gott eingegeben und nützlich zur Belehrung, zur Überführung, zur Zurechtweisung, zur Erziehung in der Gerechtigkeit..."
+Und außerdem Römer 12,2 "Und paßt euch nicht diesem Weltlauf an, sondern laßt euch [in eurem Wesen] verwandeln durch die Erneuerung eures Sinnes, damit ihr prüfen könnt, was der gute und wohlgefällige und vollkommene Wille Gottes ist."
+
+Mach dich bereit, deinem Gott zu begegnen, er kann jederzeit kommen. Wie oder bei was wird er dich wiederfinden?
+
+---
+
+## 14.06.2023 — Amos 5,1
+
+Bibellese: 2. Mose 27,1-21
+
+Amos 5,1 "Hört dieses Wort, dieses Klagelied, das ich über euch anstimme, ihr vom Haus Israel!"
+
+Wer mich kennt, weiß, was jetzt kommt: Israel, Juda, Jakob, Gemeinde... Was dürfen wir denn nun direkt auf unsere Zeit beziehen?
+
+Wer es bisher noch nicht getan hat: lies das ganze Buch des Propheten Amos. Es ist wirklich herrlich, auch ohne theologische Vorkenntnisse sind die Bilder und Symbole aus der Natur einfach wunderbar. Mächtig, ja fast schon majestätisch wird beschrieben, wer Gott ist und was er denkt.
+Wir lesen von Gerichtsankündigung, vom Ruf zur Umkehr und Buße, von der Zerstörung, die kommen wird, und vom Segen. Wir lesen vom Segen über das Volk Gottes. Wichtig ist, dass wir genau unterscheiden, wo das irdische Volk Gottes gemeint ist und wo das himmlische Volk. Wie können wir da aber unterscheiden, ohne willkürlich zu entscheiden, was für wen gilt? Wir nehmen wieder unsere beiden Grundsätze zur Hand, die für das gesamte Bibellesen wichtig sind.
+1. Wo die Bibel wörtlich einen Sinn ergibt, ist sie wörtlich gemeint
+2. Lies niemals nur einen Vers, sondern immer auch den Kontext.
+Diese zwei grundlegenden Regeln beim Lesen der Bibel machen uns klar, was wir für uns heute noch aus den Texten lesen können und was "nur" für das Volk Israel gültig war.
+
+Gehören wir Christen zum Haus Israel? Technisch gesehen sind wir doch in Christus, oder? Und unser Leben und unser Lebenswerk bedarf auch an manchen Stellen eines Klageliedes. Wir sind ja nicht viel besser als Israel. Kaum geht es uns mal zu gut, regen wir uns über die kleinsten Kleinigkeiten auf. Wir murren gegen Gott, weil wir zu wenig Vertrauen haben.
+Aber sind wir gemeint mit "Israel"? Die kurze und logische Antwort ist: "Nein, wir sind keine Israeliten nur weil wir an Jesus glauben". Zu behaupten, dass Christen durch ihren Glauben zu geistlichen Israeliten werden, ist schlicht und ergreifend ganz, ganz schlechte Exegese. Das sollte selbst einem ungeschulten, einfachen Bibelleser auffallen. Außerdem hat uns Gott einen Verstand gegeben, mit diesem sollten wir auch zu demselben Schluss kommen. Überall, wo es um Israel geht, wird übrigens das Wort für Israel benutzt, und wo es um Heiden geht, da steht das Wort "Gojim", was einfach nur bedeutet "Volk oder Person außerhalb des Volkes Israel".
+
+Gut, dieses Klagelied in Amos 5 ist also nicht der Gemeinde gewidmet. Können wir dann trotzdem davon lernen? Natürlich! Wenn Gott sagt, dass er es bestrafen wird, wenn die Reichen und Mächtigen die Armen unterdrücken, dann gilt das geistliche Prinzip natürlich immer noch. Wenn wir also heute in einer Position sind, anderen in der Gesellschaft entweder finanziell oder sozial zu helfen, dann sollten wir das tun. Lasst uns nicht blind sein für die Weisheit und den Willen Gottes. Lasst uns die prophetischen Texte lesen unter der Prämisse, dass wir zwar nicht Israel sind, aber dass wir etwas über Gott und über Israel lernen können, was auch heute noch stimmt.
+
+---
+
+## 15.06.2023 — Amos 5,2
+
+Bibellese: 2. Mose 28,1-21
+
+Amos 5,2 "Sie ist gefallen und kann nicht wieder aufstehen, die Jungfrau Israel; hingestreckt liegt sie auf ihrem eigenen Land, niemand richtet sie auf."
+
+Israel, die Jungfrau, dieses Bild zieht sich durch viele Stellen in der Bibel. Vor allem die Jungfrau hat eine tiefere Bedeutung als einfach nur "junge Frau" oder "Jungfrau".
+Jeremia 31,21 "Setze dir Wegweiser, stelle dir Meilensteine auf; richte dein Herz auf die gebahnte Straße, auf den Weg, den du gegangen bist! Kehre um, Jungfrau Israel, kehre um zu diesen deinen Städten!"
+
+Jeremia ruft der Jungfrau zu, dass sie umkehren soll, Amos beschreibt, dass die Jungfrau gefallen ist. Ich stelle mir die Frage, was die Besonderheit an einer Jungfrau ist. Was macht es aus, dass gerade dieses Bild benutzt wird? Denn offensichtlich ist Israel ein Volk und keine Jungfrau.
+
+2. Mose 22,15 "Wenn ein Mann eine Jungfrau verführt, die noch nicht verlobt ist, und er liegt bei ihr, so muß er sie sich durch Bezahlung des Brautpreises zur Ehefrau nehmen."
+Es gibt für eine Jungfrau ein "zu spät"!
+Wenn sie mit einem Mann geschlafen hat, dann ist es vorbei mit ihrem Dasein als Jungfrau. Das ist der Lauf der Dinge. Jetzt ist es also noch nicht zu spät. Israel hätte zu diesem Zeitpunkt noch umkehren können. Auch wenn sie aktuell einen finsteren Weg eingeschlagen haben. Sie haben die Warnungen ignoriert. Sie sind eigensinnig in die Falle des Satans gelaufen, direkt in den Götzendienst und in Sünde.
+Aber wenn sie nur auf Amos gehört hätten, die Niniviten haben es doch vorgemacht, sie taten Buße und wurden aus Gnade verschont.
+
+Wie verhalten wir uns? Sind wir einsichtig, wenn der Heilige Geist uns von unserer Sünde überführt? Nutzen wir unsere Chance? Leben wir ein Leben im Gebet? Oder verlaufen wir uns im Leben immer wieder und finden uns in Situationen wieder, in denen wir nicht mehr beten können?
+
+---
+
+## 16.06.2023 — Amos 5,4
+
+Bibellese: 2. Mose 28,22-42
+
+Amos 5,4 "Denn so spricht der Herr zum Haus Israel: Sucht mich, so werdet ihr leben!"
+
+Es ist NOCH Gnadenzeit. Was bedeutet das? Es bedeutet, dass jeder Mensch, egal wo er herkommt oder was er bisher erlebt hat, jetzt noch die Gnade Gottes erfahren kann. Was müssen wir machen, um die Gnade Gottes zu erfahren? Nichts! Wir können uns die Gnade ja eben gerade nicht verdienen, sonst wäre es ja "Recht" und keine Gnade. Wir dürfen die Gnade als Geschenk annehmen. Wir nehmen Jesus Christus als Retter an. Als Retter wovor? Vor dem Gericht! Was wird gerichtet? Unsere Werke! Wir sind schuldig, überaus groß ist unsere Schuld, die wir vor Gott haben. Jesus hat für diese Schuld am Kreuz bezahlt mit seinem heiligen und kostbaren Blut. Der, der sich nichts hat zuschulden kommen lassen, bezahlt den höchsten Preis, er bezahlt mit seinem eigenen Leben. Brauchen wir diese Rettung? Sind wir wirklich so "böse"?
+Diese Frage kann sich jeder selbst beantworten. Ich für meinen Teil muss leider "Ja" sagen. Ich bin kein guter Mensch, ich habe gesündigt und sündige jeden Tag. Ich bin in meinen Sünden geistlich tot gewesen, aber ich habe die rettende Hand Jesu ergriffen und habe mein Leben in seine Hände gelegt. So wurde sein Tod mir zugerechnet.
+
+"Sucht mich"
+Gibt es Gott? Das ist doch eine der wichtigsten Fragen, wenn nicht DIE wichtigste Frage der Welt. Dabei ist uns die Antwort doch aufs Herz geschrieben. Prediger 3,11 "Er hat alles vortrefflich gemacht zu seiner Zeit, auch die Ewigkeit hat er ihnen ins Herz gelegt – nur daß der Mensch das Werk, das Gott getan hat, nicht von Anfang bis zu Ende ergründen kann."
+
+Was ist Leben? Ist Leben nicht einfach die Abwesenheit von Tod? Was ist Tod? Sind wir Lebende oder Sterbende? Ein kluger Mann hat mal gesagt: "mit jeder Sekunde unseres Lebens nähern wir uns unserem Tod ein kleines bisschen. Wir wissen nie, wann es vorbei ist. Eines ist Fakt, in 100 Jahren lebt keiner mehr von uns. Sind wir dann nicht viel mehr Sterbende als Lebende? Wenn das aber stimmt, wie können wir dann wirklich leben?"
+Johannes 3,16 "Denn so [sehr][4] hat Gott die Welt geliebt, daß er seinen eingeborenen Sohn gab, damit jeder, der an ihn glaubt, nicht verlorengeht, sondern ewiges Leben hat."
+Es heißt "sondern ewiges Leben HAT." Es heißt hier nicht "haben wird". Das ewige Leben, das wahre Leben beginnt mit der Errettung durch Jesus Christus. Durch Gott.
+
+So könnte man sagen, dass unser heutiger Vers eine alttestamentliche Version von Johannes 3,16 ist.
+
+"Sucht mich, so werdet ihr leben!"
+Wirklich leben. Ewig leben!
+Wie suchen wir Gott? Wo suchen wir Gott? Wann suchen wir Gott? Suchst du noch? Oder lebst du schon?
+
+---
+
+## 17.06.2023 — Amos 5,7
+
+Bibellese: 2. Mose 29,1-23
+
+Amos 5,7 "Ihr verwandelt das Recht in Wermut und stoßt die Gerechtigkeit zu Boden."
+
+Das Thema "Wahrheit" haben wir ja schon einige Male betrachtet. Ich möchte heute trotzdem darüber reden, denn es passieren in dieser Welt jeden Tag Ungerechtigkeiten. Es werden immer mehr Gesetze erlassen, die, aus Gottes Perspektive, Unrecht und Bosheit zulassen und Gutes bestrafen.
+
+Es gibt ein lateinisches Sprichwort, welches wie folgt geht: "Errare humanum est, sed in errare perseverare diabolicum."
+Dieses Sprichwort kommt von dem Kirchenvater Sophronius Eusebius Hieronymus. Es bedeutet so viel wie "irren ist menschlich, aber an diesen Irrtümern festzuhalten ist teuflisch".
+Eusebius will damit klarmachen, dass wir Menschen nicht zu viel von uns und unserer Erkenntnis halten sollen und dass wir zu jeder Zeit bereit sind, uns korrigieren zu lassen. Natürlich muss die Korrektur immer von der Bibel her kommen, aber dass wir Korrektur brauchen, das sollte uns in Demut bewusst sein.
+
+Was passiert nun in unserer Gesellschaft? Es werden Lügen verbreitet. Offensichtliche Lügen. Und jeder weiß, dass es Lügen sind. Und trotzdem wird daran festgehalten bis zum bitteren Ende. Das ist teuflisch!
+Sprüche 16,2 "Alle Wege des Menschen sind rein in seinen Augen, aber der Herr prüft die Geister."
+In unseren Augen, in der menschlichen Sicht, mag hinter diesen Lügen eine ehrbare Sache stehen, aber in den Augen Gottes wird der falsche Geist dahinter enttarnt.
+Epheser 2,2 "in denen ihr einst gelebt habt nach dem Lauf dieser Welt, gemäß dem Fürsten, der in der Luft herrscht, dem Geist, der jetzt in den Söhnen des Ungehorsams wirkt;"
+
+Wie steht es mit uns? Grenzen wir uns vom Geist dieser Welt ab? Oder spielen wir im Sandkasten mit den Kindern des Ungehorsams?
+Das ist schon eine schwierige Frage. Wir sollen ja in die Welt gehen und zu Jüngern machen alle Völker. Aber wir sollen uns eben auch nicht vermischen mit dem Teig der Pharisäer.
+
+---
+
+## 18.06.2023 — Amos 5,13
+
+Bibellese: 2. Mose 29,24-46
+
+Amos 5,13 "Darum muß der Kluge zu dieser Zeit schweigen; denn es ist eine böse Zeit."
+
+Gleich eine kleine Bemerkung vorweg: Wenn es in dem Vers heißt, dass der Kluge schweigen muss, dann ist das keine Empfehlung an kluge Menschen, in solchen Zeiten den Mund zu halten, sondern es ist eine Anklage an die Menschheit, dass klugen Menschen das Wort verboten wird und sie zum Schweigen gebracht werden. Sich als kluger Mensch für einen einfachen einzusetzen, ist nie falsch, gegen Unrecht seine Stimme zu erheben, ist von Gott sogar verordnet!
+
+Wenn wir uns in den Medien umschauen, merken wir schnell, dass vor allem zwei Dinge unsere Gesellschaft prägen. Erstens: viele Menschen, die so reden, als wären sie klug, sprechen unerhörten Unsinn. Und zweitens: diejenigen, die ihre Stimme gegen Erstere erheben, werden "gecancelt". Ihnen wird das Sprechen untersagt, sie werden am Wort gehindert. Bildlich gesprochen wird ihnen der Mund zugehalten. Das kann einem schon mal den Atem nehmen.
+
+Ein großer Teil unserer heutigen Themen ist entweder sehr stark politisch aufgeladen, oder sie sind beherrscht von einer Lüge, die durch eine scheinbare Autorität bestätigt wurde. Evolution zum Beispiel. Wie viele Menschen denken auch heute noch, dass Evolution unter Wissenschaftlern die am meisten verbreitete Theorie zur Entstehung der Erde ist. Dabei ist das weit gefehlt. Außerdem basiert die Evolution auf einer Lüge. Corona ist ebenfalls so ein Thema. Es ist schlicht und ergreifend mit Absicht so politisch und emotional aufgeladen worden. Und beide (ich nenne sie mal vorsichtig so) Seiten haben jeweils zur Verschärfung dieser Thematik beigetragen. Klar passiert immer viel Unrecht, egal um welches Thema es gerade geht. Die Frage ist, wie wir uns verhalten. Legen wir immer alles daran, dass Gott verherrlicht wird, oder legen wir alles daran, dass wir selbst am besten dastehen?
+
+---
+
+## 19.06.2023 — Amos 5,17
+
+Bibellese: 2. Mose 30,1-38
+
+Amos 5,17 "Und in allen Weinbergen wird Wehklage erschallen; denn ich will mitten durch euch dahinschreiten! spricht der Herr."
+
+Wehe, wehe! Ich muss immer an kleine Kinder denken, woanders her kenne ich "wehe dir" als Redewendung nicht. Irgendwie ist das schade, denn damit geht mir ein großer Teil eines Wortschatzes verloren. Es ist eine Drohung, so viel steht fest, aber was bedeutet eigentlich "wehe"? Wehe kommt von weh, also von Schmerz. Die schlimmsten Schmerzen, die ein Mensch erleben kann, sind die Wehen. Wörtlich übersetzt heißen die stoßartigen Muskelkontraktionen, die den Geburtsvorgang einleiten, "Schmerz". Man könnte an den Stellen, wo "wehe dem" oder Ähnliches steht, auch übersetzen mit: "es wird einen grausamen Schmerz haben, wer...".
+
+Die Israeliten sollen auf allen Straßen rufen "wehe, wehe!". Können wir uns das vorstellen? Eine Nation, die feste feiert und nach Alkohol verlangt, die in ihren Lüsten schwimmt, dass so eine Nation die Party abbrechen soll und schlimmen Schmerz erwarten soll? Wie würde das heute aussehen?
+
+In allen Weinbergen wird Wehklage erschallen... Weinberge, also der Ort, an dem das begehrte, lockermachende Getränk hergestellt wird. Sozusagen die Quelle des Rausches. Für den einen mag das die Gerüchteküche sein, für den anderen das Drogenlabor, wieder andere haben Lust an nackten Frauen oder Männern. Der Ort, der unsere Lust weckt, das ist der Weinberg! Für Eva war es der Baum der Erkenntnis. Für Noah war es ein tatsächlicher Weinberg, für Mose war es sein Gerechtigkeitssinn, für Abraham war es der Wunsch, endlich Vater zu werden, für Jakob war es der Wunsch nach Anerkennung. Wir alle haben einen Erdenmagneten. Ein Ort, an den es uns zieht. An den uns die Sünde ziehen will. Dieser Ort wird uns aber Schmerzen bereiten, es sei denn, dieser Ort ist in den starken Armen Jesu. Hast du über dein altes Leben schon geklagt? Hast du einen Punkt der Umkehr und Hinwendung zu Gott erleben dürfen?
+
+Gott kommt, er kommt nicht als Retter. Er kommt als Richter. Bist du bereit, ihn zu treffen? Entweder du hast schon, oder du wirst noch Wehklage ausrufen, wenn nicht bevor Jesus kommt, dann in Ewigkeit.
+
+---
+
+## 20.06.2023 — Amos 5,18
+
+Bibellese: 2. Mose 31,1-18
+
+Amos 5,18 "Wehe denen, die den Tag des Herrn herbeiwünschen! Was soll euch der Tag des Herrn?"
+
+Die Israeliten erwarteten, dass der Messias kommen würde. Sie riefen begeistert "der Tag des Herrn soll kommen!". Auch wir erwarten das Kommen des Messias, allerdings erwarten wir das zweite Kommen, das Kommen in Macht und Herrlichkeit, als König und Richter. Und wir freuen uns auf diesen Tag, denn wie es in Lukas 21,28 geschrieben steht "Wenn aber dies anfängt zu geschehen, so richtet euch auf und erhebt eure Häupter, weil eure Erlösung naht."
+
+Unsere Erlösung ist nahe! Sind wir nicht schon erlöst? Ja, aber wir haben noch nicht die volle Erlösung, noch wohnen wir mit der Sünde im selben "Haus". Aber das wird ein Ende haben. Warum können wir uns freuen? Weil Jesus zwar für alle anderen als Richter kommt, nicht aber für uns, denn für uns ist er bereits einmal auf der Erde gewesen, und zwar wie er in Johannes 12,47 sagte "Und wenn jemand meine Worte hört und nicht glaubt, so richte ich ihn nicht; denn ich bin nicht gekommen, um die Welt zu richten, sondern damit ich die Welt rette."
+
+Wer Jesus aber nicht als Retter hat, der wird ihn als Richter spüren!
+Nun macht die Aussage in unserem heutigen Vers auch Sinn! Warum sollten die Israeliten den Tag ihres Gerichtes herbeiwünschen? Nur deshalb, weil sie denken, dass sie verschont bleiben, nur deshalb, weil sie denken, dass ihre Stellung als Gottes Volk sie vor gerechtem Urteil schützt, aber das ist leider falsch. Unsere Sünden, unsere Schuld müssen bezahlt werden. Dafür gibt es nur eine Rettung! Der Messias!
+
+Die Israeliten sind moralisch und ethisch total verkommen. Sie denken, sie können die Gnade Gottes nicht verlieren, und sündigen deshalb munter weiter! Was ist nur aus dem Israel geworden, was am Berg Sinai zitternd Gott fürchtete? Was ist aus ihnen geworden? Treulose Weltmenschen, die sich von anderen Völkern nur darin unterscheiden, dass sie sich äußerlich als rein erachten und ihre Kinder beschneiden. Sie bringen die Kinder in einen Bund ein, den sie vor langer Zeit mit Gott geschlossen haben und vor langer Zeit gebrochen.
+
+Wünschen wir uns den Tag des Herrn? Freuen wir uns zurecht auf diesen Tag?
+
+---
+
+## 21.06.2023 — Amos 5,19
+
+Bibellese: 2. Mose 32,1-35
+
+Amos 5,19 "Er wird Finsternis sein und nicht Licht, wie wenn jemand vor dem Löwen flieht und ihm ein Bär begegnet, und wenn er heimkommt und sich mit der Hand an die Wand lehnt, so beißt ihn eine Schlange!"
+
+Das ist schon ein sehr beängstigendes Bild, was Amos hier nutzt, um zu sagen, dass die Israeliten sich täuschen, wenn sie denken, sie könnten dem Zorn Gottes entfliehen. Sie erwarten das zweite Kommen des Herrn vor dem ersten, sie erwarten einen König, bevor der Retter kommt. Der König nützt ihnen nichts, wenn er nicht vorher ihr Retter wird. Aber wie? Jesus war doch zur Zeit des Amos noch nicht auf Erden, oder? Wenn du dir diese Frage schon von selbst gestellt hast, dann hast du etwas sehr Grundlegendes verstanden, und diese Frage ist eine sehr gute Frage. Was machen denn die Israeliten falsch, wenn sie doch noch nicht die Gnade Gottes hätten in Anspruch nehmen können, Jesus war ja noch nicht gestorben...
+Jakobus 2,23 "Und so erfüllte sich die Schrift, die spricht: »Abraham aber glaubte Gott, und das wurde ihm als Gerechtigkeit angerechnet«, und er wurde ein Freund Gottes genannt."
+
+Ganz einfach: der Glaube rettet, egal ob chronologisch vor oder nach dem Kreuzestod Jesu, der Glaube ist rettend.
+
+Die Israeliten rennen vor einem Löwen weg, direkt der nächsten Gefahr in die Arme. Und wenn sie denken, sie sind sicher, zuhause, und sich erschöpft an die Wand lehnen, beißt sie die Schlange!
+1. Thessalonicher 5,3 "Wenn sie nämlich sagen werden: »Friede und Sicherheit«, dann wird sie das Verderben plötzlich überfallen wie die Wehen eine schwangere Frau, und sie werden nicht entfliehen."
+
+Völlig verblendet. Aber das gilt ja nur für die Israeliten, oder? Oder gibt es auch heute eine Gruppe von Menschen, die sich in Sicherheit wiegen, obwohl sie verloren sind? Oh ja, diese Gruppe gibt es, und sie ist der größte Teil der Menschen, die sich "Christen" nennen.
+Matthäus 7,22 "Viele werden an jenem Tag zu mir sagen: Herr, Herr, haben wir nicht in deinem Namen geweissagt und in deinem Namen Dämonen ausgetrieben und in deinem Namen viele Wundertaten vollbracht?"
+Und was ist die Antwort Jesu auf diese Frage? Die gleiche oder eine ähnliche wie hier in Amos 5: was wünscht ihr euch den Tag des Herrn herbei? Für euch wird er nur Finsternis bringen!
+
+---
+
+## 22.06.2023 — Amos 5,22
+
+Bibellese: 2. Mose 33,1-23
+
+Amos 5,22 "Wenn ihr mir auch euer Brandopfer und Speisopfer darbringt, so habe ich doch kein Wohlgefallen daran, und das Dankopfer von euren Mastkälbern schaue ich gar nicht an."
+
+Was genau hasst Gott hier? Sind es wirklich die Opfer? Die hat er doch selbst eingeführt!
+Nein! Es ist das Motiv, was hinter den Opfern steckt, das hasst Gott.
+Die Israeliten opferten Brand- und Speiseopfer zur Versöhnung. Aber wie auch schon bei Kain kommt es nicht auf das Opfer an, sondern auf die Herzenshaltung. Heuchelei und toter Orthodoxismus sind Gott schon immer ein Gräuel. Er hasst es.
+Gerade die Orthodoxie ist es aber, die in der heutigen Zeit einen riesengroßen Aufschwung erlebt. Die sogenannten neo-orthodoxen Kirchen bilden eine Falle für alle Christen, die nach einer bibeltreuen Gemeinde suchen, denn nach außen hin sehen die neo-orthodoxen Kirchen bibeltreu aus, und ihre Glaubensbekenntnisse sind auch wasserdicht und lassen auf Bibeltreue schließen. Aber es ist wie bei einem verfaulten Ei, man sieht es erst, wenn man hineinschaut, ins Innere, und was sich da offenbart, das stinkt bis zum Himmel. Gerade in der evangelikalen Landschaft gibt es unzählige Gemeinden, die zwar an biblischen Fundamenten, wie die Irrtumslosigkeit der Bibel und der Errettung durch Glauben, festhalten, aber diese nicht aktiv ausleben. So sagte eine Pastorin einer Gemeinde, dass sie alles zu 100% als wahr befinde, was in der Bibel steht. Das ist ein schöner Satz, aber wenn man sich nicht daran hält und Frauen zu Pastorinnen ernennt, dann nützt der schöne Satz auch nichts.
+
+Heuchelei und Unaufrichtigkeit hasst Gott. Es ist besser, sich gegen Gott zu entscheiden, als zu sagen, man wäre für Gott, ist es aber nicht.
+2. Petrus 2,21 "Denn es wäre für sie besser, daß sie den Weg der Gerechtigkeit nie erkannt hätten, als daß sie, nachdem sie ihn erkannt haben, wieder umkehren, hinweg von dem ihnen überlieferten heiligen Gebot."
+
+---
+
+## 23.06.2023 — Amos 5,23
+
+Bibellese: 2. Mose 34,1-35
+
+Amos 5,23 "Tue nur hinweg von mir den Lärm deiner Lieder, und dein Harfenspiel mag ich nicht hören!"
+
+Gestern haben wir über die Motive der Israeliten nachgedacht. Wir sehen, dass es Gott nicht um Äußerlichkeiten geht, sondern um die Herzenshaltung. Heuchelei und tote Orthodoxie gefallen Gott überhaupt nicht, im Gegenteil, es ist ihm ein Gräuel.
+
+Heute geht es um Musik. Dieses Thema ist leider gerade unter den Evangelikalen ein großes Thema. Und wie bei allen Themen, die der Teufel nutzt, sind die Leidtragenden die jungen Leute. Es wird kaum noch biblische Lehre zum Thema Musik von der Kanzel gepredigt. Einige sagen, es wäre irrelevant, über so ein Randthema zu sprechen, andere sagen "Musik ist von Gott geschaffen und somit immer gut". Wieder andere sagen, man dürfe nur die Lieder der Bibel, also die Psalmen, singen. Leider ist keine dieser Ansichten konform damit, was die Bibel uns über Musik sagt. Und ja, ich meine "Musik", nicht nur den Lobpreis. Denn eines ist völlig klar: wenn wir an den Schöpfergott glauben, glauben wir auch an den Gott, der auch die Musik geschaffen hat, und den Menschen hat er mit Gaben versehen. Mit der Gabe, zu denken, zu reden und Musik zu machen (und vielem anderen).
+
+Einige Christen, die es auch ernst meinen, sagen, es stünde so wenig zum Thema Musik in der Bibel, andere sagen, das, was zum Thema Musik in der Bibel stehen würde, sei für unsere Zeit heute sehr ungenau. Beides ist natürlich Quatsch. Gott offenbart sich uns Menschen in seinem Wort! Und das macht er doch nicht so, dass wir ihn nicht verstehen, warum sollte er das tun? Gott offenbart sich im geschriebenen Wort uns gegenüber, und völlig verständlich! Dieses Thema habe ich schon oft aufgemacht, und ich habe (vor allem von sogenannten "Ältesten") viel Kritik für diese Ansicht bekommen, aber ich bin der Meinung, dass die Bibel nicht schwer zu verstehen ist. Wir wollen bloß oft nicht wahrhaben, was sie meint.
+
+Thema Musik. Welche Musik ist in Ordnung, welche Musik ist nicht in Ordnung? Leider fehlt mir die Zeit und der Platz, das hier detailliert zu erörtern. Ich werde in der nächsten Abstimmung das Thema Musik mit zur Wahl stellen, wenn es einige interessiert, nehme ich mir gern die Zeit. Nur einen Punkt möchte ich heute als Impuls weitergeben:
+"Tue nur hinweg von mir den Lärm deiner Lieder"!
+Ist es Lärm? Was ist überhaupt Lärm? Da gibt es natürlich viele kluge Definitionen. Mir reicht es, wenn wir uns darauf einigen, dass Lärm etwas ist, was über "laut" hinausgeht. Wenn Musik also Lärm ist, dann ist es nicht gut. In einigen Versammlungsorten des ICF bekommt man vor dem Gottesdienst kleine Ohrstöpsel, damit man, wenn man in der ersten Reihe sitzt, keinen Hörschaden bekommt. Ist das Lärm? Ja! Es ist Lärm, und zwar eindeutig. Das ist Gott ein Gräuel. Er hasst es! Ich möchte erinnern, dass es selten ist, dass Gott zu etwas sagt, dass er es hasst. Gott hasst zum Beispiel Homosexualität, Ehebruch, Heuchelei und Hurerei. Hass ist ein sehr starker Ausdruck! Vor allem dann, wenn er von Gott kommt!
+
+---
+
+## 24.06.2023 — Amos 5,27
+
+Bibellese: 2. Mose 35,1-35
+
+Amos 5,27 "Und ich will euch bis über Damaskus hinaus in die Gefangenschaft wegführen! spricht der Herr – Gott der Heerscharen ist sein Name."
+
+Das Volk Israel wurde zuerst weggeführt, ins sogenannte babylonische Exil. Viele Jahre später dann das Reich Juda. Gott hält sein Wort. So wie er seine Segnungen einhält, so hält er auch sein Gericht ein. Oft hat Gott dabei einen langen Atem.
+Gott ist der Herr der Heerscharen. Jahwe Zebaoth. Nichts ist höher als er, niemand ist größer als er.
+
+Damit endet das Klagelied von Amos. Denken wir noch einmal darüber nach, was wir alles gelernt und entdeckt haben:
+- Gott richtet alle Menschen, das Volk Gottes hat dabei eine größere Verantwortung als Heidenvölker, aber auch diese werden mit einem gerechten Maß beurteilt
+- Gott weiß genau, was wir tun, und er vergisst nichts, er lässt keine Sünde unbestraft
+- es ist jetzt noch Gnadenzeit, Umkehr ist jederzeit möglich
+- wir sollten uns vorbereiten, Gott zu begegnen, das tun wir, indem wir unser Herz prüfen
+- Gott will keine großen Opfer, sondern er will ein glaubendes Herz
+- Äußerlichkeiten sind nicht unwichtig, aber die Form unseres Gottesdienstes nützt nichts, wenn unsere Herzenshaltung falsch ist
+- Gott will keinen Lärm und Speiseopfer, er will aufrichtige, ungeheuchelte Buße!
+
+Ich bin immer wieder erstaunt, wie aktuell so ein prophetisches Buch sein kann und wie klar und deutlich es uns auch heute noch anspricht. Ich bin auf die nächsten 4 Kapitel gespannt.
+Noch kurz ein Wort zur Einteilung. Amos 1 und 2 können grob eingeteilt werden als "Gerichtsverfahren" gegen 6 Heidenvölker und Gottes Volk. Amos 3 ist die große Erklärung und Aussprache des Gerichtes Gottes an Israel. Amos 4 ist eine Bußpredigt, Schlüsselvers ist Vers 12. Amos 5 ist ein Klagelied, weil Amos sieht, was mit Israel passieren wird, und warum es passieren wird.
+
+---
+
+## 25.06.2023 — Amos 6,6
+
+Bibellese: 2. Mose 36,1-19
+
+Amos 6,6 "sie trinken Wein aus Schalen und salben sich mit den besten Ölen; aber um den Schaden Josephs kümmern sie sich nicht!"
+
+Es ist wichtig, sich mit der Kultur zu beschäftigen, welche die Israeliten hatten. Die Riten und Abläufe beim Tempeldienst sind, vor allem wenn es um biblische Prophetie geht, von äußerster Wichtigkeit! Wie sollen wir verstehen, was hier im heutigen Vers gemeint ist, wenn wir nicht wissen, was es bedeutet, aus Schalen zu trinken? Oder sich mit den besten Ölen zu salben? Oder was der Schaden Josephs ist?
+
+Ich werde euch diese drei Dinge erklären und dann ein Beispiel nennen, wo man heute ähnliches Verhalten beobachten kann.
+
+Aus Schalen Wein trinken:
+Die sogenannten "Trankopfer" wurden im Tempeldienst von den Leviten befüllt und von den Priestern geopfert. Damit nicht "schluckweise", sondern in einer fließenden Bewegung das Trankopfer ausgegossen wurde, nutzte man Schalen dafür. Die Getränke, die für den Verzehr gedacht waren, trank man früher aus einem Kelch.
+
+Mit den besten Ölen salben:
+In 5. Mose 18 wurde den Israeliten gesagt, dass das beste Öl, das die Israeliten produzierten, Gott geweiht werden soll. Damit würden später im Tempel verschiedene Dinge gesalbt werden.
+
+Der Schaden Josefs:
+Josef war ein wirkliches Kind Gottes. Er vertraute auf Gott, auch wenn es ihm nicht so gut erging. Seine eigene Familie glaubte ihm nicht, dass er von Gott auserwählt war. Während Josef vermutlich mit starken Schmerzen in der Grube lag, hatten seine Brüder sich zum Essen gesetzt. Was für eine bösartige Verhaltensweise!
+
+Wenn wir so in die Welt schauen, dann bemerken wir, dass diese Situation heute noch so passiert. In den Kirchen werden Paare gesegnet, die Gott niemals segnen würde. Zu Weihnachten wird leckeres und fettiges Essen gegessen, aber an Jesus wird nicht gedacht. In den reichen Ländern dieser Welt wird gegessen, bis einem schlecht wird... Und was ist mit denen, die gerade in Kriegsgebieten sind, wie in der Ukraine? Kümmern wir uns darum noch? Ist das überhaupt noch "schlimm" für uns? Oder haben wir uns an schlechte Nachrichten gewöhnt?
+
+---
+
+## 26.06.2023 — Amos 6,10
+
+Bibellese: 2. Mose 36,20-38
+
+Amos 6,10 "Und heben dann sein Angehöriger und sein Leichenverbrenner [den Toten] auf, um die Gebeine aus dem Haus zu schaffen, und fragt er den drinnen im Haus: »Ist noch jemand bei dir?« so wird er antworten: »Niemand mehr!« Dann wird er sagen: »Still! Denn der Name des Herrn soll nicht erwähnt werden!«"
+
+Wir haben gesehen, dass Israel bei ihrem Gottesdienst eine verdorbene Gesinnung hat. Wir haben gesehen, dass der Gottesdienst der Israeliten kein wirklicher "Gottesdienst" ist, sondern mehr eine hedonistische Orgie. Fressen, saufen, fröhlich sein.
+
+Wozu führt also ein orthodoxer Glaube? Und diese Frage müssen wir uns unbedingt stellen! Warum? Weil in evangelikalen Kreisen der sogenannte "Neo-Orthodoxismus" hinter den Kulissen starken Einfluss nimmt. Ich selbst kenne zu viele Menschen, die voll in diese Kategorie fallen. Sie sprechen von "bibeltreu" und wollen unbedingt immer hören, dass die Bibel zu 100% wahr ist (was sie ja auch ist), aber sie tun nicht das, was in ihr steht. Überhaupt wird auch in bibeltreuen Kreisen immer weniger zusammen die Bibel gelesen. Es werden wild gemischte Stellen der Bibel behandelt, sodass weder eine gescheite Lehre Fuß fassen kann, noch ein Grundwissen von biblischen Wahrheiten verkündigt wird. Aber ich schweife ab...
+
+Warum ist strenges Einhalten von Regeln, Ritualen und Tradition ohne den richtigen Glauben (kurzum: Orthodoxie) so schädlich? Könnte man nicht meinen, dass zumindest ein gewisser bildender und heranführender Wert entsteht? Stellt euch vor, eine Gemeinde hält jeden Sonntag nach strikter Liturgie das Mahl des Herrn. Würde nicht durch die richtige äußere Form, trotz falschem oder fehlendem Glauben, ein gewisser Mehrwert entstehen? Sollte Gott sich denn nicht an den "geforderten Opfern" erfreuen? Nein, eben nicht. Wir dürfen niemals vergessen, dass nur der Glaube rettet. Und wenn irgendein Ritual, sei es die Taufe, das Abendmahl oder auch die Hochzeit, nicht im Glauben an den einen wahren Gott geschieht, dann ist es (ACHTUNG) Sünde! Denn im toten Buchstabenglauben verändert sich das Gottesbild so drastisch, dass aus Glaube Religion wird. Und keine Religion der Welt rettet, es ist allein der Glaube an den einen wahren Jesus Christus, der am Kreuz gestorben ist, um unsere Schuld zu bezahlen, damit wir aus Gnade errettet werden. Und dieser Glaube kommt aus der Schrift. Sola Scriptura, Sola Fide, Sola Gratia, Solus Christus!
+Warum ist eine Hochzeit ohne Glauben Sünde?
+Römer 14,23 "Wer aber zweifelt, der ist verurteilt, wenn er doch ißt, weil es nicht aus Glauben geschieht. Alles aber, was nicht aus Glauben geschieht, ist Sünde."
+Wenn du nicht glaubst, dass Gott allein die Ehe, als Bund zwischen einem Mann und einer Frau, will, und du nicht glaubst, dass auf ihr ein Segen liegt, wenn du glaubst, dass man auch unverheiratet sein kann und zusammenleben darf, dann ist es Sünde, sich zu verheiraten. Wenn du nicht glaubst, dass du als Christ Fleisch von unglücklichen Kühen essen darfst, und du tust es trotzdem, dann ist es Sünde. Wenn du aber glaubst, dass du es darfst, dann ist es keine Sünde. Alles, was wir tun, soll mit Glauben geschehen.
+
+Aber Ronny, ist das nicht exegetisch etwas weit hergeholt? Mal im Ernst, kann es denn Sünde sein zu heiraten? Kann es denn Sünde sein, auf das Wohl der Tiere achten zu wollen?
+Ich glaube, wir Menschen haben ein viel zu geringes Verständnis von Sünde. Ich glaube, wir haben überhaupt kein klares Verständnis von Sünde. So oft höre ich von verschiedenen Arten von Sünde, ohne dass ein anderes Wort benutzt wird. Es wird manchmal geredet von großer und kleiner Sünde, von schlimmen und harmlosen Sünden...
+Ja, es ist per Definition Sünde, wenn wir etwas tun, was unserem Glauben nicht entspricht. Und ich kann noch krasser werden: selbst Bibellesen kann dir zur Sünde werden! Wenn du nicht Bibel liest, um wirklich Gottes Wort zu hören, sondern um eben dem "Anspruch" gerecht zu werden, der an dich gestellt wird, dann wird dir Bibellesen zur Sünde.
+
+Wenn du ein Gemeindeleiter oder Ältester bist und du jedes Jahr drei Mal die Bibel durchliest, aber nur, weil die Gemeinde das von dir "erwartet" und nicht, weil es dir ein Herzensanliegen ist, dann ist es nicht im Glauben geschehen. So. Krass. Ist. Sünde.
+
+---
+
+## 27.06.2023 — Amos 6,14
+
+Bibellese: 2. Mose 37,1-29
+
+Amos 6,14 "Doch siehe, ich erwecke ein Volk gegen euch, ihr vom Haus Israel, spricht der Herr, der Gott der Heerscharen, das euch bedrängen wird vom Zugang nach Hamat bis zum Bach der Arava."
+
+Gott ist es, der einen Feind erweckt. Gott sorgt dafür, dass das Volk Israel von einem anderen, nicht auserwählten Volk unterdrückt wird.
+
+Es kann sein, dass Gott uns in unserem Leben Feinde in den Weg stellt, die uns wirklich schaden wollen. Es kann sein, dass wir in wirklich tiefes Leid kommen. Dafür kann es verschiedene Gründe geben. Sünde ist nur einer dieser Gründe. Es kann auch sein, dass Gott sich an uns verherrlichen will, oder dass unser Ausharren ein Trost für andere sein soll.
+Aber es kann eben auch sein, dass Gott uns züchtigen will. Das dürfen wir als Option nicht ausblenden.
+
+Züchtigung tritt immer dort ein, wo Gott einen Menschen während seiner Erdenzeit korrigieren und neu ausrichten will. Wo wir vom Weg abgekommen sind, packt uns Jesus mit seiner starken Hand und bringt uns wieder zurück. Ich kann mich gut erinnern, dass ich mal auf einem Spielplatz geklettert bin, wo es nicht vorgesehen war zu klettern. Als ich dann abgerutscht bin, hat mich mein Vater am Arm festgehalten. Sehr fest. Ich war froh, dass ich nicht auf die Kieselsteine gefallen bin, aber ich hatte trotzdem Schmerzen, weil mein Vater meinen Arm wirklich fest zugepackt hat. So ist Gott auch, er bewahrt uns nicht vor allen Folgen unserer Fehler und falschen Wege, aber nicht selten verhindert er das Schlimmste.
+
+---
+
+## 28.06.2023 — Amos 7,2
+
+Bibellese: 2. Mose 38,1-31
+
+Amos 7,2 "Und es geschah, als sie nun das Grün des Landes vollends abgefressen hatten, da sprach ich: Herr, Herr, vergib doch! Wie soll Jakob bestehen? Er ist ja so klein!"
+
+Amos, der ja selbst aus Juda kam, sieht, wie das Land Israel geschlagen wird von einer furchtbaren Plage. Sein Klageruf erinnert an das, was wir in der Bibellese vor einigen Tagen gelesen haben: 2. Mose 17,4 "Da schrie Mose zum Herrn und sprach: Was soll ich mit diesem Volk tun?"
+Mose erkennt die Sünde des Volkes und bittet um Gnade.
+
+Genauso bittet Amos um Gnade, dass dieses furchtbare Gericht nicht geschehen mag.
+Ich erwähnte, dass Amos ein Zeitgenosse von Jona war. Jona hingegen reagierte auf das Gericht gegen die Niniviten ganz anders. Er freute sich darüber, dass die Stadt zerstört werden sollte.
+
+Können wir hier nicht etwas zutiefst Menschliches sehen? Wenn es die anderen, vermeintlich "Bösen", treffen soll, stört uns Gottes gerechtes Urteil nicht, und wir flehen nicht um Gnade. Aber wenn es um unsere eigenen Leute geht, flehen wir Gott an, Gnade vor Recht ergehen zu lassen. Ich möchte nicht sagen, dass wir Gott nicht anflehen sollen, im Gegenteil, wir alle brauchen so dringend die Gnade Gottes. Ohne die Gnade Gottes würden wir keinen einzigen Atemzug nehmen können. Und Gott ist so gnädig, dass er sogar dem Spötter noch die Luft zum Einatmen schenkt, die er dazu gebraucht, Gott zu verspotten. Was ist das nur für ein gnädiger Gott.
+
+Der Punkt ist der: Wenn wir denken, dass jemand Gottes Gnade nicht verdient hat, dann flehen wir nicht so sehr. Amos erkennt, dass Jakob (gemeint ist Israel) nur eine Chance hat, um zu überleben: Gottes Gnade!
+Das gilt auch für uns. Und haben wir die Gnade verdient? Gnade KANN man sich nicht verdienen, per Definition ist es keine Gnade mehr, wenn man sie sich "verdient".
+Aber wenn man sie sich nicht verdienen kann, warum fällt es uns dann so schwer, für Menschen zu beten, die sich, unserer Meinung nach, bewusst von Gott abwenden?
+Zum Beispiel für Schwule und Lesben, oder Prostituierte, oder Politiker? Es ist etwas zutiefst Menschliches, aber nicht immer etwas Göttliches. Lasst uns auch für unser Land, unsere Gemeinde, unsere Familien und unsere Kinder beten und um Gnade flehen. Denn darauf sind wir alle angewiesen. Jeden Tag!
+
+---
+
+## 29.06.2023 — Amos 7,3
+
+Bibellese: 2. Mose 39,1-21
+
+Amos 7,3 "Da reute es den Herrn: »Es soll nicht geschehen!« sprach der Herr."
+
+Gott lässt sich erbitten. Auch wenn wir zu Gott flehen, ist das nie umsonst. Gott hört die Rufe des Amos, und er nimmt einige Details seines großen Gerichts zurück.
+Ich möchte dir gern auch in deine Situation zusprechen: Gott hört auf das Flehen seiner Kinder! Egal, was dich gerade bedrückt oder erschüttert, komm damit vor deinen Herrn und Gott, und er wird dir deine Lasten abnehmen!
+
+Gott bereute seine Strafe? Wirklich? Ist Gott nicht perfekt? Kann er denn etwas bereuen?
+Ihr wisst, ich bin ein großer Fan der Schlachter 2000, aber an dieser Stelle übersetzt sie leider mit einer kleinen Ungenauigkeit. Das führt leider bei einigen Stellen zu Missverständnissen. Eine andere Stelle, die schon für viele Fragen gesorgt hat, ist die nach der Sintflut: 1. Mose 6,7 "Und der Herr sprach: Ich will den Menschen, den ich erschaffen habe, vom Erdboden vertilgen, vom Menschen an bis zum Vieh und bis zum Gewürm und bis zu den Vögeln des Himmels; denn es reut mich, daß ich sie gemacht habe!"
+Hier geht es auch um "reuen". Das hebräische Wort dafür ist "nacham". Das hat viele Bedeutungen, unter anderem "Reue empfinden". Aber die "Hauptbedeutung" ist ein tiefes Seufzen. Im Hebräischen wird dieses Wort ausgesprochen wie ein kleiner Seufzer, ungefähr so: "na haam". Besser übersetzt ist also, wie es auch in anderen Übersetzungen steht, "es bekümmerte ihn sehr". Die Schwierigkeit von Bibelübersetzungen ist, Worte, die verschiedene Bedeutungen haben, in den richtigen Kontext zu setzen. Der gute und treue Eugen Schlachter hat nicht vermutet, dass jemals ein Mensch auf die irre Überlegung kommen könnte, dass Gott tatsächlich bereut, den Menschen gemacht zu haben. Deswegen übersetzte er vermutlich mit "es reute ihn", da dies die stärkste und kantigste Formulierung ist. Wenn Gott also logischerweise nicht bereut hat, dass er die Menschen geschaffen hat in 1. Mose 6, dann hat er auch sein eigenes Gericht über Israel nicht "bereut" in Amos 7. Aber es bekümmert ihn, dass er sein auserwähltes Volk eigentlich so hart bestrafen müsste, um gerecht zu sein. Aber er kann eben auch gnädig sein. Und das zieht er hier an dieser Stelle vor.
+
+Wir brauchen die Gnade Gottes jeden Tag! Halleluja, Gott ist gnädig!
+
+---
+
+## 30.06.2023 — Amos 7,8
+
+Bibellese: 2. Mose 39,22-43
+
+Amos 7,8 "Und der Herr sprach zu mir: Was siehst du, Amos? Ich sprach: Ein Senkblei! Da sprach der Herr: Siehe, ich lege ein Senkblei an mitten in meinem Volk Israel, und ich werde künftig nicht mehr [verschonend] an ihm vorübergehen"
+
+Ein Senkblei ist ein Werkzeug, welches aus einem Stück Blei und einem Strick besteht. Hält man den Strick gerade nach vorn, bildet das Senkblei eine perfekt ausgerichtete Senkrechte ab. Heute haben wir dafür eine Wasserwaage. Mit einem Senkblei überprüft man, ob eine Mauer gerade steht oder nicht.
+
+Gott hat nun schon zwei seiner Gerichte aus Gnade zurückgenommen, aber das zukünftige Gericht, das wird ganz genau sein. Gott hält sein Senkblei, und jede Mauer, die nicht gerade aufrecht steht, wird umgestoßen!
+
+Woran erkennen wir, dass wir senkrecht stehen? An unserer Treue zu Gottes Wort. Dass wir nicht nur sagen, daß die Bibel Gottes Wort ist, sondern auch danach leben. Dass wir nicht nur sagen, dass Christsein nicht allein geht, sondern auch die Gemeindeversammlungen nicht verlassen.
+Kurzum: dass wir nicht nur mit dem Kopf Christen sind, sondern auch mit dem Herzen. Markus 12,32-33 "Und der Schriftgelehrte sprach zu ihm: Recht so, Meister! Es ist in Wahrheit so, wie du sagst, daß es nur einen Gott gibt und keinen anderen außer ihm; und ihn zu lieben mit ganzem Herzen und mit ganzem Verständnis und mit ganzer Seele und mit aller Kraft und den Nächsten zu lieben wie sich selbst, das ist mehr als alle Brandopfer und Schlachtopfer!"
+
+---
+
+## 01.07.2023 — Amos 7,10
+
+Bibellese: 2. Mose 40,1-38
+
+Amos 7,10 "Da sandte Amazja, der Priester von Bethel, zu Jerobeam, dem König von Israel, und ließ ihm sagen: »Amos hat eine Verschwörung gegen dich angezettelt mitten im Haus Israel; das Land kann all seine Worte nicht ertragen!"
+
+Die Priester, die den moralischen und religiösen Verfall mit angesehen haben, haben jetzt natürlich Angst um ihren Job. Was, wenn Amos recht hat, was, wenn die Menschen ihm Glauben schenken? Wer würde dann noch bei den heuchlerischen Priestern Opfertiere kaufen?
+
+Amazja war einer dieser Priester, und was machen falsche Priester und heuchlerische Pharisäer? Sie versuchen, sich mit dem König zu verbinden. Gemeinsam mit dem Staat gegen den Mann Gottes vorgehen. Wenn man sich den diesjährigen Kirchentag ansieht, sieht das genauso aus! Politiker und NGO-Aktivisten noch und nöcher, und die Botschaften der Pseudochristen dort gleichen einer ideologischen Rede von vor hundert Jahren. "Wir müssen, wir sollen, wir sind viele, gemeinsam sind wir stark..."
+Was hat diese Botschaft mit dem Evangelium zu tun? Richtig! Nichts!
+
+Wir sollen natürlich für unsere Regierung beten, aber auf keinen Fall mit ihr solidarisieren. Es ist auch keine "ökumenische Vereinigung" notwendig, denn der Leib Christi ist bereits eine Einheit. Alles andere ist Vermischung. Synkretismus! Sauerteig!
+
+Wenn wir Gottes Wort heute noch genauso mutig verkünden wie Amos, dann wird es uns auch bald so gehen wie Amos. Unsere vermeintlichen Mitchristen werden sich gegen uns stellen. Das sehen wir auch im Fall von Olaf Latzel. Er verkündigt die Wahrheit des Wortes Gottes und wurde von der eigenen Kirche dafür verurteilt. Kennst du auch Christen, die das Wort Gottes treu und herzlich verkündigen? Dann bitte bete für sie, wir können uns nicht vorstellen, was es für unsere treuen Brüder in der Verkündigung bedeutet, hart am Wort Gottes zu bleiben.
+
+---
+
+## 02.07.2023 — Amos 7,11
+
+Bibellese: Amos 1,1-15
+
+Amos 7,11 "Denn Amos hat gesagt: Jerobeam wird durchs Schwert sterben, und Israel wird gewißlich aus seinem Land gefangen weggeführt werden!«"
+
+Was hat Amos also verbrochen, dass er nun Probleme mit der Regierung bekommt? Er prophezeite Gericht über Israel. Er machte offenbar, was sich im Verborgenen abspielte.
+
+Wie steht es um die Prediger, die heute noch über Themen wie Gericht, Hölle, Sünde, Trennung und Tod sprechen? Kann man sich das wohl jetzt noch leisten, in einer Gesellschaft, wo es quasi keine absoluten Werte mehr gibt? Wer hört denn schon auf jemanden, der von absoluter Autorität spricht, vom Wort Gottes, der Wahrheit? Im besten Fall droht "nur" eine Anzeige. Im schlimmsten Fall droht die staatliche Verfolgung, auch wenn sie offiziell "Strafverfolgung" genannt wird, müssen wir wohl feststellen, dass die Welt nicht unser Freund ist.
+
+Johannes 16,33 "Dies habe ich zu euch geredet, damit ihr in mir Frieden habt. In der Welt habt ihr Bedrängnis; aber seid getrost, ich habe die Welt überwunden!"
+
+Dieser Vers ist im Prinzip die Versicherung, dass wir als Nachfolger Jesu in der Welt keine einfache Zeit haben werden. Aber wenn wir uns zu Jesus bekennen und zu seinem Vater und dem Wort Gottes, der heiligen Schrift, dann werden wir Bedrängnisse haben.
+
+Übrigens gilt das nur für wahre Christen, die keine Kompromisse eingehen. Wenn man als Christ in China lebt, oder in Indien, und man verhält sich unauffällig, kleidet sich entsprechend oder macht alles mit, was die Inder da für Sachen machen, dann hast du auch keine Probleme da als "Christ". Nur wenn du anderen das Evangelium weitersagst, keine der Götzendienstfeste feierst, keine Räucherkerzen für Buddha anbrennst und nach der Bibel lebst, dann hast du ein ganzes Land gegen dich!
+
+---
+
+## 03.07.2023 — Amos 8,1
+
+Bibellese: Amos 2,1-16
+
+Amos 8,1 "Dies ließ Gott, der Herr, mich schauen: Siehe, da war ein Korb mit reifem Obst"
+
+Gott allein weiß, wann die Zeit reif ist. Wie ein Obstbauer weiß, wann man das Obst am besten erntet, weiß Gott, wann der Zeitpunkt der richtige ist. Haben wir Vertrauen auf Gottes Weisheit? Oder schauen wir in diese Welt und fragen: "Wie lange willst du das noch zulassen?"
+Gott ist geduldig und barmherzig. Das dürfen wir nicht vergessen, Jesus Christus selbst ist der barmherzige Samariter.
+
+Amos hat hier im Kapitel 8 wieder eine Vision von Gott. Interessant ist, dass Gott in diesen Visionen keine Bilder benutzt, die Amos grundlegend fremd sind.
+
+Auch wir müssen nicht denken, dass Gott immer nur so spricht, dass wir es nicht verstehen, weil wir die Bilder aus der israelitischen Kultur nicht kennen, oder vielleicht nicht wissen, was eine Würfelschale ist, oder warum ein verlorenes Schaf bei 99 sicheren so wichtig ist. Gott will uns auch heute noch direkt durch sein Wort ansprechen, und zwar genau so, dass wir es verstehen. Zu allen möglichen Fragen des Lebens steht in der Bibel eine Antwort, wichtig ist nur eines: Matthäus 18,3 "und sprach: Wahrlich, ich sage euch: Wenn ihr nicht umkehrt und werdet wie die Kinder, so werdet ihr nicht in das Reich der Himmel kommen!"
+
+Was hat das denn mit unserem heutigen Vers zu tun, und überhaupt, was ist das für ein komisches Bild mit dem reifen Obst? Und was hat das mit Kindsein zu tun?
+Ganz einfach: Matthäus 11,25 "Zu jener Zeit begann Jesus und sprach: Ich preise dich, Vater, Herr des Himmels und der Erde, daß du dies vor den Weisen und Klugen verborgen und es den Unmündigen geoffenbart hast!"
+
+Gott nutzt kein hochtrabendes Bild für seine Prophetie, er nimmt das einfache Bild, welches Amos von seiner Arbeit kennt. Amos sagt "Ich war kein Prophet und kein Prophetensohn, sondern ein Viehhirt war ich und züchtete Maulbeerfeigen." (Amos 7,14)
+Ich gehe davon aus, dass du auch kein studierter Theologe oder ein geschulter Bibelausleger bist. Und gerade deshalb haben wir die beste Voraussetzung, die Bibel zu verstehen, eben indem wir werden wie Kinder. Wenn ich zu meinem Kind sage "Heute kommt die Oma vorbei und bringt dir einen großen Korb mit Erdbeeren mit!", da freut sich mein Kind wie wild, denn alles, was der Vater gesagt hat, ist bisher eingetroffen, es gibt also keinen Zweifel daran, dass es wirklich so ist, wie er es sagt. Das denkt mein Kind, und egal ob es nun Sommer oder Winter ist, für meine Tochter steht fest: heute gibt es Erdbeeren mit Oma. Warum nicht morgen? Na, weil morgen die Oma nicht mehr da ist und die Erdbeeren nun mal nicht schöner werden.
+
+"Was siehst du, Amos?", fragt Gott ihn, und er antwortet: "Einen Korb mit reifem Obst!"
+Nehmen wir das Wort Gottes genau so an, wie wir es lesen. Amos interpretiert hier nicht wild herum, er nimmt das an, was Gott ihm zeigt. Und die Erklärung gibt im Zweifelsfall Gott auch selbst. Denn die Bibel erklärt sich selbst, indem sie mit einem Vers Licht auf einen anderen wirft. So verstehen wir die Geschichte von Abraham und Isaak besser, wenn wir die Kreuzigung Jesu verstehen.
+
+Die Zeit ist reif, wenn Gott es sagt. Wir dürfen darauf vertrauen, dass er die Finsternis dieser Welt keine Sekunde länger als nötig zulässt.
+
+---
+
+## 04.07.2023 — Amos 8,3
+
+Bibellese: Amos 3,1-15
+
+Amos 8,3 "An jenem Tag werden ihre Tempellieder zu Geheul werden, spricht Gott, der Herr; man wird überall viele Leichname hinwerfen – Still!"
+
+Wieder geht es um Musik. Die Tempellieder, welche die Menschen vorher noch zum Feiern gesungen haben, werden zu einem furchtbaren Geheul. Gottes Gericht über Israel wird nicht an den Toren des Tempels haltmachen, denn sie haben ihn entheiligt. Der Tempel, der aktuell steht, ist die Gemeinde. Die Israeliten, die Jesus als ihren Messias annehmen, werden genauso gerettet vor dem noch kommenden Zorn Gottes, wie die ersten Christen in Jerusalem vor der römischen Belagerung bewahrt wurden. Jesus sagte ja in der Bergpredigt, dass die Christen aus Israel fliehen sollten, wenn die Feinde vor der Tür stehen.
+Matthäus 24,15-16 "Wenn ihr nun den Greuel der Verwüstung, von dem durch den Propheten Daniel geredet wurde, an heiliger Stätte stehen seht (wer es liest, der achte darauf!), dann fliehe auf die Berge, wer in Judäa ist"
+
+Der Tod wird der Begleiter der Israeliten sein, wenn man liest, was in der Zeit nach der Entrückung, der Zeit des Antichristen und den anderen drei apokalyptischen Reitern passiert, dann wird das klar.
+Aber Israel hat nur eine Sorge in ihrem Herzen: "»Wann [endlich] ist der Neumond vorüber, damit wir Getreide verkaufen, und der Sabbat, daß wir Korn anbieten, damit wir das Ephamaß verkleinern und das Schekelgewicht erhöhen und die Waage zum Betrug fälschen können, daß wir die Bedürftigen um Geld und den Armen für ein Paar Schuhe kriegen und Spreu als Korn verkaufen können?« (Amos 8,5-6)
+
+Wann können wir uns endlich wieder in Sünde suhlen? Das Einzige, woran das undankbare, verblendete und untreue Volk Gottes denkt, ist Selbstbefriedigung und zerstörerischer Egoismus. Das Verstoßen gegen das erste und auch alle anderen Gebote.
+
+Amos 4,12 "Darum will ich so mit dir verfahren, Israel! Weil ich denn so mit dir verfahren will, so mache dich bereit, deinem Gott zu begegnen, Israel!"
+
+---
+
+## 05.07.2023 — Amos 8,7-8
+
+Bibellese: Amos 4,1-13
+
+Amos 8,7-8 "Der Herr hat geschworen bei [sich,] dem Ruhm Jakobs: Niemals werde ich irgendeine ihrer Taten vergessen! Sollte das Land deswegen nicht erbeben und jeder trauern, der darin wohnt?"
+
+Gott vergisst nichts. Er ist ja sowieso allwissend. Gott sieht jede unserer Taten. Und nicht nur das: er hört auch jeden unserer Gedanken und kennt jeden unserer Blicke.
+
+Bei diesem Gedanken kann einem wirklich etwas mulmig zumute werden. Ich weiß nicht, wie es euch geht, aber ich tue leider immer wieder Dinge, die Gott nicht gefallen.
+Wie ist das wohl für Gott, zu sehen, dass seine Kinder immer noch sündigen? Wie ist es für Gott, zu sehen, wie sein Volk sündigt?
+
+Johannes 15 macht uns klar, dass wir ein riesengroßes Privileg haben, wir dürfen Gottes Kinder heißen, und das versetzt uns in eine Sohnschaft. Keine Bundesbeziehung, wie wir in Exodus nun gelesen haben, sondern eine Beziehung wie bei dem verlorenen Sohn. Wir dürfen auf die Gnade des Vaters vertrauen, wie das Kind auf die Liebe der Eltern vertraut, wenn es sich mit einer Dummheit zu den Eltern wagt und gesteht, was passiert ist.
+
+Aber warum ist das Volk Gottes so ruhig? Und warum fürchten sich die Israeliten nicht vor Gott, der nichts vergisst und alles sieht? Warum? Weil sie keine Gotteserkenntnis mehr haben. Denn: Sprüche 1,7 "Die Furcht des Herrn ist der Anfang der Erkenntnis; nur Toren verachten Weisheit und Zucht!"
+
+---
+
+## 06.07.2023 — Amos 8,11
+
+Bibellese: Amos 5,1-27
+
+Amos 8,11 "Siehe, es kommen Tage, spricht Gott, der Herr, da werde ich einen Hunger ins Land senden; nicht einen Hunger nach Brot, noch einen Durst nach Wasser, sondern danach, das Wort des Herrn zu hören."
+
+Ich bin kein Calvinist, kein doppelter Prädestinationist und auch kein Existenzialist. Aber es ist mir wichtig, eines klarzumachen: die Sehnsucht nach Wahrheit, nach Gott und seinem Wort, diese innere Leere, die einen Menschen antreibt, nach etwas Festem, einem Fundament, etwas Ewigem zu suchen, diese Sehnsucht kommt von Gott. Ohne dass Gott Hunger nach seinem Wort schenkt, wird niemand von selbst auf diese Idee kommen. Denn wir Menschen sind von Kindheit an verdorben. Wir leben in einer gefallenen Schöpfung, das ist traurig, aber wahr.
+Psalm 19,10 "Die Furcht des Herrn ist rein, sie bleibt in Ewigkeit; die Bestimmungen des Herrn sind Wahrheit, sie sind allesamt gerecht."
+
+Wie viele Menschen sehnen sich auch heute noch nach der Wahrheit, nach dem heiligen und lebendigen Wort. Es zu hören in Predigten, oder aber es lesen zu können. Ich habe festgestellt, dass in den Ländern und Regionen, wo tatsächlich Hunger an der Tagesordnung steht, auch mehr Hunger nach dem Wort Gottes ist, und sie nehmen die Bibeln und lesen darin. In der Ukraine zum Beispiel, dort haben die Menschen oft Hunger und Angst, sind unterdrückt und leben von Fliegeralarm zu Fliegeralarm. Und die Kirchen sind voll. Nicht wegen der Hilfsstationen oder der kostenlosen warmen Mahlzeiten, sondern weil sie merken, worum es wirklich geht. Was kommt nach dem Tod? Wie geht es danach weiter? Jeder Knall kann dein letzter sein.
+
+Und hier in Deutschland? Da ist Frieden. Ich glaube, Hunger ist das allerletzte Problem. Im Gegenteil, wir haben eher ein Problem damit, dass wir zu viel zu essen haben. Wir werfen in Deutschland jedes Jahr ca. 11 Millionen Tonnen Essen weg. Damit könnte man ca. 10 Millionen Menschen ein Jahr lang satt bekommen.
+
+Aber auch in Deutschland gibt es Menschen, die hungrig sind nach dem Wort Gottes. Und was bekommen sie? Magere Häppchen, oder aber durch liberale Theologie aufgeweichte Sprüche, die ungefähr so sinnlos wie lästerlich sind. Die meisten Pastoren heutzutage gleichen Motivationscoaches, sie rennen hin und her auf der Bühne, begleitet von angenehmer Hintergrundmusik, und sie betonen den einzigen wichtigen Satz ihrer "Predigt" so genau, dass man beim Rest auch schlafen kann. Exegese? Fehlanzeige. Stillt das den Hunger nach Gottes Wort? Nein! Im Gegenteil, hier in Deutschland sehnen sich die Christen nach bibeltreuer Verkündigung.
+
+Gott schenkt den Hunger, aber nicht immer schenkt er auch das Brot.
+
+---
+
+## 07.07.2023 — Amos 8,12
+
+Bibellese: Amos 6,1-14
+
+Amos 8,12 "Da wird man hin und her wanken von einem Meer zum anderen und umherziehen vom Norden bis zum Osten, um das Wort des Herrn zu suchen, und wird es doch nicht finden."
+
+Das ist genau die Situation, die wir in Deutschland aktuell erleben. Viele Gemeinden, auch im evangelikalen Bereich, vor allem aber in den "offiziellen" Kirchen, Religionsgemeinschaften und Verbänden, taumeln von einer trügerischen Torheit zur nächsten. Kaum noch klare Verkündigung, kaum noch klare Strukturen. Verbände ersticken sich selbst in ihren Satzungen und Vorschriften, die sie sich selbst auferlegen. Der Liberalismus, der die Bibel als autoritatives Wort Gottes ablehnt, macht sich in vielen Gemeinden breit. Es ist ein schleichender, aber unaufhaltsamer Prozess.
+
+Israel erlebt diese Zeit in besonderer Weise. 400 Jahre lang hat Gott kein einziges Wort zu den Israeliten geredet. Dieses Gericht war für die Israeliten ein riesiger Schock. Es hat eine ganze Nation erschüttert, als sie gehört haben, dass Johannes der Täufer, ein Prophet, am Jordan predigt. Denn er war nach den 400 Jahren der erste Prophet. Aber haben sie auf ihn gehört?
+Die Mehrheit nicht. Die Mehrheit hat Anstoß an seiner Predigt genommen, denn er bereitete Jesus den Weg.
+Jesaja 8,14 "So wird er [euch] zum Heiligtum werden; aber zum Stein des Anstoßes und zum Fels des Strauchelns für die beiden Häuser Israels, zum Fallstrick und zur Schlinge für die Bewohner von Jerusalem"
+
+---
+
+## 08.07.2023 — Amos 9,1
+
+Bibellese: Amos 7,1-17
+
+Amos 9,1 "Ich sah den Herrn am Altar stehen, und er sprach: Schlage an den Säulenknauf, daß die Schwellen beben, und zerschmettere sie auf dem Haupt von ihnen allen! Ihren Rest aber will ich mit dem Schwert umbringen, daß kein Flüchtling von ihnen entflieht und kein Entkommener sich retten kann."
+
+Als wir in den letzten Wochen gelesen haben, wie die Stiftshütte gebaut werden soll, was für Materialien verwendet werden sollen und wie genau der Aufbau sein soll, da war ich schon beeindruckt. Auch die Angaben für den Tempel, den Salomo baut, oder die Verheißungen an Hesekiel über den neuen Tempel, sind einfach beeindruckend. Solch ein prunkvolles und herrliches Gebäude, und trotzdem wurden die Israeliten untreu. Wir haben auch in Exodus 38 gelesen, dass Mose eine "Diskussion" mit Gott hatte, ob dieser in der Mitte der Israeliten ziehen wird oder nicht. Mose wünschte sich, dass Gott in der Mitte ist, aber Gott befürchtete, dass er, wenn er in der Mitte der Israeliten ist, sie vertilgen müsste. Denn die Israeliten sind kein treues und auch kein sanftes Volk. Sie würden sich immer wieder versündigen, und da Gott in ihrer Mitte ist, müsste er sie, weil er gerecht ist, dafür strafen.
+
+Gott ist noch nicht fertig mit Israel. Er hat ihren Tempel zerschlagen und viele Israeliten mit dem Schwert getötet. Das bedeutet, dass er den Untergang Israels und die Zerstörung des Tempels hier auch prophetisch vorhersagt. Wir kennen alle die Geschichte, die sich im Jahr 70 nach Christus abgespielt hat. Jesus warnte seine Jünger, dass sie aus Jerusalem fliehen sollten, damit sie nicht umkommen. Und dann fielen die Römer ein und machten Jerusalem dem Erdboden gleich. Nichts anderes hatte Gott vorhergesagt. Auch hier sehen wir wieder die zwei Ebenen der Erfüllung von Prophetie: Auf kurze Sicht erfüllte sich die Prophetie durch die Verschleppung nach Assyrien, und auf lange Sicht erfüllte sich die Zerschlagung der Israeliten und die Zerstörung des Tempels 70 nach Christus.
+
+Gott hat einen Plan mit seinem Volk. Wir gehen in den nächsten Tagen noch darauf ein. Welche Rolle spielt die Gemeinde eigentlich? Sind wir Israel? Natürlich nicht, denn diese Gerichtssprüche müssten sonst auch auf uns zutreffen, das tun sie aber nicht. Wenn wir aber Gottes Volk sind, jedoch nicht Israel, was haben wir dann von der Prophetie?
+
+---
+
+## 09.07.2023 — Amos 9,3-4
+
+Bibellese: Amos 8,1-14
+
+Amos 9,3-4 "Wenn sie sich aber auf dem Gipfel des Karmel versteckten, so würde ich sie dort aufspüren und ergreifen; und wollten sie sich auf dem Meeresgrund vor meinen Augen verbergen, so würde ich dort der Schlange gebieten, sie zu beißen; und wenn sie vor ihren Feinden her in die Gefangenschaft ziehen würden, so wollte ich doch von dort dem Schwert gebieten, sie umzubringen. So will ich mein Auge auf sie richten zum Bösen und nicht zum Guten!"
+
+Wenn Gottes Geduld und Gnade zu Ende ist, gibt es kein Entkommen. Vor dem Endgericht Gottes kann sich niemand nirgendwo verstecken. Auf den höchsten Bergen findet Gott sie und am tiefsten Punkt der Erde. Im Totenreich wird Gottes Hand sie ergreifen, und vom Himmel wird er sie herunterstoßen. Von Westen und Osten und allen Enden der Erde wird der Herr die Menschen herbeiholen, und er wird sie richten, jedem nach seinem eigenen Werk.
+Vor Gott gibt es kein Entkommen! Also mach dich bereit, deinem Gott zu begegnen! Suche Jesus Christus, den Einzigen, der dich erlösen kann aus deinem Schicksal.
+
+Gott ist doch gut, oder? In meiner Gemeinde ist einer, der seine Gebete immer mit den Worten "Guter Gott..." beginnt. Aha. Aber ist das biblisch? Oder anders gefragt: "Wenn sich Gott uns in der Bibel offenbart, wie kann dann jemand zu dem Schluss kommen, dass er 'gut' ist?"
+Gott ist zwar Liebe, aber nicht "nur" Liebe. Er ist zwar gnädig, aber nicht "nur" gnädig. Er ist zwar gerecht, aber nicht nur gerecht...
+
+Gott kann auch anders! Ich will nicht sagen, dass es falsch ist, ein Gebet mit "Guter Gott" zu beginnen, ich sage nur, dass es falsch ist, Gott auf unsere Vorstellung von "gut" zu begrenzen. Denn wenn wir das tun, werden wir enttäuscht werden. Gottes Gericht wird nichts Gutes werden, und das Gericht, was wir schon sehen, ist auch nichts Gutes. Es ist Finsternis und böse! Nicht Gott ist "böse", im Sinne von ungerecht oder grausam, sondern das Gericht, welches Gott treffen MUSS, weil er eben gerecht ist! Auch wenn das unser Gottesbild sprengt, es ist wahr.
+
+---
+
+## 10.07.2023 — Amos 9,5
+
+Bibellese: Amos 9,1-15
+
+Amos 9,5 "Denn der Herrscher, der Herr der Heerscharen, ist es, der das Land anrührt, und es vergeht, und es trauern alle, die darin wohnen; und das ganze [Land] hebt sich empor wie der Nil und sinkt wieder zurück wie der Strom Ägyptens."
+
+Wer ist es, der hier ein Gericht über Israel spricht? Es ist Jahwe Zebaoth, der Herr der Heerscharen. Es ist eben der, der sowieso über allen Dingen steht. Es ist Gott, der allmächtig und groß ist.
+Der Name Gottes, der hier verwendet wird, eben Herr der Heerscharen, drückt aus, dass Gott nicht nur in der Rolle des "Herrn über Israel" auftritt, sondern als Herr der ganzen Welt. Er hat nicht nur Gewalt über Israel, er hat auch das Sagen über Assyrien, über Babylon, über Rom, über China und auch über Deutschland. Was Gott sagt, ist! Und wenn nicht, dann wird es, und zwar rasch.
+
+Auch hier sehen wir, dass Amos sehr verwurzelt und beheimatet war in der Natur. Er macht klar, dass vor Gott alle Völker, also alle Heerscharen, zurückschrecken. Wie ein Fluss, der bei viel Regen über die Ufer tritt, verhalten sich einige Nationen, Israel eingeschlossen. Aber Amos weiß, dass dies nur ein vorübergehendes Phänomen ist, denn sobald der Herr das Land "anrührt", wird es vergehen und der Wasserstand sich wieder senken.
+Es ist ein bisschen wie ein Hahn, der seine Flügel ausbreitet, um größer zu wirken und Angst zu verbreiten, oder wie ein Löwe, der laut brüllt, um seinem Gegenüber klarzumachen, dass er der Mächtige hier ist. Viele Tiere machen sich irgendwie groß oder laute Geräusche, um zu imponieren. Aber was steckt am Ende dahinter? Nur heiße Luft.
+
+Auch unsere Nationen erheben sich aktuell sehr stark, sie nehmen eine Rolle ein, die ihnen gar nicht zusteht. Sie täuschen damit andere und sich selbst und machen nicht wenigen Menschen damit Angst. Aber Gott wird einmal all diese Hochstapler auffliegen lassen, und dann sieht man ihre wahre Gestalt. Vor Gott vergeht jeder Mensch, vor seiner Macht und Herrlichkeit. So groß ist Gott.
+
+---
+
+## 11.07.2023 — Amos 9,10
+
+Bibellese: Lukas 1,1-40
+
+Amos 9,10 "Durchs Schwert sollen alle Sünder meines Volkes sterben, die sagen: »Kein Unglück wird uns erreichen noch überfallen!«"
+
+1. Thessalonicher 5,3 "Wenn sie nämlich sagen werden: »Friede und Sicherheit«, dann wird sie das Verderben plötzlich überfallen wie die Wehen eine schwangere Frau, und sie werden nicht entfliehen."
+
+1. Mose 3,4 "Da sprach die Schlange zu der Frau: Keineswegs werdet ihr sterben!"
+
+Römer 3,8 "Müßte man dann nicht so [reden], wie wir verleumdet werden und wie etliche behaupten, daß wir sagen: »Laßt uns Böses tun, damit Gutes daraus komme«? Ihre Verurteilung ist gerecht!"
+
+Leider ist dieses Phänomen, wie in dem Vers aus 1. Thessalonicher 5, auch heute weit verbreitet. Die Rufe nach Friede und Sicherheit werden laut, überall da, wo man sich vor dem Willen Gottes wegduckt. Auch in vermeintlich frommen Kreisen, oder vielleicht gerade da. Denn man kennt ja eigentlich die Gefahr. Man weiß, wie man sich eigentlich verhalten müsste, wenn man ehrlich zugibt, dass man sich in der Endzeit befindet, aber man will nicht verzichten. Man kennt die Bußrufe und die Zeichen der Zeit, aber man will es nicht wahrhaben. Wie die Pharisäer, die wussten, dass Jesus messianische Prophetie erfüllt, aber sie wollten es nicht wahrhaben. Matthäus 16,3 "und am Morgen: Heute kommt ein Ungewitter, denn der Himmel ist rot und trübe! Ihr Heuchler, das Aussehen des Himmels versteht ihr zu beurteilen, die Zeichen der Zeit aber nicht!"
+
+Natürlich hören wir heute nicht den Satz "Lasst uns Böses tun, damit Gutes daraus komme" oder "keineswegs werden wir sterben", sondern eher eine moderne Variation. Etwas wie "ich habe viel darüber gebetet, und ich habe mir jetzt das teure Auto gekauft, sollte es der falsche Weg sein, wird mir Gott es schon zeigen". Das ist pure Heuchelei, aber niemand ist so gerade und aufrichtig, um das beim Namen zu nennen. Oder auch "also, wir sollen uns ja nicht streiten, und es ist ganz wichtig, den anderen so stehen zu lassen und ihn so zu lieben, wie er ist". Klar, es gibt Themen, über die streitet man sich nicht. Zum Beispiel, was für Gardinen oder Tischdecken im Gemeindesaal zum Einsatz kommen. Aber sollte es um biblische Lehren gehen, dort sind wir angehalten, nicht nur zu streiten, sondern zu kämpfen. Und eins muss man noch sagen: "Die Bibel lässt uns Christen über kein wichtiges Thema des geistlichen Lebens im Unklaren." Tiefgehende theologische Differenzen gibt es, wenn man die Bibel genau nimmt, nicht. "Naja, also Ronny, wie erklärst du dir dann, dass es so viele verschiedene Gemeinden gibt? Baptisten, Methodisten, Lutheraner..."
+Ganz einfach: Jede Gemeinde hat andere Schwerpunkte, welche allesamt nicht heilsentscheidend sind, und wenn doch, so sind es Irrlehren. Nehmen wir zum Beispiel die in der lutherischen Richtung weit verbreitete Kindstaufe. Ist die Kindstaufe biblisch? Nein! Ist sie heilsentscheidend? Nein! Denn ein Kind muss sich sowieso selbst für Jesus entscheiden und seine Sünden vor ihn bringen. Die "Taufe" ist letzten Endes keine wirkliche Taufe, denn es gab vorher ja gar keine Bekehrung. Das Kind wird das irgendwann einmal erkennen und sich wirklich taufen lassen. Oder es entscheidet sich für ein Leben ohne Jesus. Es ist und bleibt eine persönliche Entscheidung. Natürlich ist es nicht irrelevant, was wir über die Taufe lehren in unseren Gemeinden, aber es ist nicht so, daß die Kindstaufe einem das Heil nehmen kann.
+
+Und nur mal so als Randbemerkung: in Ländern wie Afghanistan, oder China, sind solche theologischen "Streitereien" überhaupt nicht existent. Denn dort wird man für seinen Glauben stark verfolgt und unterdrückt. Dieser Umstand macht es zu einer Seltenheit, dass es Namenschristen gibt. In Deutschland ist das anders, da kann jeder machen und glauben, was er will. So mogeln sich auch in bibeltreuen Kreisen viele falsche Fünfziger ein. Die meisten werden behaupten, dass die Bibel Gottes Wort ist, aber nur die wenigsten werden sich auch ihrer Autorität unterordnen.
+
+Wichtig ist, trotz alledem, dass wir uns in Liebe begegnen, denn die Liebe ist ebenso wichtig wie die biblische Lehre über den Glauben.
+
+1. Korinther 13,13 "Nun aber bleiben Glaube, Hoffnung, Liebe, diese drei; die größte aber von diesen ist die Liebe."
+
+---
+
+## 12.07.2023 — Amos 9,11
+
+Bibellese: Lukas 1,41-80
+
+Amos 9,11 "An jenem Tag will ich die zerfallene Hütte Davids wieder aufrichten und ihre Risse vermauern und ihre Trümmer wiederherstellen und sie wieder bauen wie in den Tagen der Vorzeit"
+
+Ist euch aufgefallen, dass meine Andachten extrem unterschiedlich lang sind? Mir ist es gerade zum ersten Mal aufgefallen. Mal sehen, ob ich es schaffe, immer ungefähr die gleiche Länge beizubehalten. Ist ja auch blöd beim Lesen, wenn man denkt "jetzt kann ich noch 3 Minuten die Andacht lesen..." und dann sind es vier Seiten.
+
+Aber nun Spaß beiseite, und schauen wir auf die ersehnte Auflösung der Spannung im Buch Amos. Ist es euch beim Lesen auch so gegangen? Von Kapitel zu Kapitel wird das Gericht Gottes immer und immer größer, und am Ende sagt Gott, dass er Israel bis auf einen kleinen Überrest vernichten will. Und dann? Wie geht es dann mit diesem Überrest, dieser kleinen Schar, weiter?
+
+Gott kündigt das "Happy End" an. Nicht für jeden, sondern für die, welche an ihn geglaubt haben. Was heißt glauben?
+Glauben heißt: mit fester Überzeugung das ausleben, wozu wir berufen sind. Glauben ist nichts Theoretisches! Wie sagt man so schön: "Glauben ist ein Tunwort", da muss man also etwas tun. Dabei ist es wichtig, nicht Auslöser mit Reaktion zu verwechseln! Wir werden nicht errettet, weil wir gute Taten tun, sondern wir tun gute Taten, weil wir errettet SIND!
+
+Wie wunderbar, dass Gott seine Zusagen erfüllt. Wie wunderbar, dass Gott mit Israel noch nicht fertig ist! Wie herrlich wird es sein, für sein auserwähltes Volk zu sehen, wie die Hütte Davids wieder aufgebaut wird!
+
+---
+
+## 13.07.2023 — Amos 9,13
+
+Bibellese: Lukas 2,1-52
+
+Amos 9,13 "Siehe, es kommen Tage, spricht der Herr, da der Pflüger den Schnitter und der Traubenkelterer den Sämann ablösen wird. Dann werden die Berge von Most triefen und alle Hügel überfließen."
+
+Israel blüht wieder auf. Nicht erst seit der Corona-Pandemie, sondern auch schon seit den letzten 10 Jahren. Technisch, wirtschaftlich und klimatisch geht es Israel sehr gut. Sie sind Erfinder von vielen technischen Errungenschaften wie dem Stent. Sie haben mehrere Patente auf Wasserfilteranlagen für Meerwasser, aus welchem dann Trinkwasser wird. Auch israelische Orangen sind weltweit bekannt und gefragt, genau wie der Wein aus Israel.
+
+Stück für Stück sehen wir also, dass das Land Israel sich von der Zerschlagung erholt, die in diesem Buch Amos beschrieben wird.
+Wir haben also gesehen, dass die Prophetie des Gerichtes sich schon erfüllt hat, und sehen jetzt gerade vor unseren Augen, wie sich der Segen, der auf Israel liegt, erfüllt.
+
+Trotz alledem meint Amos hier wahrscheinlich auch die Zeit des tausendjährigen Friedensreichs. Aber darauf gehen wir ein anderes Mal ein.
+
+---
