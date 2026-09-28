@@ -6,6 +6,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/css": "css" });
   eleventyConfig.addPassthroughCopy({ "src/js": "js" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  // Service Worker muss auf Wurzelebene liegen (Geltungsbereich = ganze Seite).
+  eleventyConfig.addPassthroughCopy({ "src/sw.js": "sw.js" });
 
   // Admin-Oberfläche 1:1 kopieren (nicht über Nunjucks laufen lassen, damit
   // geschweifte Klammern im eingebetteten JavaScript nicht als Templates

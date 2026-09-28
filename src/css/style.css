@@ -137,6 +137,9 @@ img { max-width: 100%; height: auto; }
 }
 
 .kopf__innen {
+  position: relative; /* Anker für die Abo-/Installieren-Menüs (s. u.) –
+    dadurch hängt ihre Position nicht davon ab, in welcher Zeile ihr Knopf
+    bei umgebrochenem Kopf gerade steht, und sie ragen nie über den Rand hinaus. */
   max-width: 64rem;
   margin: 0 auto;
   padding: 0.9rem var(--rand);
@@ -212,8 +215,8 @@ img { max-width: 100%; height: auto; }
   .marke__name { font-size: 0.68rem; }
 }
 
-/* Abo-Knopf und Designschalter sitzen rechts im Kopf. */
-.abo, .thema-schalter { flex: none; }
+/* Abo-Knopf, Installieren-Knopf und Designschalter sitzen rechts im Kopf. */
+.abo, .installieren, .thema-schalter { flex: none; }
 
 /* Auf der Leseseite ("Andacht lesen") mobil die zweite Kopfzeile
    (Navigation) weglassen – mehr Platz zum Lesen. Am Desktop steht die
@@ -238,7 +241,6 @@ img { max-width: 100%; height: auto; }
 .abo__knopf::-webkit-details-marker { display: none; }
 .abo__knopf:hover { background: rgba(226, 199, 133, 0.12); }
 .abo__zeichen { width: 14px; height: 14px; }
-.abo { position: relative; }
 
 .abo__menue {
   position: absolute; top: calc(100% + 0.5rem); right: 0; z-index: 40;
@@ -285,6 +287,52 @@ img { max-width: 100%; height: auto; }
 .abo__mail-status.erfolg { color: var(--gold-dunkel); }
 .abo__mail-status.fehler { color: #c0392b; }
 .abo__trenner { border: 0; border-top: 1px solid var(--linie); margin: 0.75rem 0; }
+
+/* Installieren-Knopf: gleiche Bauweise wie der Abo-Knopf (<details>/<summary>). */
+.installieren__knopf {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(226, 199, 133, 0.5);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--gold);
+  font: 500 0.66rem/1 var(--ui);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+}
+.installieren__knopf::-webkit-details-marker { display: none; }
+.installieren__knopf:hover { background: rgba(226, 199, 133, 0.12); }
+.installieren__zeichen { width: 14px; height: 14px; }
+
+.installieren__menue {
+  position: absolute; top: calc(100% + 0.5rem); right: 0; z-index: 40;
+  width: min(19rem, calc(100vw - 2rem));
+  background: var(--grund);
+  border: 1px solid var(--linie-stark);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 30px rgba(11, 19, 31, 0.25);
+  padding: 1rem;
+  text-align: left;
+}
+.installieren__titel {
+  margin: 0 0 0.6rem;
+  font: 500 0.66rem/1 var(--ui);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold-dunkel);
+}
+.installieren__info { margin: 0; font-size: 0.85rem; color: var(--text-leise); }
+.installieren__schritte { margin: 0; padding-left: 1.1rem; font-size: 0.85rem; color: var(--text-leise); }
+.installieren__schritte li + li { margin-top: 0.4rem; }
+.installieren__aktion {
+  display: block; width: 100%; margin-top: 0.75rem;
+  border: 0; border-radius: 2px; cursor: pointer;
+  padding: 0.6rem 0.7rem;
+  background: var(--buehne); color: var(--auf-buehne); font-weight: 600; font-size: 0.9rem;
+}
+.installieren__aktion:hover { background: #1d3049; }
+.installieren__aktion:disabled { opacity: 0.6; cursor: default; }
 
 .thema-schalter { display: none; border: 0; background: none; padding: 0; cursor: pointer; }
 .js .thema-schalter { display: inline-flex; align-items: center; }

@@ -1,0 +1,22 @@
+---
+permalink: /site.webmanifest
+eleventyExcludeFromCollections: true
+---
+{%- set manifest = {
+  "name": site.name,
+  "short_name": site.name,
+  "description": site.beschreibung,
+  "lang": site.sprache,
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f1b2d",
+  "theme_color": "#0f1b2d",
+  "icons": [
+    { "src": "/assets/favicon.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "/assets/logo.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/logo-rund.png", "sizes": "640x640", "type": "image/png" }
+  ]
+} -%}
+{{ manifest | dump(2) | safe }}
