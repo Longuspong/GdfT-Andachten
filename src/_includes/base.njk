@@ -105,6 +105,15 @@
        PWA-Ladebildschirm): das freigestellte runde Logo ohne Balken oben. #}
     <link rel="apple-touch-icon" href="/assets/logo-rund.png" />
 
+    {# Web-App-Manifest: macht die Seite installierbar (Android/Chrome/Edge)
+       und liefert Name, Icon und Farben für den Startbildschirm. iOS liest
+       kein Manifest, deshalb zusätzlich die klassischen Apple-Meta-Tags. #}
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="{{ site.name }}" />
+
     {# Schriften werden selbst ausgeliefert (nicht vom Google-CDN): kein
        Übertragen von Besucher-IPs an Google (DSGVO) und kein render-blockender
        Fremd-Request. Definitionen und Dateien: src/css/fonts.css bzw.
@@ -114,6 +123,7 @@
     <script src="/js/thema.js" defer></script>
     <script src="/js/abo.js" defer></script>
     <script src="/js/teilen.js" defer></script>
+    <script src="/js/installieren.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>

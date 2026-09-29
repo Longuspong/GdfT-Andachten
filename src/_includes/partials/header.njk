@@ -53,6 +53,31 @@
       </div>
     </details>
 
+    {# App-installieren-Menü: standardmäßig versteckt (hidden-Attribut), weil
+       ohne JavaScript nicht erkennbar ist, welcher Browser/welches Gerät
+       vorliegt. installieren.js blendet es ein und füllt Inhalt bzw.
+       Installieren-Knopf passend zum Browser. #}
+    <details class="installieren" id="installieren-menue" hidden>
+      <summary class="installieren__knopf" title="App installieren" aria-label="App installieren">
+        <svg class="installieren__zeichen" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 3.5v11.5M8 11l4 4 4-4M5 19.5h14" fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="installieren__text">App</span>
+      </summary>
+      <div class="installieren__menue">
+        <p class="installieren__titel">Als App installieren</p>
+        <p class="installieren__info" data-installieren-info>
+          Installiere „{{ site.name }}" auf deinem Gerät – mit eigenem Symbol und ohne Adressleiste,
+          wie eine App.
+        </p>
+        <ol class="installieren__schritte" data-installieren-schritte hidden></ol>
+        <button type="button" class="installieren__aktion" data-installieren-aktion hidden>
+          Jetzt installieren
+        </button>
+      </div>
+    </details>
+
     <button
       type="button"
       class="thema-schalter"
