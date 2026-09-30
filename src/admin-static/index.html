@@ -742,9 +742,46 @@
     try { daten = await res.json(); } catch (e) { /* leere Antwort */ }
     if (!res.ok) {
       var meldung = (daten && daten.error) || ("Fehler " + res.status);
-      throw new Error(meldung);
+      var fehler = new Error(meldung);
+      fehler.status = res.status;
+      throw fehler;
     }
     return daten;
+  }
+
+  // Abgelaufene Anmeldung (z. B. alter Tab): Der Editor bleibt mit allem
+  // Geschriebenen offen; hier kann man sich neu anmelden und danach direkt
+  // erneut speichern, ohne dass etwas verloren geht.
+  function zeigeNeuAnmeldung(status, erneut) {
+    status.className = "status fehler";
+    status.textContent = "Die Anmeldung ist abgelaufen. Dein Text bleibt hier erhalten – bitte neu anmelden: ";
+    var feld = document.createElement("input");
+    feld.type = "password";
+    feld.placeholder = "Passwort";
+    feld.autocomplete = "current-password";
+    var knopf = document.createElement("button");
+    knopf.type = "button";
+    knopf.textContent = "Anmelden & erneut speichern";
+    var los = async function () {
+      knopf.disabled = true;
+      try {
+        await api("/api/login", { method: "POST", body: JSON.stringify({ passwort: feld.value }) });
+        abmeldenBtn.classList.remove("versteckt");
+        status.textContent = "";
+        erneut();
+      } catch (e) {
+        knopf.disabled = false;
+        status.textContent = "";
+        status.appendChild(document.createTextNode(e.message + " "));
+        status.appendChild(feld);
+        status.appendChild(knopf);
+      }
+    };
+    knopf.addEventListener("click", los);
+    feld.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); los(); } });
+    status.appendChild(feld);
+    status.appendChild(knopf);
+    feld.focus();
   }
 
   // --- Automatisch mitwachsende Textfelder ---
@@ -1625,8 +1662,12 @@
       status.className = "status erfolg";
       setTimeout(ladeListe, 1200);
     } catch (err) {
-      status.textContent = err.message;
-      status.className = "status fehler";
+      if (err.status === 401) {
+        zeigeNeuAnmeldung(status, function () { speichern(alsEntwurf); });
+      } else {
+        status.textContent = err.message;
+        status.className = "status fehler";
+      }
     } finally {
       ladeAnzeige(false);
       speichertGerade = false;
