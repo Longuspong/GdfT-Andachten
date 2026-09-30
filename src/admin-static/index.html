@@ -1099,7 +1099,9 @@
     if (!s || !s.offen) return false;
     // Zu alte Sitzungen ignorieren (der Auto-Speicher-Stand bleibt erhalten und
     // wird beim nächsten Öffnen wie gewohnt als „Weiterschreiben?“ angeboten).
-    if (Date.now() - (s.ts || 0) > 12 * 60 * 60 * 1000) { vergissSitzung(); return false; }
+    // Die Anmeldung läuft schon nach 8 Stunden ab, ein Handy-Tab bleibt aber oft
+    // Tage liegen – daher großzügig 14 Tage.
+    if (Date.now() - (s.ts || 0) > 14 * 24 * 60 * 60 * 1000) { vergissSitzung(); return false; }
     var draftKey = "gdft:auto:" + (s.datei || "neu");
     var draft = ladeLokal(draftKey);
     if (!draft || !lohntWiederherstellung(draft.stand)) return false;
@@ -1108,6 +1110,17 @@
     } catch (e) { return false; }
     return !editorAnsicht.classList.contains("versteckt");
   }
+
+  // Sicherheitsnetz: alle 10 Sekunden sichern, solange der Editor offen ist und
+  // sich etwas geändert hat (zusätzlich zum Sichern bei jeder Eingabe).
+  var letzterAutoStand = "";
+  setInterval(function () {
+    if (editorAnsicht.classList.contains("versteckt") || fuelleGerade || speichertGerade) return;
+    var stand = JSON.stringify(sammleFormular());
+    if (stand === letzterAutoStand) return;
+    letzterAutoStand = stand;
+    speichereLokalJetzt();
+  }, 10000);
 
   function planeSpeichern() {
     if (fuelleGerade) return;
@@ -1649,6 +1662,7 @@
       loescheLokal(alterSchluessel);
       loescheLokal("gdft:auto:neu");
       vergissSitzung();
+      letzterAutoStand = JSON.stringify(sammleFormular()); // nach dem Speichern nicht erneut lokal sichern
 
       if (alsEntwurf) {
         status.textContent = "Als Entwurf gespeichert (noch nicht öffentlich sichtbar).";
